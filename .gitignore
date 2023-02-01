@@ -9,5 +9,5 @@
 
 .DS_Store
 target
-.idea
+.idea/*
 *.iml
