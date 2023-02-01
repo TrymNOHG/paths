@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +23,7 @@ public class Passage {
     public Passage(String title, String content) {
         this.title = title;
         this.content = content;
-        this.links = new ArrayList<Link>();
+        this.links = new ArrayList<>();
     }
 
     /**
