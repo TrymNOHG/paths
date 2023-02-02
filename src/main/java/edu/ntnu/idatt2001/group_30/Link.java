@@ -24,7 +24,7 @@ public class Link {
     public Link(String text, String reference) {
         this.text = text;
         this.reference = reference;
-        this.actions = new ArrayList<Action>();
+        this.actions = new ArrayList<>();
     }
 
 
@@ -32,7 +32,7 @@ public class Link {
      * Adds an action to the list of actions
      * @param action, the action to be added to the list
      */
-    public addAction(Action action) {
+    public void addAction(Action action) {
         this.actions.add(action);
     }
 
