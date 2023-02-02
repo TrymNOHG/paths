@@ -24,6 +24,6 @@ public class ScoreGoal implements Goal{
      */
     @Override
     public boolean isFulfilled(Player player) {
-        return player.getScore() >= minimumPoints;
+        return player.getScore() >= this.minimumPoints;
     }
 }
