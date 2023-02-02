@@ -8,7 +8,7 @@ package edu.ntnu.idatt2001.group_30;
 public interface Action {
 
     /**
-     * This method changes an attribute of the given player.
+     * This method changes a given player's attribute:
      * @param player The player, given as a Player object.
      */
     void execute(Player player);
