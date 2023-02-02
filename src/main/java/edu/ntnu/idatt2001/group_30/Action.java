@@ -3,6 +3,8 @@ package edu.ntnu.idatt2001.group_30;
 /**
  * The functional interface Action provides the method signature for executing an attribute
  * action on the player.
+ *
+ * @author Trym Hamer Gudvangen
  */
 @FunctionalInterface
 public interface Action {
