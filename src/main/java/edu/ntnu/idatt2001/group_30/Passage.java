@@ -17,11 +17,14 @@ public class Passage {
 
     /**
      * This constructor creates a passage object, which represents a single point in the story.
-     * @param title     The title of the passage, represented using a String.
-     * @param content   The content of the passage, represented using a String.
+     * @param title                         The title of the passage, represented using a String.
+     * @param content                       The content of the passage, represented using a String.
+     * @throws IllegalArgumentException     This exception is thrown if title or content is invalid.
      */
-    public Passage(String title, String content) {
+    public Passage(String title, String content) throws IllegalArgumentException{
+        if (title.isBlank()) throw new IllegalArgumentException("Title cannot be blank or empty");
         this.title = title;
+        if (content.isBlank()) throw new IllegalArgumentException("Content cannot be blank or empty");
         this.content = content;
         this.links = new ArrayList<>();
     }
