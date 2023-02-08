@@ -8,7 +8,7 @@ import java.util.List;
  * This class represents the facade of a game of paths.
  * This class connects a Player to a Story and has useful methods to start and maneuver through a game.
  *
- * @author Nicolai H. Brand
+ * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Game {
     private final Player player;
@@ -17,11 +17,15 @@ public class Game {
 
     /**
      * This method constructs a Game object with the given parameters.
-     * @param player    The player who will be playing game.
-     * @param story     The story for the game that the player will play through.
-     * @param goals     A list of goals that determines the desired goals of the game:
+     * @param player                    The player who will be playing game.
+     * @param story                     The story for the game that the player will play through.
+     * @param goals                     A list of goals that determines the desired goals of the game:
+     * @throws IllegalArgumentException This exception is thrown if any argument is null.
      */
-    public Game(Player player, Story story, List<Goal> goals) {
+    public Game(Player player, Story story, List<Goal> goals) throws IllegalArgumentException{
+        if (player == null || story == null || goals == null) {
+            throw new IllegalArgumentException("Player, story, and goals cannot be null");
+        }
         this.player = player;
         this.story = story;
         this.goals = goals;
