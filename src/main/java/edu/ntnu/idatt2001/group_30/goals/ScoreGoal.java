@@ -1,11 +1,14 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.goals;
+
+import edu.ntnu.idatt2001.group_30.Player;
+import edu.ntnu.idatt2001.group_30.goals.Goal;
 
 /**
  * This class represents a minimum goal threshold.
  *
  * @author Trym Hamer Gudvangen
  */
-public class ScoreGoal implements Goal{
+public class ScoreGoal implements Goal {
 
     private final int minimumPoints;
 

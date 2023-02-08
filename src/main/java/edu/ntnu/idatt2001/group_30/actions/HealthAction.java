@@ -1,11 +1,14 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.actions;
+
+import edu.ntnu.idatt2001.group_30.Player;
+import edu.ntnu.idatt2001.group_30.actions.Action;
 
 /**
  * This class represents a change in the health attribute for any player.
  *
  * @author Trym Hamer Gudvangen
  */
-public class HealthAction implements Action{
+public class HealthAction implements Action {
 
     private final int health;
 

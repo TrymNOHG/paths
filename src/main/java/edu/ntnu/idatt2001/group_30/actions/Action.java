@@ -1,4 +1,6 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.actions;
+
+import edu.ntnu.idatt2001.group_30.Player;
 
 /**
  * The functional interface Action provides the method signature for executing an attribute
