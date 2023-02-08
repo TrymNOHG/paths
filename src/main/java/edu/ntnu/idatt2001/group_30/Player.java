@@ -22,14 +22,16 @@ public class Player {
      * @param health                        Health of the player, represented using an int.
      * @param score                         Score of the player, represented using an int.
      * @param gold                          Amount of gold the player has, represented using an int.
-     * @throws IllegalArgumentException     This exception is thrown if the health or name arguments are invalid.
+     * @throws IllegalArgumentException     This exception is thrown if the health, score, gold or name arguments are invalid.
      */
     public Player(String name, int health, int score, int gold) throws IllegalArgumentException{
         if (name.isBlank()) throw new IllegalArgumentException("The name cannot be blank or empty");
         this.name = name;
         if (health < 0) throw new IllegalArgumentException("Initial health cannot be less than 0");
         this.health = health;
+        if (score < 0) throw new IllegalArgumentException("Initial score cannot be less than 0");
         this.score = score;
+        if (gold < 0) throw new IllegalArgumentException("Initial gold cannot be less than 0");
         this.gold = gold;
         this.inventory = new ArrayList<>();
     }

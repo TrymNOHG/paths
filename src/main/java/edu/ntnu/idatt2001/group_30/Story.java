@@ -21,9 +21,10 @@ public class Story {
      * @throws IllegalArgumentException     This exception is thrown if title or openingPassage is invalid
      */
     public Story(String title, Passage openingPassage) throws IllegalArgumentException{
-        if (title.isBlank() || !title.matches("[a-zA-Z]")) {
-            throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
-        }
+        //if (title.isBlank() || !title.matches("[a-zA-Z]")) {
+        //    throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
+        //}
+        if (title.isBlank()) throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
         this.title = title;
         if (openingPassage == null) throw new IllegalArgumentException("Opening passage cannot be null");
         this.openingPassage = openingPassage;
