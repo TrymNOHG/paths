@@ -16,10 +16,11 @@ public class Story {
     /**
      * Constructor for Story
      *
-     * @param title, the title of the story
-     * @param openingPassage, the first passage of the story. Also added to the passage.
+     * @param title                         the title of the story
+     * @param openingPassage                the first passage of the story. Also added to the passage.
+     * @throws IllegalArgumentException     This exception is thrown if title or openingPassage is invalid
      */
-    public Story(String title, Passage openingPassage) {
+    public Story(String title, Passage openingPassage) throws IllegalArgumentException{
         if (title.isBlank() || !title.matches("[a-zA-Z]")) {
             throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
         }

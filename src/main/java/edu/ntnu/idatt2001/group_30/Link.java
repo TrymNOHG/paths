@@ -19,12 +19,14 @@ public class Link {
 
     /**
      * This constructor creates a Link object, which contains information surrounding a linking point in the story.
-     * @param text, a describing text that indicates a choice or action in a story
-     * @param reference, a string that unambiguously identify a passage
-     * @param actions, a list of special objects that determine the behavior of a player
+     * @param text,                         a describing text that indicates a choice or action in a story
+     * @param reference,                    a string that unambiguously identify a passage
+     * @throws IllegalArgumentException     This exception is thrown if text or reference is invalid
      */
-    public Link(String text, String reference) {
+    public Link(String text, String reference) throws IllegalArgumentException{
+        if (text.isBlank()) throw new IllegalArgumentException("Text cannot be blank or empty.");
         this.text = text;
+        if (reference.isBlank()) throw new IllegalArgumentException("Reference cannot be blank or empty.");
         this.reference = reference;
         this.actions = new ArrayList<>();
     }
