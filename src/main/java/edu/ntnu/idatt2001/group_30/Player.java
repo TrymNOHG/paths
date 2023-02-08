@@ -18,14 +18,16 @@ public class Player {
 
     /**
      * This constructor creates a Player object with status information.
-     * @param name      The name of the player, represented using a String.
-     * @param health    Health of the player, represented using an int.
-     * @param score     Score of the player, represented using an int.
-     * @param gold      Amount of gold the player has, represented using an int.
+     * @param name                          The name of the player, represented using a String.
+     * @param health                        Health of the player, represented using an int.
+     * @param score                         Score of the player, represented using an int.
+     * @param gold                          Amount of gold the player has, represented using an int.
+     * @throws IllegalArgumentException     This exception is thrown if the health or name arguments are invalid.
      */
-    public Player(String name, int health, int score, int gold) {
+    public Player(String name, int health, int score, int gold) throws IllegalArgumentException{
+        if (name.isBlank()) throw new IllegalArgumentException("The name cannot be blank or empty");
         this.name = name;
-        if (health < 0) throw new IllegalArgumentException("Health cannot be less than 0");
+        if (health < 0) throw new IllegalArgumentException("Initial health cannot be less than 0");
         this.health = health;
         this.score = score;
         this.gold = gold;
@@ -45,9 +47,7 @@ public class Player {
      * @param health    Amount of health to be added, represented using an int.
      */
     public void addHealth(int health) {
-        this.health += health;
-        //TODO: add exception handling for parameter. Alternatively, add exception handling to a setHealth method
-
+        setHealth(this.health + health);
     }
 
     /**
@@ -59,12 +59,20 @@ public class Player {
     }
 
     /**
+     * This method sets the players health to be the new health or 0, if the given health is less than 0.
+     * @param newHealth The new health of the player, given as an int.
+     */
+    public void setHealth(int newHealth) {
+        this.health = Math.max(newHealth, 0);
+    }
+
+    /**
      * This method adds a given amount of points to the Player's score.
      * @param points    Points to be added, given as an int.
      */
     public void addScore(int points) {
         this.score += points;
-        //TODO: add exception handling for parameter
+        //TODO: Can score be negative?
     }
 
     /**
@@ -97,7 +105,6 @@ public class Player {
      */
     public void addToInventory(String item) {
         this.inventory.add(item);
-        //TODO: exception handling needed
     }
 
     /**
