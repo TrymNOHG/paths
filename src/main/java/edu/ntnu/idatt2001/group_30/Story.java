@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * A Story is a non-linear narrative consisting of a collection of passages
  *
- * @author Nicolai H. Brand
+ * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Story {
     private final String title;
@@ -20,7 +20,11 @@ public class Story {
      * @param openingPassage, the first passage of the story. Also added to the passage.
      */
     public Story(String title, Passage openingPassage) {
+        if (title.isBlank() || !title.matches("[a-zA-Z]")) {
+            throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
+        }
         this.title = title;
+        if (openingPassage == null) throw new IllegalArgumentException("Opening passage cannot be null");
         this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
         addPassage(openingPassage);
