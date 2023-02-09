@@ -18,6 +18,7 @@ public class InventoryAction implements Action {
      */
     public InventoryAction(String item) {
         this.item = item;
+        //TODO: Add exception?
     }
 
     /**

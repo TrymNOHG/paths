@@ -18,6 +18,7 @@ public class ScoreGoal implements Goal {
      */
     public ScoreGoal(int minimumPoints) {
         this.minimumPoints = minimumPoints;
+        //TODO: Add exception?
     }
 
     /**

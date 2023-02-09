@@ -18,6 +18,7 @@ public class HealthAction implements Action {
      */
     public HealthAction(int health) {
         this.health = health;
+        //TODO: Add exception?
     }
 
     /**

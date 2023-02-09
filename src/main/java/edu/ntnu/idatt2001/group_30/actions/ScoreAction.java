@@ -18,6 +18,7 @@ public class ScoreAction implements Action {
      */
     public ScoreAction(int points) {
         this.points = points;
+        //TODO: Add exception?
     }
 
     /**

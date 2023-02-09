@@ -18,6 +18,7 @@ public class GoldAction implements Action {
      */
     public GoldAction(int gold) {
         this.gold = gold;
+        //TODO: Add exception?
     }
 
 

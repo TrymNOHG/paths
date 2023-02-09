@@ -20,6 +20,7 @@ public class InventoryGoal implements Goal {
      */
     public InventoryGoal(List<String> mandatoryItems) {
         this.mandatoryItems = mandatoryItems;
+        //TODO: Add exception?
     }
 
     /**
