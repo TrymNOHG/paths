@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2001.group_30.actions.GoldAction;
-
 public class PassageTest {
 
     @Nested
@@ -15,7 +13,7 @@ public class PassageTest {
         @Test
         void can_be_constructed() {
             Passage passage = new Passage("title", "nothing much :-)");
-            assertEquals("title", passage.toString());
+            assertEquals("title", passage.getTitle());
             assertEquals("nothing much :-)", passage.getContent());
         }
 

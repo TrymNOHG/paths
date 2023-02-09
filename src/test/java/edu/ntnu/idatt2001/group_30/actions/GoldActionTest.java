@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GoldActionTest {
 
     @Nested
-    public class A_Gold_Action_object {
+    public class A_GoldAction_object {
         @Test
         public void instantiates_properly_with_valid_argument() {
             GoldAction goldAction;

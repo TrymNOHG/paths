@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScoreActionTest {
 
     @Nested
-    public class A_Score_Action_object {
+    public class A_ScoreAction_object {
         @Test
         public void instantiates_properly_with_valid_argument() {
             ScoreAction scoreAction;
@@ -29,9 +29,9 @@ class ScoreActionTest {
         @ParameterizedTest
         @ValueSource(ints = {-1, 0, 1})
         public void properly_adds_score_amount_to_Player_score(int scoreAmount) {
-            int playerStartScore = 10;
+            int playerStartScore = 20;
             ScoreAction scoreAction = new ScoreAction(scoreAmount);
-            Player player = new Player("Trym", 10, 10, playerStartScore);
+            Player player = new Player("Trym", 10, playerStartScore, 10);
             int expectedScoreAfter = playerStartScore + scoreAmount;
 
             scoreAction.execute(player);

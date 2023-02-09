@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HealthActionTest {
 
     @Nested
-    public class A_Health_Action_object {
+    public class A_HealthAction_object {
         @Test
         public void instantiates_properly_with_valid_argument() {
             HealthAction healthAction;
@@ -29,9 +29,9 @@ class HealthActionTest {
         @ParameterizedTest
         @ValueSource(ints = {-1, 0, 1})
         public void properly_adds_health_amount_to_Player_health(int healthAmount) {
-            int playerStartHealth = 10;
+            int playerStartHealth = 20;
             HealthAction healthAction = new HealthAction(healthAmount);
-            Player player = new Player("Trym", 10, 10, playerStartHealth);
+            Player player = new Player("Trym", playerStartHealth, 10, 10);
             int expectedHealthAfter = playerStartHealth + healthAmount;
 
             healthAction.execute(player);

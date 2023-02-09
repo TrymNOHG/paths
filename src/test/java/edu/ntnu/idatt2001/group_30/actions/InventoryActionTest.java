@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InventoryActionTest {
 
     @Nested
-    public class An_Inventory_Action_object {
+    public class An_InventoryAction_object {
         @Test
         public void instantiates_properly_with_valid_argument() {
             InventoryAction inventoryAction;
