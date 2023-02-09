@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30.actions;
 
 import edu.ntnu.idatt2001.group_30.Player;
 import edu.ntnu.idatt2001.group_30.actions.Action;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class represents a change in the score attribute for any player.
@@ -26,7 +27,7 @@ public class ScoreAction implements Action {
      * @param player The player, given as a Player object.
      */
     @Override
-    public void execute(Player player) {
+    public void execute(@NotNull Player player) {
         player.addScore(this.points);
     }
 }
