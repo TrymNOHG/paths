@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2001.group_30.goals;
 
 import edu.ntnu.idatt2001.group_30.Player;
-import edu.ntnu.idatt2001.group_30.goals.Goal;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * This class represents a minimum health threshold.
@@ -29,7 +29,8 @@ public class HealthGoal implements Goal {
      * @return          Status of player, {@code true} if the player has enough health, else {@code false}.
      */
     @Override
-    public boolean isFulfilled(@NotNull Player player) {
+    public boolean isFulfilled(Player player) {
+        Objects.requireNonNull(player);
         return player.getHealth() >= this.minimumHealth;
     }
 }

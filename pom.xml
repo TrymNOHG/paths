@@ -61,13 +61,6 @@
             <version>5.9.1</version>
 <!--            <scope>test</scope>-->
         </dependency>
-<!--        Dependency for jetbrains' annotation library-->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
 </project>

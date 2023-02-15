@@ -1,8 +1,6 @@
 package edu.ntnu.idatt2001.group_30.actions;
 
 import edu.ntnu.idatt2001.group_30.Player;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 /**
@@ -29,7 +27,8 @@ public class GoldAction implements Action {
      * @param player The player, given as a Player object.
      */
     @Override
-    public void execute(@NotNull Player player) {
+    public void execute(Player player) {
+        Objects.requireNonNull(player);
         player.addGold(this.gold);
     }
 }

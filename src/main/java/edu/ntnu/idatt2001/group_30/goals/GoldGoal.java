@@ -1,7 +1,8 @@
 package edu.ntnu.idatt2001.group_30.goals;
 
 import edu.ntnu.idatt2001.group_30.Player;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * This class represents a minimum gold threshold.
@@ -27,7 +28,8 @@ public class GoldGoal implements Goal {
      * @return          Status of player, {@code true} if the player has enough gold, else {@code false}.
      */
     @Override
-    public boolean isFulfilled(@NotNull Player player) {
+    public boolean isFulfilled(Player player) {
+        Objects.requireNonNull(player);
         return player.getGold() >= this.minimumGold;
     }
 }
