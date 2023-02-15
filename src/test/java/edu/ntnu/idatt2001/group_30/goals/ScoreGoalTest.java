@@ -51,11 +51,11 @@ class ScoreGoalTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_checking_with_null_as_player() {
+        public void throws_NullPointerException_checking_with_null_as_player() {
             ScoreGoal scoreGoal = new ScoreGoal(10);
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> scoreGoal.isFulfilled(player));
+            assertThrows(NullPointerException.class, () -> scoreGoal.isFulfilled(player));
         }
 
     }

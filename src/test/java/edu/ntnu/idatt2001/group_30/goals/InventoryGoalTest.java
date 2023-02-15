@@ -58,11 +58,11 @@ class InventoryGoalTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_checking_with_null_as_player() {
+        public void throws_NullPointerException_checking_with_null_as_player() {
             InventoryGoal inventoryGoal = new InventoryGoal(getMandatoryInventory());
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> inventoryGoal.isFulfilled(player));
+            assertThrows(NullPointerException.class, () -> inventoryGoal.isFulfilled(player));
         }
     }
 

@@ -41,11 +41,11 @@ class HealthActionTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_executing_with_null_argument() {
+        public void throws_NullPointerException_executing_with_null_argument() {
             HealthAction healthAction = new HealthAction(10);
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> healthAction.execute(player));
+            assertThrows(NullPointerException.class, () -> healthAction.execute(player));
         }
     }
 

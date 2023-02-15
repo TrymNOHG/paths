@@ -44,11 +44,11 @@ class InventoryActionTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_executing_with_null_argument() {
+        public void throws_NullPointerException_executing_with_null_argument() {
             InventoryAction inventoryAction = new InventoryAction("Apple");
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> inventoryAction.execute(player));
+            assertThrows(NullPointerException.class, () -> inventoryAction.execute(player));
         }
     }
 

@@ -52,11 +52,11 @@ class HealthGoalTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_checking_with_null_as_player() {
+        public void throws_NullPointerException_checking_with_null_as_player() {
             HealthGoal healthGoal = new HealthGoal(10);
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> healthGoal.isFulfilled(player));
+            assertThrows(NullPointerException.class, () -> healthGoal.isFulfilled(player));
         }
 
         @Test

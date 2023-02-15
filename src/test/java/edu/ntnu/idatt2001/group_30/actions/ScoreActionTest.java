@@ -41,11 +41,11 @@ class ScoreActionTest {
         }
 
         @Test
-        public void throws_IllegalArgumentException_executing_with_null_argument() {
+        public void throws_NullPointerException_executing_with_null_argument() {
             ScoreAction scoreAction = new ScoreAction(10);
             Player player = null;
 
-            assertThrows(IllegalArgumentException.class, () -> scoreAction.execute(player));
+            assertThrows(NullPointerException.class, () -> scoreAction.execute(player));
         }
     }
 
