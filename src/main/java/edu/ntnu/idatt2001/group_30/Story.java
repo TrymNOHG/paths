@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.group_30;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,10 +61,11 @@ public class Story {
     }
 
     /**
-     * @return all the pages of the Story as a map mapping Links to Passages
+     * This method retrieves all the passages of a story.
+     * @return All the pages of the Story as a {@code Collection<Passages>}.
      */
-    public Map<Link, Passage> getPassages() {
-        return passages;
+    public Collection<Passage> getPassages() {
+        return this.passages.values();
     }
 
     /**
