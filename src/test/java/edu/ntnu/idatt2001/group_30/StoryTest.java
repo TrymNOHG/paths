@@ -45,12 +45,15 @@ public class StoryTest {
 
         @Test
         void can_get_passage_by_reference() {
-            Passage passageInitial = new Passage("valid", "valid");
-            Passage passage = new Passage("still valid", "still valid");
+            Passage passageInitial = new Passage("Beginning", "Once upon a time...");
+            Passage expectedPassage = new Passage("The dark forest", "When entering the dark forest...");
             Story story = new Story("title", passageInitial);
-            story.addPassage(passage);
-            Link linkForInitialPassage = new Link("valid", "valid");
-            assertEquals(passageInitial, story.getPassage(linkForInitialPassage));
+
+            story.addPassage(expectedPassage);
+            Link linkForForestPassage = new Link(expectedPassage.getTitle(), expectedPassage.getTitle());
+            Passage actualPassage = story.getPassage(linkForForestPassage);
+
+            assertEquals(expectedPassage, actualPassage);
         }
 
         @Test
