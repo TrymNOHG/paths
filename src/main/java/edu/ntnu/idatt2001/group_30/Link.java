@@ -79,10 +79,6 @@ public class Link {
 
     @Override
     public String toString() {
-        return "Link{" +
-                "text='" + text + '\'' +
-                ", reference='" + reference + '\'' +
-                ", actions=" + actions +
-                '}';
+        return "[" + text + "](" + reference + ")";
     }
 }
