@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.group_30;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * A Story is a non-linear narrative consisting of a collection of passages
@@ -51,6 +52,33 @@ public class Story {
      */
     public Passage getPassage(Link link) {
         return this.passages.get(link);
+    }
+
+    /**
+     * Attempts to remove a passage from the collection of passages based on the given link.
+     * Will only remove the passage if no other passage links to it.
+     * @param link the link associated with the passage to remove.
+     * @return {@code true} if the passage was removed successfully, {@code false} otherwise.
+     */
+    public boolean removePassage(Link link) {
+        Passage toRemove = this.passages.get(link);
+        /* the passage was not found */
+        if (toRemove == null)
+            return false;
+
+
+        /* find out if any other passages has a link to the passage we want to remove */
+        boolean anyMatch = this.passages.values()
+                .stream()
+                .flatMap(passage -> passage.getLinks().stream())
+                .anyMatch(l -> l.equals(link));
+
+        //TODO: should we throw an exception here instead?
+        if (anyMatch)
+            return false;
+
+        this.passages.remove(link);
+        return true;
     }
 
     /**
