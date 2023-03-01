@@ -1,0 +1,172 @@
+package edu.ntnu.idatt2001.group_30.filehandling;
+
+import edu.ntnu.idatt2001.group_30.Passage;
+import edu.ntnu.idatt2001.group_30.Story;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.*;
+import java.nio.file.FileSystems;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+//TODO: Decide whether to send in the fileName or to send in a File. Make tests work then.
+
+class StoryFileHandlerTest {
+
+    //TODO: test with temporary files!!! Remember to delete after.
+
+    StoryFileHandler storyFileHandler = new StoryFileHandler();
+
+    public File getValidFile(String fileName) {
+        return new File(FileSystems.getDefault()
+                .getPath("src", "test", "resources", "storytestfiles", fileName) + ".paths");
+    }
+
+    static Story validStory(){
+        return new Story("The Hobbit", new Passage("Beginning", "Once upon a time..."));
+    }
+
+    @Nested
+    public class A_StoryFile_is_valid_if {
+
+        @ParameterizedTest(name = "{index}. File name: {0}")
+        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void a_file_has_a_valid_name(String fileName) {
+            Story story = validStory();
+
+            try {
+                storyFileHandler.createStoryFile(story, fileName);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                fail("An exception was thrown when it shouldn't have.");
+            }
+
+            File expectedFileCreated = getValidFile(fileName);
+
+            Assertions.assertTrue(expectedFileCreated.isFile());
+            expectedFileCreated.delete();
+        }
+
+        @ParameterizedTest (name = "{index}. File name: {0}")
+        @ValueSource (strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void files_created_can_be_accessed_and_read(String fileName) {
+            Story story = validStory();
+
+            try{
+                storyFileHandler.createStoryFile(story, fileName);
+            }catch (Exception e){
+                fail("An exception was thrown when it shouldn't have.");
+            }
+
+            File expectedFileCreated = getValidFile(fileName);
+
+            Assertions.assertTrue(expectedFileCreated.canRead());
+            expectedFileCreated.delete();
+        }
+
+        @ParameterizedTest (name = "{index}. File name: {0}")
+        @ValueSource (strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void the_pathing_is_correctly_set(String fileName) {
+            Story story = validStory();
+            boolean fileDoesNotExistAtStart = !getValidFile(fileName).exists();
+
+            try{
+                storyFileHandler.createStoryFile(story, fileName);
+            }catch (Exception e){
+                fail("An exception was thrown when it shouldn't have.");
+            }
+
+            File expectedFileCreated = getValidFile(fileName);
+            boolean fileDoesExistAfterWrite = expectedFileCreated.exists();
+
+            //Then/Assert
+            Assertions.assertTrue(fileDoesNotExistAtStart);
+            Assertions.assertTrue(fileDoesExistAfterWrite);
+            expectedFileCreated.delete();
+        }
+
+        @Test
+        void it_cant_create_new_file_with_preexisting_file_name() {
+            Story story = validStory();
+            String fileName = "Bones";
+
+            File preexistingFile = getValidFile(fileName);
+            if(getValidFile(fileName).isFile()) {
+                Assertions.assertThrows(IOException.class, () -> storyFileHandler.createStoryFile(story, fileName));
+            }
+            else fail("The file check for doesn't exist, so this test is invalid");
+        }
+
+    }
+
+    @Nested
+    public class A_StoryFile_properly_writes_a_story_to_new_file_if_it {
+        @Test
+        void saves_the_story_title_correctly() throws IOException {
+        }
+
+        @Test
+        void saves_the_opening_passage_after_title() throws IOException {
+        }
+
+        @Test
+        void saves_all_the_links_of_passage_correctly() throws IOException {
+        }
+
+    }
+
+    @Nested
+    public class A_StoryFile_properly_reads_a_story_if_it {
+        @Test
+        void constructs_a_Story_correctly_when_read() throws IOException {
+            Story expectedStory = validStory();
+
+            Story actualStory = storyFileHandler.readStoryFromFile("Bones");
+
+            assertEquals(actualStory, expectedStory);
+        }
+
+    }
+
+    @Nested
+    public class A_StoryFile_with_invalid_information_such_as {
+        @Test
+        void a_null_story_when_creating_new_file_will_throw_NullPointerException(){
+            Story story = null;
+
+            Assertions.assertThrows(NullPointerException.class, () ->{
+                storyFileHandler.createStoryFile(story, "Null story test");
+            });
+        }
+
+        //TODO: change this actually test the link information
+        @Test
+        void corrupt_link_information_throws_Exception_when_read(){
+            Story expectedStory = validStory();
+
+            Assertions.assertThrows(NumberFormatException.class, () -> {
+                Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Link File");
+                assertNotEquals(expectedStory, actualStory);
+            });
+
+        }
+
+        //TODO: add more corrupt file tests
+
+        //TODO: Create CorruptFileException for formatting error
+        @Test
+        void file_with_improper_format_throws_CorruptFileException() throws IOException {
+            Story expectedStory = validStory();
+
+            Assertions.assertThrows(StreamCorruptedException.class, () ->{
+                Story actualStory = storyFileHandler.readStoryFromFile("Corrupt .paths Format");
+            });
+        }
+
+    }
+
+}
