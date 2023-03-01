@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+
 public class StoryTest {
 
     @Nested
@@ -62,6 +64,38 @@ public class StoryTest {
             Story story = new Story("title", passage);
             assertEquals(passage, story.getOpeningPassage());
         }
+    }
+
+    @Nested
+    class A_valid_Story_object_with_passage_data {
+        Story story;
+
+        @BeforeEach
+        void setup() {
+            Passage openingPassage = new Passage("opening passage", "opening passage");
+            story = new Story("my valid story", openingPassage);
+            Passage passageOne = new Passage("passageOne", "passageOne");
+            story.addPassage(passageOne);
+        }
+
+        @Test
+        void standalone_passage_can_be_removed() {
+            // remove passageOne from the story which is not linked to any other passage
+            boolean return_value = this.story.removePassage(new Link("passageOne", "passageOne"));
+            assertTrue(return_value);
+        }
+
+        @Test
+        void passage_with_multiple_links_cannot_be_removed() {
+            Passage passageTwo = new Passage("passageTwo", "passageTwo");
+            // add a link to passageOne from passageTwo
+            // this means that passageOne should not be removed
+            passageTwo.addLink(new Link("passageOne", "passageOne"));
+            story.addPassage(passageTwo);
+            boolean return_value = this.story.removePassage(new Link("passageOne", "passageOne"));
+            assertFalse(return_value);
+        }
+
     }
     
 }
