@@ -35,6 +35,27 @@ public class StoryTest {
 
     @Nested
     class A_valid_Story_object {
+
+        @Test
+        void can_get_opening_passage() {
+            Passage passage = new Passage("valid", "valid");
+            Story story = new Story("title", passage);
+            assertEquals(passage, story.getOpeningPassage());
+        }
+
+        @Test
+        void can_add_new_passage() {
+            Story story = new Story("title", new Passage("valid", "valid"));
+            Passage expectedPassage = new Passage("The dark forest", "When entering the dark forest...");
+
+            story.addPassage(expectedPassage);
+            boolean passageExists = story.getPassages()
+                    .stream()
+                    .anyMatch(passage -> passage == expectedPassage);
+
+            assertTrue(passageExists);
+        }
+
         @Test
         void can_get_all_passages() {
             Story story = new Story("title", new Passage("valid", "valid"));
@@ -56,13 +77,6 @@ public class StoryTest {
             Passage actualPassage = story.getPassage(linkForForestPassage);
 
             assertEquals(expectedPassage, actualPassage);
-        }
-
-        @Test
-        void can_get_opening_passage() {
-            Passage passage = new Passage("valid", "valid");
-            Story story = new Story("title", passage);
-            assertEquals(passage, story.getOpeningPassage());
         }
     }
 
@@ -97,5 +111,5 @@ public class StoryTest {
         }
 
     }
-    
+
 }

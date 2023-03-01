@@ -17,12 +17,14 @@ public class FileHandler {
     /**
      * This method checks whether the given file name is valid.
      * @param fileName                  Name of the given file, given as a String.
+     * @return                          {@code true} if the file name is valid.
      * @throws IllegalArgumentException This exception is thrown if given file name is blank or has invalid characters.
      */
-    public static void isFileNameValid(String fileName) throws IllegalArgumentException{
+    public static boolean isFileNameValid(String fileName) throws IllegalArgumentException{
         if(fileName.isBlank()) throw new IllegalArgumentException("File name cannot be blank");
         Matcher matcher = VALID_CHAR.matcher(fileName);
         if(!matcher.matches()) throw new IllegalArgumentException("File name contains invalid characters");
+        return true;
     }
 
     /**
