@@ -86,7 +86,7 @@ public class StoryTest {
         }
 
         @Test
-        void passage_with_multiple_links_cannot_be_removed() {
+        void story_with_passage_with_multiple_links_cannot_be_removed() {
             Passage passageTwo = new Passage("passageTwo", "passageTwo");
             // add a link to passageOne from passageTwo
             // this means that passageOne should not be removed
@@ -94,6 +94,19 @@ public class StoryTest {
             story.addPassage(passageTwo);
             boolean return_value = this.story.removePassage(new Link("passageOne", "passageOne"));
             assertFalse(return_value);
+        }
+
+        @Test
+        void story_with_with_no_broken_links_returns_empty_list() {
+            assertEquals(0, this.story.getBrokenLinks().size());
+        }
+
+        @Test
+        void story_with_broken_links_returns_list_of_broken_links() {
+            Passage passageTwo = new Passage("passageTwo", "passageTwo");
+            passageTwo.addLink(new Link("BROKEN LINK", "BROKEN LINK"));
+            story.addPassage(passageTwo);
+            assertEquals(1, this.story.getBrokenLinks().size());
         }
 
     }
