@@ -13,8 +13,8 @@ class LinkTest {
 
         @Test
         void can_be_constructed() {
-            Link link = new Link("text", "ref");
-            assertEquals("text", link.getText());
+            Link link = new Link("Big chungus", "ref");
+            assertEquals("Big chungus", link.getText());
             assertEquals("ref", link.getReference());
         }
 
@@ -23,15 +23,15 @@ class LinkTest {
             /* here the text is completely empty */
             assertThrows(IllegalArgumentException.class, () -> new Link("", "ref"));
             /* here the text contains some spaces */ 
-            assertThrows(IllegalArgumentException.class, () -> new Link("  ", "ref"));
+            assertThrows(IllegalArgumentException.class, () -> new Link("   ", "ref"));
         }
 
         @Test
         void cannot_be_constructed_with_empty_reference() {
             /* here the reference is completely empty */
-            assertThrows(IllegalArgumentException.class, () -> new Link("text", ""));
+            assertThrows(IllegalArgumentException.class, () -> new Link("You see a troll", ""));
             /* here the reference contains some spaces */
-            assertThrows(IllegalArgumentException.class, () -> new Link("text", "  "));
+            assertThrows(IllegalArgumentException.class, () -> new Link("You see a troll", "   "));
         }
     }
 
@@ -40,7 +40,7 @@ class LinkTest {
 
         @Test
         void can_add_action() {
-            Link link = new Link("text", "ref");
+            Link link = new Link("You see a troll", "ref");
             GoldAction goldAction = new GoldAction(10);
             link.addAction(goldAction);
             assertEquals(goldAction, link.getActions().get(0));
@@ -49,7 +49,7 @@ class LinkTest {
 
         @Test
         void can_get_all_actions() {
-            Link link = new Link("text", "ref");
+            Link link = new Link("You see a troll", "ref");
             GoldAction goldAction = new GoldAction(10);
             GoldAction goldAction2 = new GoldAction(20);
             link.addAction(goldAction);
