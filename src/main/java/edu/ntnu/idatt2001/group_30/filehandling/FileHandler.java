@@ -1,7 +1,10 @@
 package edu.ntnu.idatt2001.group_30.filehandling;
 
+import edu.ntnu.idatt2001.group_30.exceptions.InvalidExtensionException;
+
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.nio.file.InvalidPathException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +16,8 @@ import java.util.regex.Pattern;
 public class FileHandler {
 
     private static final Pattern VALID_CHAR = Pattern.compile("[^<>:\"/*|?\\\\]*");
+    private static final Pattern VALID_EXTENSION = Pattern.compile(".*\\.paths$");
+
 
     /**
      * This method checks whether the given file name is valid.
@@ -24,6 +29,18 @@ public class FileHandler {
         if(fileName.isBlank()) throw new IllegalArgumentException("File name cannot be blank");
         Matcher matcher = VALID_CHAR.matcher(fileName);
         if(!matcher.matches()) throw new IllegalArgumentException("File name contains invalid characters");
+        return true;
+    }
+
+    /**
+     * This method checks whether the given file contains .paths as the extension.
+     * @param fileName                   Name of the file including extension, given as a String
+     * @return                           {@code true} if file name contains .paths, else {@code false}
+     * @throws InvalidExtensionException This exception is thrown if the file name does not contain .paths at the end
+     */
+    public static boolean isFileExtensionValid(String fileName) throws InvalidExtensionException{
+        Matcher matcher = VALID_EXTENSION.matcher(fileName);
+        if(!matcher.matches()) throw new InvalidExtensionException("File name contains invalid characters");
         return true;
     }
 
@@ -48,12 +65,32 @@ public class FileHandler {
     }
 
     /**
+     * This method takes a file name. It, then, checks whether the name is valid and if so, it creates a test file for it.
+     * @param fileName                      Name of the file, given as a String.
+     * @return                              The file with the given name, represented using a File object.
+     * @throws IllegalArgumentException     This exception is thrown if the file name is invalid.
+     */
+    public static File createTestFile(String fileName) throws IllegalArgumentException{
+        isFileNameValid(fileName);
+        return new File(getTestFileSourcePath(fileName));
+    }
+
+    /**
      * This method retrieves the file source path of a story file with the file name given.
      * @param fileName Name of the desired file, represented as a String
      * @return         The source path to the file, represented as a String
      */
     public static String getFileSourcePath(String fileName){
         return FileSystems.getDefault().getPath("src", "main", "resources", "story-files", fileName) + ".paths";
+    }
+
+    /**
+     * This method retrieves the file source path of a story test file with the file name given.
+     * @param fileName Name of the desired file, represented as a String
+     * @return         The source path to the file, represented as a String
+     */
+    public static String getTestFileSourcePath(String fileName){
+        return FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles", fileName) + ".paths";
     }
 
 }

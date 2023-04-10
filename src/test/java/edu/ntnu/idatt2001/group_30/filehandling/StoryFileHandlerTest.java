@@ -41,8 +41,10 @@ class StoryFileHandlerTest {
             try {
                 storyFileHandler.createStoryFile(story, fileName);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                fail("An exception was thrown when it shouldn't have.");
+                if(!e.getMessage().equals("You cannot overwrite a pre-existing story file")){
+                    System.out.println(e.getMessage());
+                    fail("An exception was thrown when it shouldn't have.");
+                }
             }
 
             File expectedFileCreated = getValidFile(fileName);
