@@ -61,7 +61,8 @@ public class StoryFileHandler {
             bufferedReader.readLine();
 
             List<String> passageInfo = new ArrayList<>(List.of(bufferedReader.lines()
-                    .collect(Collectors.joining()).split("::")));
+                    .collect(Collectors.joining("\n")).split("::")));
+            passageInfo.remove(0);
             Passage openingPassage = parseStringToPassage(passageInfo.remove(0));
 
             story = new Story(storyTitle, openingPassage);
@@ -82,7 +83,7 @@ public class StoryFileHandler {
     private Passage parseStringToPassage(String passageInfo) {
         String[] splitPassageInfo = passageInfo.split("\n");
         Passage passage = new Passage(splitPassageInfo[0], splitPassageInfo[1]);
-        for(int i = 1; i < splitPassageInfo.length; i++) {
+        for(int i = 2; i < splitPassageInfo.length; i++) {
             passage.addLink(parseStringToLink(splitPassageInfo[i]));
         }
 

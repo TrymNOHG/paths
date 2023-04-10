@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.group_30.filehandling;
 import edu.ntnu.idatt2001.group_30.Passage;
 import edu.ntnu.idatt2001.group_30.Story;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +20,13 @@ class StoryFileHandlerTest {
 
     //TODO: test with temporary files!!! Remember to delete after.
 
+    @BeforeAll
+    static void setFileHandlerPath() {
+        FileHandler.changeDefaultPath("src/test/resources/storytestfiles");
+    }
+
     StoryFileHandler storyFileHandler = new StoryFileHandler();
+    //TODO: change default pathing to test directory
 
     public File getValidFile(String fileName) {
         return new File(FileSystems.getDefault()
@@ -34,7 +41,7 @@ class StoryFileHandlerTest {
     public class A_StoryFile_is_valid_if {
 
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123", "The Hobbit"})
         void a_file_has_a_valid_name(String fileName) {
             Story story = validStory();
 
@@ -92,13 +99,13 @@ class StoryFileHandlerTest {
         }
 
         @Test
-        void it_cant_create_new_file_with_preexisting_file_name() {
+        void it_cannot_create_new_file_with_preexisting_file_name() {
             Story story = validStory();
             String fileName = "Bones";
 
             File preexistingFile = getValidFile(fileName);
             if(getValidFile(fileName).isFile()) {
-                Assertions.assertThrows(IOException.class, () -> storyFileHandler.createStoryFile(story, fileName));
+                Assertions.assertThrows(IllegalArgumentException.class, () -> storyFileHandler.createStoryFile(story, fileName));
             }
             else fail("The file check for doesn't exist, so this test is invalid");
         }
@@ -127,7 +134,7 @@ class StoryFileHandlerTest {
         void constructs_a_Story_correctly_when_read() throws IOException {
             Story expectedStory = validStory();
 
-            Story actualStory = storyFileHandler.readStoryFromFile("Bones");
+            Story actualStory = storyFileHandler.readStoryFromFile("The Hobbit");
 
             assertEquals(actualStory, expectedStory);
         }

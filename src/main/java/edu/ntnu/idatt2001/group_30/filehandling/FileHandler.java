@@ -4,7 +4,6 @@ import edu.ntnu.idatt2001.group_30.exceptions.InvalidExtensionException;
 
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.nio.file.InvalidPathException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +16,7 @@ public class FileHandler {
 
     private static final Pattern VALID_CHAR = Pattern.compile("[^<>:\"/*|?\\\\]*");
     private static final Pattern VALID_EXTENSION = Pattern.compile(".*\\.paths$");
+    private static String defaultPath = "src/main/resources/story-files";
 
 
     /**
@@ -65,32 +65,20 @@ public class FileHandler {
     }
 
     /**
-     * This method takes a file name. It, then, checks whether the name is valid and if so, it creates a test file for it.
-     * @param fileName                      Name of the file, given as a String.
-     * @return                              The file with the given name, represented using a File object.
-     * @throws IllegalArgumentException     This exception is thrown if the file name is invalid.
-     */
-    public static File createTestFile(String fileName) throws IllegalArgumentException{
-        isFileNameValid(fileName);
-        return new File(getTestFileSourcePath(fileName));
-    }
-
-    /**
      * This method retrieves the file source path of a story file with the file name given.
      * @param fileName Name of the desired file, represented as a String
      * @return         The source path to the file, represented as a String
      */
     public static String getFileSourcePath(String fileName){
-        return FileSystems.getDefault().getPath("src", "main", "resources", "story-files", fileName) + ".paths";
+        return FileSystems.getDefault().getPath(defaultPath, fileName) + ".paths";
     }
+    //TODO: test for different OS
 
     /**
-     * This method retrieves the file source path of a story test file with the file name given.
-     * @param fileName Name of the desired file, represented as a String
-     * @return         The source path to the file, represented as a String
+     * This method changes the default path used to create files. This may, for example, be used for testing purposes.
+     * @param newPath New default path, given as a String
      */
-    public static String getTestFileSourcePath(String fileName){
-        return FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles", fileName) + ".paths";
+    public static void changeDefaultPath(String newPath) {
+        defaultPath = newPath;
     }
-
 }

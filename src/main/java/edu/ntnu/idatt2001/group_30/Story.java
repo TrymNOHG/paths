@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.group_30;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -111,5 +112,23 @@ public class Story {
         this.passages.values().forEach(passage -> sb.append(passage.toString()).append("\n"));
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Story story)) return false;
+
+        if (!Objects.equals(title, story.title)) return false;
+        if (!Objects.equals(passages, story.passages)) return false;
+        return Objects.equals(openingPassage, story.openingPassage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (passages != null ? passages.hashCode() : 0);
+        result = 31 * result + (openingPassage != null ? openingPassage.hashCode() : 0);
+        return result;
     }
 }
