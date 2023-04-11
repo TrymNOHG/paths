@@ -36,6 +36,18 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
+
+<!--            Configuration of the Main class for the javafx application -->
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>
+                                edu.ntnu.idatt2001.group_30.paths.Main
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
 <!--            Plugin to generate the javadoc files for the project-->

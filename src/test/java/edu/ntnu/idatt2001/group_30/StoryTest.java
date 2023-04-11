@@ -1,5 +1,8 @@
 package edu.ntnu.idatt2001.group_30;
 
+import edu.ntnu.idatt2001.group_30.paths.Link;
+import edu.ntnu.idatt2001.group_30.paths.Passage;
+import edu.ntnu.idatt2001.group_30.paths.Story;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

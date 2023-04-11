@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.paths;
 
-import edu.ntnu.idatt2001.group_30.actions.Action;
+import edu.ntnu.idatt2001.group_30.paths.actions.Action;
 
 import java.util.ArrayList;
 import java.util.List;

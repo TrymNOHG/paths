@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.paths;
 
 import java.util.Collection;
 import java.util.HashMap;

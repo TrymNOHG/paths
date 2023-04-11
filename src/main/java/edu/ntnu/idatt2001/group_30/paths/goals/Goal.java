@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2001.group_30.goals;
+package edu.ntnu.idatt2001.group_30.paths.goals;
 
-import edu.ntnu.idatt2001.group_30.Player;
+import edu.ntnu.idatt2001.group_30.paths.Player;
 
 /**
  * The functional interface Goal represents a threshold, desirable result, or condition connected to the player's

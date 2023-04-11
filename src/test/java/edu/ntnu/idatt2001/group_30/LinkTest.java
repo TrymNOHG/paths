@@ -1,11 +1,12 @@
 package edu.ntnu.idatt2001.group_30;
 
+import edu.ntnu.idatt2001.group_30.paths.Link;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2001.group_30.actions.GoldAction;
+import edu.ntnu.idatt2001.group_30.paths.actions.GoldAction;
 
 class LinkTest {
     @Nested

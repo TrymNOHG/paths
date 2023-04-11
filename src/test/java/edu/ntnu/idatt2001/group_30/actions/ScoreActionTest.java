@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.group_30.actions;
 
-import edu.ntnu.idatt2001.group_30.Player;
+import edu.ntnu.idatt2001.group_30.paths.Player;
+import edu.ntnu.idatt2001.group_30.paths.actions.ScoreAction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
