@@ -69,12 +69,12 @@ public class Link {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Link link = (Link) o;
-        return Objects.equals(text, link.text) && Objects.equals(reference, link.reference) && Objects.equals(actions, link.actions);
+        return Objects.equals(reference, link.reference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, reference, actions);
+        return Objects.hash(reference);
     }
 
     @Override

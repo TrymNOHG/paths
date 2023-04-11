@@ -58,4 +58,23 @@ class LinkTest {
         }
     }
 
+    @Nested
+    class Two_Link_objects {
+        @Test
+        void are_equal_if_they_have_the_same_reference() {
+            /* different text, same reference */
+            Link link1 = new Link("You see a troll", "ref");
+            Link link2 = new Link("You see a ogre", "ref");
+            assertEquals(link1, link2);
+        }
+
+        @Test
+        void are_not_equal_if_they_have_different_references() {
+            /* same text, different reference */
+            Link link1 = new Link("You see a troll", "ref");
+            Link link2 = new Link("You see a troll", "ref2");
+            assertNotEquals(link1, link2);
+        }
+    }
+
 }
