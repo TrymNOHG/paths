@@ -3,8 +3,7 @@ package edu.ntnu.idatt2001.group_30.filehandling;
 import edu.ntnu.idatt2001.group_30.Link;
 import edu.ntnu.idatt2001.group_30.Passage;
 import edu.ntnu.idatt2001.group_30.Story;
-import edu.ntnu.idatt2001.group_30.actions.Action;
-import edu.ntnu.idatt2001.group_30.actions.GoldAction;
+import edu.ntnu.idatt2001.group_30.actions.*;
 import edu.ntnu.idatt2001.group_30.exceptions.CorruptFileException;
 import edu.ntnu.idatt2001.group_30.exceptions.CorruptLinkException;
 import org.junit.jupiter.api.Assertions;
@@ -38,6 +37,9 @@ class StoryFileHandlerTest {
         story.addPassage(secondChapter);
         story.getOpeningPassage().addLink(new Link(secondChapter.getTitle(), secondChapter.getTitle()));
         story.getOpeningPassage().getLinks().forEach(link -> link.addAction(new GoldAction(5)));
+        story.getOpeningPassage().getLinks().get(0).addAction(new ScoreAction(5));
+        story.getOpeningPassage().getLinks().get(0).addAction(new HealthAction(6));
+        story.getOpeningPassage().getLinks().get(0).addAction(new InventoryAction("Sword"));
         return story;
     }
 
