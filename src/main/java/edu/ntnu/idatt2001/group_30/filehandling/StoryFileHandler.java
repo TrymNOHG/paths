@@ -47,6 +47,7 @@ public class StoryFileHandler {
      */
     public void createStoryFile(Story story, String fileName) throws IOException {
         Objects.requireNonNull(story, "Story cannot be null");
+        Objects.requireNonNull(fileName, "File name cannot be null");
         File file = FileHandler.createFile(fileName);
         if(FileHandler.fileExists(file)) throw new IllegalArgumentException("You cannot overwrite a pre-existing story file");
         try(BufferedWriter storyBufferedWriter = new BufferedWriter(new FileWriter(file))){
@@ -61,6 +62,7 @@ public class StoryFileHandler {
      * @throws IOException  This exception is thrown if an I/O error occurs with the reader.
      */
     public Story readStoryFromFile(String fileName) throws IOException, InstantiationException {
+        Objects.requireNonNull(fileName, "File name cannot be null");
         File file = new File(FileHandler.getFileSourcePath(fileName));
         if(!FileHandler.fileExists(file)) throw new IllegalArgumentException("There is no story file with that name!");
         Story story;

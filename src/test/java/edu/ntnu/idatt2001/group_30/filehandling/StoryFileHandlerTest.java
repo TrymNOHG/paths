@@ -211,6 +211,22 @@ class StoryFileHandlerTest {
             });
         }
 
+        @Test
+        void a_null_file_name_when_creating_new_file_will_throw_NullPointerException(){
+            Story story = validStory();
+
+            Assertions.assertThrows(NullPointerException.class, () ->{
+                storyFileHandler.createStoryFile(story, null);
+            });
+        }
+
+        @Test
+        void a_null_file_name_when_reading_file_will_throw_NullPointerException(){
+            Assertions.assertThrows(NullPointerException.class, () ->{
+                Story story = storyFileHandler.readStoryFromFile(null);
+            });
+        }
+
         //TODO: change this actually test the link information
         @Test
         void corrupt_link_information_throws_CorruptLinkException_when_read(){
