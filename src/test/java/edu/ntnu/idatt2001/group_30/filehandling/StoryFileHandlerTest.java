@@ -269,10 +269,3 @@ class StoryFileHandlerTest {
     }
 
 }
-
-/*
-    TODO:
-     - test valid action class and valid value
-     - test writing of action
-     - create test for ActionFactory
- */
