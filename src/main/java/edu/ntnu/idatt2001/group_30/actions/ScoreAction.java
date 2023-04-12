@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class ScoreAction implements Action {
+public class ScoreAction implements Action<Integer> {
 
     private final int points;
 
@@ -30,5 +30,14 @@ public class ScoreAction implements Action {
     public void execute(Player player) {
         Objects.requireNonNull(player);
         player.addScore(this.points);
+    }
+
+    /**
+     * This method retrieves the point value.
+     * @return  Point value, given as an int.
+     */
+    @Override
+    public Integer getActionValue() {
+        return this.points;
     }
 }
