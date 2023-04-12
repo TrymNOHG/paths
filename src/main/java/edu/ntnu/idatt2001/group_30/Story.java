@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -80,6 +81,19 @@ public class Story {
 
         this.passages.remove(link);
         return true;
+    }
+
+    /**
+     * Finds all the broken links in the story.
+     * A link is considered broken if it does not point to a passage in the stories map of passages.
+     * @return a list of all the broken links in the story
+     */
+    public List<Link> getBrokenLinks() {
+        return this.passages.values()
+                .stream()
+                .flatMap(passage -> passage.getLinks().stream())
+                .filter(link -> this.passages.get(link) == null)
+                .toList();
     }
 
     /**
