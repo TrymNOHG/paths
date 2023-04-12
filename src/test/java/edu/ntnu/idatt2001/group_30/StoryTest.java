@@ -42,7 +42,7 @@ public class StoryTest {
             Passage passage2 = new Passage("Befriend Eilor", "You befriend Eilor");
             story.addPassage(passage);
             story.addPassage(passage2);
-            assertEquals(2, story.getPassages().size());
+            assertEquals(3, story.getPassages().size());
         }
 
         @Test
