@@ -40,4 +40,17 @@ public class GoldAction implements Action<Integer> {
     public Integer getActionValue() {
         return gold;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GoldAction that)) return false;
+
+        return gold == that.gold;
+    }
+
+    @Override
+    public int hashCode() {
+        return gold;
+    }
 }

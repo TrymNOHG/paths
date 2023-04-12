@@ -40,4 +40,17 @@ public class HealthAction implements Action<Integer> {
     public Integer getActionValue() {
         return health;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HealthAction that)) return false;
+
+        return health == that.health;
+    }
+
+    @Override
+    public int hashCode() {
+        return health;
+    }
 }

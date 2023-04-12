@@ -40,4 +40,17 @@ public class InventoryAction implements Action<String> {
     public String getActionValue() {
         return this.item;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InventoryAction that)) return false;
+
+        return Objects.equals(item, that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return item != null ? item.hashCode() : 0;
+    }
 }

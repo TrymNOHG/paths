@@ -40,4 +40,17 @@ public class ScoreAction implements Action<Integer> {
     public Integer getActionValue() {
         return this.points;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ScoreAction that)) return false;
+
+        return points == that.points;
+    }
+
+    @Override
+    public int hashCode() {
+        return points;
+    }
 }

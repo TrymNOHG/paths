@@ -22,4 +22,11 @@ public interface Action<T> {
      */
     T getActionValue();
 
+    /**
+     * This method ensures that all action implementations has a way to check if two action objects are equal.
+     * @param o Object being compared
+     * @return  Boolean representing {@code true} if the actions are equal, otherwise {@code false}
+     */
+    boolean equals(Object o);
+
 }
