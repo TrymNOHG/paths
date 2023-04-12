@@ -83,7 +83,7 @@ public class Link {
         sb.append("[").append(text).append("](").append(reference).append(")\n");
 
         for(Action<?> action : actions) {
-            sb.append("-").append(action.getClass()).append("-=").append(action.getActionValue()).append("=\n");
+            sb.append("<").append(action.getClass().getSimpleName()).append(">\\").append(action.getActionValue()).append("/\n");
         }
 
         return sb.toString();
