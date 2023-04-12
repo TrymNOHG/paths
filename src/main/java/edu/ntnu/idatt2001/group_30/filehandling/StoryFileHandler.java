@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class StoryFileHandler {
 
     private final Pattern LINK_PATTERN = Pattern.compile("\\[.*]\\(.*\\)");
-    private final Pattern ACTION_PATTERN = Pattern.compile("-.*-=.*=");
+    private final Pattern ACTION_PATTERN = Pattern.compile("<.*>\\\\.*/");
 
     /**
      * This method takes a story and writes its contents to a .paths file. The story information is transcribed
@@ -126,7 +126,7 @@ public class StoryFileHandler {
      * This method takes a String containing the information that is vital for an Action. It, then, parses the
      * string into the implementation and value.
      * @param actionInfo  The information of the Action, given as a String.
-     * @return          The action implementation, given as a Action object.
+     * @return          The action implementation, given as an Action object.
      */
     private Action<?> parseStringToAction(String actionInfo) throws InstantiationException {
         String className = actionInfo.substring(actionInfo.indexOf("<") + 1, actionInfo.indexOf(">"));
@@ -143,7 +143,7 @@ public class StoryFileHandler {
      * @return                        The type of Action extracted from the String, given as a ActionType enumeration
      * @throws InstantiationException This exception is thrown if the action type information is corrupt
      */
-    public ActionType extractActionTypeFromInfo(String actionTypeInfo) throws InstantiationException{
+    private ActionType extractActionTypeFromInfo(String actionTypeInfo) throws InstantiationException{
         return switch(actionTypeInfo) {
             case "GoldAction" -> ActionType.GOLD_ACTION;
             case "HealthAction" -> ActionType.HEALTH_ACTION;
@@ -151,7 +151,6 @@ public class StoryFileHandler {
             case "ScoreAction" -> ActionType.SCORE_ACTION;
             default -> throw new InstantiationException("The Action type information is corrupt");
         };
-
     }
 
 }
