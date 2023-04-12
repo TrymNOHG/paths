@@ -32,6 +32,7 @@ public class Story {
         if (openingPassage == null) throw new IllegalArgumentException("Opening passage cannot be null");
         this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
+        addPassage(this.openingPassage);
     }
 
     /**
@@ -90,7 +91,7 @@ public class Story {
 
     /**
      * This method retrieves all the passages of a story.
-     * @return All the pages of the Story as a {@code Collection<Passages>}.
+     * @return All the passages of the Story as a {@code Collection<Passages>}.
      */
     public Collection<Passage> getPassages() {
         return this.passages.values();
@@ -109,7 +110,9 @@ public class Story {
         sb.append(this.title).append("\n\n");
         sb.append(this.openingPassage.toString()).append("\n");
 
-        this.passages.values().forEach(passage -> sb.append(passage.toString()).append("\n"));
+        this.passages.values().forEach(passage -> {
+            if(!passage.equals(openingPassage)) sb.append(passage.toString()).append("\n");
+        });
 
         return sb.toString();
     }

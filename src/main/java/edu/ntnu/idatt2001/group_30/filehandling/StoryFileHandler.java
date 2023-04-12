@@ -3,9 +3,12 @@ package edu.ntnu.idatt2001.group_30.filehandling;
 import edu.ntnu.idatt2001.group_30.Link;
 import edu.ntnu.idatt2001.group_30.Passage;
 import edu.ntnu.idatt2001.group_30.Story;
+import edu.ntnu.idatt2001.group_30.exceptions.CorruptFileException;
+import edu.ntnu.idatt2001.group_30.exceptions.CorruptLinkException;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -13,6 +16,8 @@ import java.util.stream.Collectors;
  * writer and reader.
  */
 public class StoryFileHandler {
+
+    private final Pattern LINK_PATTERN = Pattern.compile("\\[.*]\\(.*\\)");
 
     /**
      * This method takes a story and writes its contents to a .paths file. The story information is transcribed
@@ -27,6 +32,7 @@ public class StoryFileHandler {
      *  ::Another Passage Title
      *  Passage Content
      *  [Link Text](Link Reference)
+     *  -Action Type-=Action Value=
      *  [Link Text](Link Reference)
      *
      *  ...
@@ -58,11 +64,13 @@ public class StoryFileHandler {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
 
             String storyTitle = bufferedReader.readLine();
-            bufferedReader.readLine();
 
             List<String> passageInfo = new ArrayList<>(List.of(bufferedReader.lines()
-                    .collect(Collectors.joining("\n")).split("::")));
+                    .collect(Collectors.joining("\n")).split("\n::")));
+
+            if(passageInfo.size() == 1) throw new CorruptFileException(storyTitle);
             passageInfo.remove(0);
+
             Passage openingPassage = parseStringToPassage(passageInfo.remove(0));
 
             story = new Story(storyTitle, openingPassage);
@@ -97,8 +105,9 @@ public class StoryFileHandler {
      * @return          The link, given as a Link object.
      */
     private Link parseStringToLink(String linkInfo){
-        String text = linkInfo.substring(linkInfo.indexOf("["), linkInfo.indexOf("]") + 1);
-        String reference = linkInfo.substring(linkInfo.indexOf("("), linkInfo.indexOf(")") + 1);
+        if(!LINK_PATTERN.matcher(linkInfo).matches()) throw new CorruptLinkException(linkInfo);
+        String text = linkInfo.substring(linkInfo.indexOf("[") + 1, linkInfo.indexOf("]") );
+        String reference = linkInfo.substring(linkInfo.indexOf("(") + 1, linkInfo.indexOf(")"));
 
         return new Link(text, reference);
     }

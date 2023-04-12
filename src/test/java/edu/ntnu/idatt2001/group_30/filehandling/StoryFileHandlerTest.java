@@ -1,7 +1,10 @@
 package edu.ntnu.idatt2001.group_30.filehandling;
 
+import edu.ntnu.idatt2001.group_30.Link;
 import edu.ntnu.idatt2001.group_30.Passage;
 import edu.ntnu.idatt2001.group_30.Story;
+import edu.ntnu.idatt2001.group_30.exceptions.CorruptFileException;
+import edu.ntnu.idatt2001.group_30.exceptions.CorruptLinkException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -10,15 +13,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.*;
-import java.nio.file.FileSystems;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO: Decide whether to send in the fileName or to send in a File. Make tests work then.
-
 class StoryFileHandlerTest {
-
-    //TODO: test with temporary files!!! Remember to delete after.
 
     @BeforeAll
     static void setFileHandlerPath() {
@@ -26,22 +25,24 @@ class StoryFileHandlerTest {
     }
 
     StoryFileHandler storyFileHandler = new StoryFileHandler();
-    //TODO: change default pathing to test directory
 
     public File getValidFile(String fileName) {
-        return new File(FileSystems.getDefault()
-                .getPath("src", "test", "resources", "storytestfiles", fileName) + ".paths");
+        return FileHandler.createFile(fileName);
     }
 
     static Story validStory(){
-        return new Story("The Hobbit", new Passage("Beginning", "Once upon a time..."));
+        Story story = new Story("The Hobbit", new Passage("Beginning", "Once upon a time..."));
+        Passage secondChapter = new Passage("The Great Barrier", "After having completed the arduous...");
+        story.addPassage(secondChapter);
+        story.getOpeningPassage().addLink(new Link(secondChapter.getTitle(), secondChapter.getTitle()));
+        return story;
     }
 
     @Nested
     public class A_StoryFile_is_valid_if {
 
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123", "The Hobbit"})
+        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
         void a_file_has_a_valid_name(String fileName) {
             Story story = validStory();
 
@@ -114,16 +115,53 @@ class StoryFileHandlerTest {
 
     @Nested
     public class A_StoryFile_properly_writes_a_story_to_new_file_if_it {
-        @Test
-        void saves_the_story_title_correctly() throws IOException {
+
+        @ParameterizedTest (name = "{index}. File name: {0}")
+        @ValueSource (strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void saves_the_story_title_correctly(String fileName) throws IOException {
+            Story story = validStory();
+            String expectedTitle = story.getTitle();
+
+            storyFileHandler.createStoryFile(story, fileName);
+            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            String actualTitle = storyReadFromFile.getTitle();
+
+            Assertions.assertEquals(expectedTitle, actualTitle);
+
+            File file = getValidFile(fileName);
+            file.delete();
         }
 
-        @Test
-        void saves_the_opening_passage_after_title() throws IOException {
+        @ParameterizedTest (name = "{index}. File name: {0}")
+        @ValueSource (strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void saves_the_opening_passage_after_title(String fileName) throws IOException {
+            Story story = validStory();
+            Passage expectedOpeningPassage = story.getOpeningPassage();
+
+            storyFileHandler.createStoryFile(story, fileName);
+            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            Passage actualOpeningPassage = storyReadFromFile.getOpeningPassage();
+
+            Assertions.assertEquals(expectedOpeningPassage, actualOpeningPassage);
+
+            File file = getValidFile(fileName);
+            file.delete();
         }
 
-        @Test
-        void saves_all_the_links_of_passage_correctly() throws IOException {
+        @ParameterizedTest (name = "{index}. File name: {0}")
+        @ValueSource (strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void saves_all_the_links_of_passage_correctly(String fileName) throws IOException {
+            Story story = validStory();
+            List<Link> expectedOpeningPassageLinks = story.getOpeningPassage().getLinks();
+
+            storyFileHandler.createStoryFile(story, fileName);
+            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            List<Link> actualOpeningPassageLinks = storyReadFromFile.getOpeningPassage().getLinks();
+
+            Assertions.assertEquals(expectedOpeningPassageLinks, actualOpeningPassageLinks);
+
+            File file = getValidFile(fileName);
+            file.delete();
         }
 
     }
@@ -136,7 +174,7 @@ class StoryFileHandlerTest {
 
             Story actualStory = storyFileHandler.readStoryFromFile("The Hobbit");
 
-            assertEquals(actualStory, expectedStory);
+            assertEquals(expectedStory, actualStory);
         }
 
     }
@@ -154,25 +192,31 @@ class StoryFileHandlerTest {
 
         //TODO: change this actually test the link information
         @Test
-        void corrupt_link_information_throws_Exception_when_read(){
+        void corrupt_link_information_throws_CorruptLinkException_when_read(){
             Story expectedStory = validStory();
 
-            Assertions.assertThrows(NumberFormatException.class, () -> {
+            Assertions.assertThrows(CorruptLinkException.class, () -> {
                 Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Link File");
                 assertNotEquals(expectedStory, actualStory);
             });
 
         }
 
-        //TODO: add more corrupt file tests
-
-        //TODO: Create CorruptFileException for formatting error
         @Test
-        void file_with_improper_format_throws_CorruptFileException() throws IOException {
+        void file_with_improper_format_throws_CorruptFileException() {
             Story expectedStory = validStory();
 
-            Assertions.assertThrows(StreamCorruptedException.class, () ->{
+            Assertions.assertThrows(CorruptFileException.class, () ->{
                 Story actualStory = storyFileHandler.readStoryFromFile("Corrupt .paths Format");
+            });
+        }
+
+        @Test
+        void not_existing_throws_IllegalArgumentException() {
+            Story expectedStory = validStory();
+
+            Assertions.assertThrows(IllegalArgumentException.class, () ->{
+                Story actualStory = storyFileHandler.readStoryFromFile("File that does not exist");
             });
         }
 

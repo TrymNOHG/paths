@@ -1,6 +1,8 @@
 package edu.ntnu.idatt2001.group_30.filehandling;
 
+import edu.ntnu.idatt2001.group_30.exceptions.InvalidExtensionException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,8 +10,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.util.concurrent.atomic.AtomicReference;
 
 class FileHandlerTest {
+
+    @BeforeAll
+    static void setFileHandlerPath() {
+        FileHandler.changeDefaultPath("src/test/resources/storytestfiles");
+    }
 
     @Nested
     public class The_FileHandler_makes_sure_a_file_name {
@@ -76,12 +84,49 @@ class FileHandlerTest {
 
         @Test
         void the_file_source_path(){
-            String expectedFileSourcePath = "src/main/resources/story-files/story.paths";
+            String expectedFileSourcePath = "src/test/resources/storytestfiles/story.paths";
             String fileName = "story";
 
             String actualFileSourcePath = FileHandler.getFileSourcePath(fileName);
 
             Assertions.assertEquals(expectedFileSourcePath, actualFileSourcePath);
+        }
+
+        @Test
+        void if_file_extension_is_valid() {
+            String validPath = "The Hobbit.paths";
+
+            boolean isPathValid = FileHandler.isFileExtensionValid(validPath);
+
+            Assertions.assertTrue(isPathValid);
+
+        }
+
+        @ParameterizedTest(name = "{index}. File path: {0}")
+        @ValueSource(strings = {"Winnie the Pooh.exe", "78924378.doc", "The-Bible.txt", "Story123.csv"})
+        void if_file_extension_is_invalid(String filePath) {
+
+            Assertions.assertThrows(InvalidExtensionException.class, () -> {
+                FileHandler.isFileExtensionValid(filePath);
+            });
+        }
+    }
+
+    @Nested
+    public class The_FileHandler_can_create {
+        @ParameterizedTest(name = "{index}. File name: {0}")
+        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        void new_files_with_valid_names(String fileName) {
+            try {
+                File file = FileHandler.createFile(fileName);
+                file.createNewFile();
+                Assertions.assertTrue(file.isFile());
+                Assertions.assertTrue(file.exists());
+
+                file.delete();
+            } catch (Exception e) {
+                Assertions.fail(e.getMessage());
+            }
         }
     }
 
