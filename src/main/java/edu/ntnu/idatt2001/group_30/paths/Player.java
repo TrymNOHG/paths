@@ -36,6 +36,14 @@ public class Player {
         this.inventory = new ArrayList<>();
     }
 
+    public Player(Builder build) {
+        this.name = build.name;
+        this.health = build.health;
+        this.score = build.score;
+        this.gold = build.gold;
+        this.inventory = build.inventory;
+    }
+
     /**
      * This method retrieves the name of the player.
      * @return  Name of the player, represented using a String.
@@ -115,5 +123,46 @@ public class Player {
      */
     public List<String> getInventory() {
         return this.inventory;
+    }
+
+    /**
+     *
+     */
+    public static class Builder {
+
+        private final String name;
+
+        private int health = 0;
+        private int score = 0;
+        private int gold = 0;
+        private final List<String> inventory = new ArrayList<>();
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder health(int health) {
+            this.health = health;
+            return this;
+        }
+
+        public Builder score(int score) {
+            this.score = score;
+            return this;
+        }
+
+        public Builder gold(int gold) {
+            this.gold = gold;
+            return this;
+        }
+
+        public Builder addToInventory(String item) {
+            this.inventory.add(item);
+            return this;
+        }
+
+        public Player build() {
+            return new Player(this);
+        }
     }
 }
