@@ -19,6 +19,38 @@ class PlayerTest {
         }
 
         @Test
+        void can_be_constructed_using_builder_pattern() {
+            Player player = new Player.Builder("Ola Nordmann")
+                    .health(10)
+                    .score(2)
+                    .gold(50)
+                    .build();
+            assertEquals("Ola Nordmann", player.getName());
+            assertEquals(10, player.getHealth());
+            assertEquals(2, player.getScore());
+            assertEquals(50, player.getGold());
+        }
+
+        @Test
+        void can_be_constructed_using_builder_pattern_with_inventory() {
+            Player player = new Player.Builder("Ola Nordmann")
+                    .addToInventory("Sword")
+                    .addToInventory("Shield")
+                    .addToInventory("Potion")
+                    .build();
+            assertEquals("Ola Nordmann", player.getName());
+            /* when not specified, zero is the default value */
+            assertEquals(0, player.getHealth());
+            assertEquals(0, player.getScore());
+            assertEquals(0, player.getGold());
+
+            assertEquals(3, player.getInventory().size());
+            assertTrue(player.getInventory().contains("Sword"));
+            assertTrue(player.getInventory().contains("Shield"));
+            assertTrue(player.getInventory().contains("Potion"));
+        }
+
+        @Test
         void cannot_be_constructed_with_negative_health() {
             assertThrows(IllegalArgumentException.class, () -> new Player("Ola Nordmann", -1, 2, 3));
         }
