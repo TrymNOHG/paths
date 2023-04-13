@@ -1,5 +1,7 @@
-package edu.ntnu.idatt2001.group_30.actions;
+package edu.ntnu.idatt2001.group_30.paths.actions;
 
+import edu.ntnu.idatt2001.group_30.paths.actions.ActionFactory;
+import edu.ntnu.idatt2001.group_30.paths.actions.ActionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.actions;
+package edu.ntnu.idatt2001.group_30.paths.actions;
 
 import edu.ntnu.idatt2001.group_30.paths.Player;
 import edu.ntnu.idatt2001.group_30.paths.actions.ScoreAction;

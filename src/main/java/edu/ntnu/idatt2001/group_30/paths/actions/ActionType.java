@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.actions;
+package edu.ntnu.idatt2001.group_30.paths.actions;
 
 /**
  * This enumeration represents the different types of actions that exist: gold, health, inventory, and score.

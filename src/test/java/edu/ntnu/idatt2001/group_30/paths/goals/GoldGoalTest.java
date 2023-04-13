@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.goals;
+package edu.ntnu.idatt2001.group_30.paths.goals;
 
 import edu.ntnu.idatt2001.group_30.paths.Player;
 import edu.ntnu.idatt2001.group_30.paths.goals.GoldGoal;

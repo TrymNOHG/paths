@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.exceptions;
+package edu.ntnu.idatt2001.group_30.paths.exceptions;
 
 /**
  * An exception that is thrown when an invalid file extension is used.

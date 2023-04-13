@@ -1,6 +1,7 @@
-package edu.ntnu.idatt2001.group_30.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
-import edu.ntnu.idatt2001.group_30.exceptions.InvalidExtensionException;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
+import edu.ntnu.idatt2001.group_30.paths.filehandling.FileHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -10,7 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.util.concurrent.atomic.AtomicReference;
 
 class FileHandlerTest {
 

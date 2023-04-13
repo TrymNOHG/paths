@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.actions;
+package edu.ntnu.idatt2001.group_30.paths.actions;
 
 /**
  * This class represents a factory for producing Action objects. It, therefore, has methods for instantiating a single
