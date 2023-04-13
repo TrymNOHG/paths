@@ -7,7 +7,7 @@ import java.util.List;
  *  This class represents a Player who will experience the story. Therefore, it contains information surrounding their
  *  character, such as health, score, gold, and inventory.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand
  */
 public class Player {
     private final String name;
@@ -36,6 +36,10 @@ public class Player {
         this.inventory = new ArrayList<>();
     }
 
+    /**
+     * The Builder class is used to create a Player object.
+     * @param build The Builder object that contains the information needed to create a Player object.
+     */
     public Player(Builder build) {
         this.name = build.name;
         this.health = build.health;
@@ -126,7 +130,8 @@ public class Player {
     }
 
     /**
-     *
+     * Static Builder class that enables the creation of a Player object using the builder pattern.
+     * @Author Nicolai H. Brand
      */
     public static class Builder {
 
@@ -137,32 +142,60 @@ public class Player {
         private int gold = 0;
         private final List<String> inventory = new ArrayList<>();
 
+        /**
+         * Constructor for the Builder class.
+         * @param name  Name of the player, represented using a String.
+         */
         public Builder(String name) {
             this.name = name;
         }
 
+        /**
+         * This method creates a Player object using the information provided by the Builder object.
+         * @return The Player object, created using the information provided by the Builder object.
+         */
+        public Player build() {
+            return new Player(this);
+        }
+
+        /**
+         * This method sets the health of the player and returns the Builder object to enable method chaining.
+         * @param health   Health of the player, represented using an int.
+         * @return         The Builder object, to enable method chaining.
+         */
         public Builder health(int health) {
             this.health = health;
             return this;
         }
 
+        /**
+         * This method sets the score of the player and returns the Builder object to enable method chaining.
+         * @param score  Score of the player, represented using an int.
+         * @return       The Builder object, to enable method chaining.
+         */
         public Builder score(int score) {
             this.score = score;
             return this;
         }
 
+        /**
+         * This method sets the gold of the player and returns the Builder object to enable method chaining.
+         * @param gold Gold of the player, represented using an int.
+         * @return     The Builder object, to enable method chaining.
+         */
         public Builder gold(int gold) {
             this.gold = gold;
             return this;
         }
 
+        /**
+         * This method adds an item to the player's inventory and returns the Builder object to enable method chaining.
+         * @param item  Item to be added to the player's inventory, represented using a String.
+         * @return      The Builder object, to enable method chaining.
+         */
         public Builder addToInventory(String item) {
             this.inventory.add(item);
             return this;
-        }
-
-        public Player build() {
-            return new Player(this);
         }
     }
 }
