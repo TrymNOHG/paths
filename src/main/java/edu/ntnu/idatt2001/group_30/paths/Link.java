@@ -15,7 +15,7 @@ import java.util.Objects;
 public class Link {
     private final String text;
     private final String reference;
-    private final List<Action> actions;
+    private final List<Action<?>> actions;
 
     /**
      * This constructor creates a Link object, which contains information surrounding a linking point in the story.
@@ -36,7 +36,7 @@ public class Link {
      * Adds an action to the list of actions
      * @param action, the action to be added to the list
      */
-    public void addAction(Action action) {
+    public void addAction(Action<?> action) {
         this.actions.add(action);
     }
 
@@ -60,7 +60,7 @@ public class Link {
      * This method retrieves the list of actions attached to the Link object.
      * @return  The actions of the Link object, given as a List{@code <Action>}.
      */
-    public List<Action> getActions() {
+    public List<Action<?>> getActions() {
         return this.actions;
     }
 
@@ -69,20 +69,23 @@ public class Link {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Link link = (Link) o;
-        return Objects.equals(text, link.text) && Objects.equals(reference, link.reference) && Objects.equals(actions, link.actions);
+        return Objects.equals(reference, link.reference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, reference, actions);
+        return Objects.hash(reference);
     }
 
     @Override
     public String toString() {
-        return "Link{" +
-                "text='" + text + '\'' +
-                ", reference='" + reference + '\'' +
-                ", actions=" + actions +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("[").append(text).append("](").append(reference).append(")\n");
+
+        for(Action<?> action : actions) {
+            sb.append("<").append(action.getClass().getSimpleName()).append(">\\").append(action.getActionValue()).append("/\n");
+        }
+
+        return sb.toString();
     }
 }

@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.group_30.paths.Player;
  *
  * @author Trym Hamer Gudvangen
  */
+@FunctionalInterface
 public interface Goal {
 
     /**

@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class InventoryAction implements Action {
+public class InventoryAction implements Action<String> {
 
     private final String item;
 
@@ -30,5 +30,27 @@ public class InventoryAction implements Action {
     public void execute(Player player) {
         Objects.requireNonNull(player);
         player.addToInventory(this.item);
+    }
+
+    /**
+     * This method retrieves the item value.
+     * @return  Item value, given as a String.
+     */
+    @Override
+    public String getActionValue() {
+        return this.item;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InventoryAction that)) return false;
+
+        return Objects.equals(item, that.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return item != null ? item.hashCode() : 0;
     }
 }
