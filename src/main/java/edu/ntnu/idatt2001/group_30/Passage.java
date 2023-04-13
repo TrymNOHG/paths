@@ -79,7 +79,7 @@ public class Passage {
         sb.append("::").append(title).append("\n")
                 .append(content).append("\n");
 
-        links.forEach(link -> sb.append(link.toString()).append("\n"));
+        links.forEach(link -> sb.append(link.toString()));
 
         return sb.toString();
     }
