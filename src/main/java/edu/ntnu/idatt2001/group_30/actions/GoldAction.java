@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class GoldAction implements Action {
+public class GoldAction implements Action<Integer> {
 
     private final int gold;
 
@@ -30,5 +30,27 @@ public class GoldAction implements Action {
     public void execute(Player player) {
         Objects.requireNonNull(player);
         player.addGold(this.gold);
+    }
+
+    /**
+     * This method retrieves the gold value.
+     * @return  Gold value, given as an int.
+     */
+    @Override
+    public Integer getActionValue() {
+        return gold;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GoldAction that)) return false;
+
+        return gold == that.gold;
+    }
+
+    @Override
+    public int hashCode() {
+        return gold;
     }
 }

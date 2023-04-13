@@ -74,11 +74,14 @@ public class Passage {
 
     @Override
     public String toString() {
-        return "Passage{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", links=" + links +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("::").append(title).append("\n")
+                .append(content).append("\n");
+
+        links.forEach(link -> sb.append(link.toString()));
+
+        return sb.toString();
     }
 
     @Override
