@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30;
+package edu.ntnu.idatt2001.group_30.paths;
 
 import edu.ntnu.idatt2001.group_30.paths.Player;
 import org.junit.jupiter.api.Nested;

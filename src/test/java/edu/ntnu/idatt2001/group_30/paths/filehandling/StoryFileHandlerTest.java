@@ -1,11 +1,17 @@
-package edu.ntnu.idatt2001.group_30.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
-import edu.ntnu.idatt2001.group_30.Link;
-import edu.ntnu.idatt2001.group_30.Passage;
-import edu.ntnu.idatt2001.group_30.Story;
-import edu.ntnu.idatt2001.group_30.actions.*;
-import edu.ntnu.idatt2001.group_30.exceptions.CorruptFileException;
-import edu.ntnu.idatt2001.group_30.exceptions.CorruptLinkException;
+import edu.ntnu.idatt2001.group_30.paths.Link;
+import edu.ntnu.idatt2001.group_30.paths.Passage;
+import edu.ntnu.idatt2001.group_30.paths.Story;
+import edu.ntnu.idatt2001.group_30.paths.actions.GoldAction;
+import edu.ntnu.idatt2001.group_30.paths.actions.ScoreAction;
+import edu.ntnu.idatt2001.group_30.paths.actions.HealthAction;
+import edu.ntnu.idatt2001.group_30.paths.actions.InventoryAction;
+import edu.ntnu.idatt2001.group_30.paths.actions.Action;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptFileException;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptLinkException;
+import edu.ntnu.idatt2001.group_30.paths.filehandling.FileHandler;
+import edu.ntnu.idatt2001.group_30.paths.filehandling.StoryFileHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;

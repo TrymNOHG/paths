@@ -1,13 +1,13 @@
-package edu.ntnu.idatt2001.group_30.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
-import edu.ntnu.idatt2001.group_30.Link;
-import edu.ntnu.idatt2001.group_30.Passage;
-import edu.ntnu.idatt2001.group_30.Story;
-import edu.ntnu.idatt2001.group_30.actions.Action;
-import edu.ntnu.idatt2001.group_30.actions.ActionFactory;
-import edu.ntnu.idatt2001.group_30.actions.ActionType;
-import edu.ntnu.idatt2001.group_30.exceptions.CorruptFileException;
-import edu.ntnu.idatt2001.group_30.exceptions.CorruptLinkException;
+import edu.ntnu.idatt2001.group_30.paths.Link;
+import edu.ntnu.idatt2001.group_30.paths.Passage;
+import edu.ntnu.idatt2001.group_30.paths.Story;
+import edu.ntnu.idatt2001.group_30.paths.actions.Action;
+import edu.ntnu.idatt2001.group_30.paths.actions.ActionFactory;
+import edu.ntnu.idatt2001.group_30.paths.actions.ActionType;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptFileException;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptLinkException;
 
 import java.io.*;
 import java.util.*;

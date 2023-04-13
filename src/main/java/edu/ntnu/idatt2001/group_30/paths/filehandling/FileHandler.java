@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2001.group_30.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
-import edu.ntnu.idatt2001.group_30.exceptions.InvalidExtensionException;
+import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
 
 import java.io.File;
 import java.nio.file.FileSystems;
