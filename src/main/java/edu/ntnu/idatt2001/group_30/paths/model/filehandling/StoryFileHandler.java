@@ -1,11 +1,11 @@
-package edu.ntnu.idatt2001.group_30.paths.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.model.filehandling;
 
-import edu.ntnu.idatt2001.group_30.paths.Link;
-import edu.ntnu.idatt2001.group_30.paths.Passage;
-import edu.ntnu.idatt2001.group_30.paths.Story;
-import edu.ntnu.idatt2001.group_30.paths.actions.Action;
-import edu.ntnu.idatt2001.group_30.paths.actions.ActionFactory;
-import edu.ntnu.idatt2001.group_30.paths.actions.ActionType;
+import edu.ntnu.idatt2001.group_30.paths.model.Link;
+import edu.ntnu.idatt2001.group_30.paths.model.Passage;
+import edu.ntnu.idatt2001.group_30.paths.model.Story;
+import edu.ntnu.idatt2001.group_30.paths.model.actions.Action;
+import edu.ntnu.idatt2001.group_30.paths.model.actions.ActionFactory;
+import edu.ntnu.idatt2001.group_30.paths.model.actions.ActionType;
 import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptFileException;
 import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptLinkException;
 

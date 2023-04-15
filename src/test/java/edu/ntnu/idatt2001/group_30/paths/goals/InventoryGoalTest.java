@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.goals;
 
-import edu.ntnu.idatt2001.group_30.paths.Player;
-import edu.ntnu.idatt2001.group_30.paths.goals.InventoryGoal;
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.InventoryGoal;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

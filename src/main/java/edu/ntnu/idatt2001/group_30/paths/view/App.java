@@ -1,7 +1,6 @@
-package edu.ntnu.idatt2001.group_30.paths.views;
+package edu.ntnu.idatt2001.group_30.paths.view;
 
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.application.Application;
 import javafx.stage.Stage;
