@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
-import edu.ntnu.idatt2001.group_30.paths.views.App;
+import edu.ntnu.idatt2001.group_30.paths.view.App;
 
 /**
  * The Main class is the entry point for the application.

@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2001.group_30.paths;
+package edu.ntnu.idatt2001.group_30.paths.model;
 
-import edu.ntnu.idatt2001.group_30.paths.goals.Goal;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 
 import java.util.List;
 

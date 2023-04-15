@@ -1,11 +1,10 @@
-package edu.ntnu.idatt2001.group_30.paths;
+package edu.ntnu.idatt2001.group_30.paths.model;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 /**
  * A Story is a non-linear narrative consisting of a collection of passages

@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
-import edu.ntnu.idatt2001.group_30.paths.Player;
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
