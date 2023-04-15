@@ -4,7 +4,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * This class concerns itself with the aspects intrinsic to a unit column. It, therefore, contains a method for
+ * This class concerns itself with the aspects intrinsic to a column. It, therefore, contains a method for
  * the creation of such a column.
  *
  * @author Trym Hamer Gudvangen
@@ -34,7 +34,7 @@ public class TableDisplayColumn<T> {
     }
 
     /**
-     * This method retrieves the unit column.
+     * This method retrieves the column.
      * @return The column, represented using a TableColumn object.
      */
     public TableColumn<T, ?> getColumn() {
