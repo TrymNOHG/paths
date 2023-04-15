@@ -61,12 +61,22 @@ class FileHandlerTest {
     @Nested
     public class The_FileHandler_can_check {
         @Test
-        void if_a_file_exists(){
+        void if_a_file_exists_using_File_object(){
             boolean expectedStatus = true;
             File validFile = new File(FileSystems.getDefault()
                     .getPath("src", "test", "resources", "storytestfiles", "Bones") + ".paths");
 
             boolean actualStatusOfFile = FileHandler.fileExists(validFile);
+
+            Assertions.assertEquals(expectedStatus, actualStatusOfFile);
+        }
+
+        @Test
+        void if_a_file_exists_using_file_name(){
+            boolean expectedStatus = true;
+            String fileName = "Bones";
+
+            boolean actualStatusOfFile = FileHandler.fileExists(fileName);
 
             Assertions.assertEquals(expectedStatus, actualStatusOfFile);
         }
