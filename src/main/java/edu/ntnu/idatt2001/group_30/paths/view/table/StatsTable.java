@@ -9,4 +9,5 @@ public class StatsTable<Player> extends TableDisplay<Player> {
     public StatsTable(Builder<Player> tableBuilder) {
         super(tableBuilder);
     }
+
 }
