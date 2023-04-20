@@ -1,6 +1,6 @@
-package edu.ntnu.idatt2001.group_30.paths.actions;
+package edu.ntnu.idatt2001.group_30.paths.model.actions;
 
-import edu.ntnu.idatt2001.group_30.paths.Player;
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
 
 /**
  * The Action interface provides the method signature for executing an attribute

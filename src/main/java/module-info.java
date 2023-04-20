@@ -3,5 +3,6 @@ module edu.ntnu.idatt2001.group_30.paths {
     requires javafx.graphics;
 
     exports edu.ntnu.idatt2001.group_30.paths;
-    exports edu.ntnu.idatt2001.group_30.paths.views;
+    exports edu.ntnu.idatt2001.group_30.paths.view;
+    exports edu.ntnu.idatt2001.group_30.paths.model;
 }

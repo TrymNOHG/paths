@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.model.filehandling;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
 

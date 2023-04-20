@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths;
+package edu.ntnu.idatt2001.group_30.paths.model;
 
 import java.util.ArrayList;
 import java.util.List;
