@@ -1,8 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
-import edu.ntnu.idatt2001.group_30.paths.goals.Goal;
-import edu.ntnu.idatt2001.group_30.paths.goals.GoldGoal;
-import edu.ntnu.idatt2001.group_30.paths.goals.HealthGoal;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.GoldGoal;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
+import edu.ntnu.idatt2001.group_30.paths.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

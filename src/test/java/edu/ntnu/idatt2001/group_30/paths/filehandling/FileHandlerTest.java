@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
-import edu.ntnu.idatt2001.group_30.paths.filehandling.FileHandler;
+import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
