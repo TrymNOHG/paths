@@ -3,11 +3,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.application.Application;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * The class App is the main class of the application Paths.
@@ -33,34 +29,10 @@ public class App extends Application {
      * @param stage The primary stage for this application, onto which the application scene can be set.
      */
     @Override
-    public void start(Stage stage) throws IOException, InstantiationException {
+    public void start(Stage stage) {
         App.stage = stage;
         App.stage.setTitle("Paths");
-        AnchorPane anchorPane = new AnchorPane();
-
-        VBox storyVBox = new StoryDisplay.Builder("Bones")
-                .addTimeSavedInfo()
-                .addFileLocationInfo()
-                .addFileNameInfo()
-                .build();
-
-        Pane pane = new Pane();
-        pane.setStyle("-fx-border-color: black");
-        pane.getChildren().setAll(storyVBox);
-
-
-        anchorPane.getChildren().add(pane);
-
-        Scene scene = new Scene(anchorPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        App.stage.setScene(scene);
+        App.stage.setScene(new Scene(new AnchorPane(), DEFAULT_WIDTH, DEFAULT_HEIGHT));
         App.stage.show();
-
-
-        AlertDialog.showInformation("Welcome to our application", "Info test");
-        if(!AlertDialog.showConfirmation("Are you ready to get started?", "Confirmation test")) {
-            AlertDialog.showError("Error message would go here");
-            System.exit(0);
-        }
-
     }
 }
