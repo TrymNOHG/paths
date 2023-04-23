@@ -30,7 +30,6 @@ public class App extends Application {
     public void start(Stage stage) {
         /* initialize STAGE_MANAGER */
         STAGE_MANAGER = StageManager.init(stage);
-        STAGE_MANAGER.addView(new HomeView(), new HelpView());
-        STAGE_MANAGER.setCurrentView("Home");
+        STAGE_MANAGER.setCurrentView(new HomeView());
     }
 }

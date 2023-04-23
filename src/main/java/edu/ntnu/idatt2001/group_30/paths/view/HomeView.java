@@ -28,7 +28,7 @@ public class HomeView extends View<BorderPane> {
      * The constructor of the class HomeView.
      */
     public HomeView() {
-        super("Home", BorderPane.class);
+        super(BorderPane.class);
         controller = new HomeController();
         Text text = new Text("Paths");
         text.setFont(new Font(36));

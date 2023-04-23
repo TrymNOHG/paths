@@ -3,25 +3,18 @@ package edu.ntnu.idatt2001.group_30.paths.controller;
 import edu.ntnu.idatt2001.group_30.paths.view.View;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
-//NOTE: Instead of using a String in the hashmap, maybe we should consider using an ENUM.
-//      In this case, we don't really need a hashmap at all. The enum value would act as an index into a table
-//      of views. This would be faster, and we would not have to worry about misspelling.
 /**
  * The class StageManager is responsible for managing the JavaFX Stage of the application.
  * It is implemented as a singleton class and is initialized in the start() method of the Application.
- * It keeps track of all the views (a custom wrapper for a JavaFX Pane that acts as a JavaFX Scene) using a hashmap.
- * It also keeps track of the current view and previous views using a stack.
+ * It keeps track of the current view and previous views using a stack.
  * Using a stack makes it easy to go back to the previous view if desirable.
  *
  * @author Nicolai H. Brand.
  */
 public class StageManager {
     private final Stage stage;
-    private final Map<String, View<?>> views;
     private final Stack<View<?>> viewStack;
 
     /* static reference to the single instance of the class */
@@ -33,7 +26,6 @@ public class StageManager {
      */
     private StageManager(Stage stage) {
         this.stage = stage;
-        this.views = new HashMap<>();
         this.viewStack = new Stack<>();
         stage.show();
     }
@@ -63,14 +55,10 @@ public class StageManager {
     }
 
     /**
-     * Sets the current view to the view with the given name.
-     * @param name The name of the view.
+     * Sets the current view of the stage to the given view.
+     * @param view The view to set as the current view.
      */
-    public void setCurrentView(String name) {
-        View<?> view = views.get(name);
-        if (view == null) {
-            throw new IllegalArgumentException("No view with name " + name + " found.");
-        }
+    public void setCurrentView(View<?> view) {
         pushAndUpdate(view);
     }
 
@@ -105,22 +93,5 @@ public class StageManager {
      */
     private void updateView() {
         stage.setScene(viewStack.get(viewStack.size() - 1).asScene());
-    }
-
-    /**
-     * @param view The view to add to the map of viws.
-     */
-    public void addView(View<?> view) {
-        views.put(view.getName(), view);
-    }
-
-    /**
-     * Variadic method for adding multiple views to the map of views.
-     * @param views The views to add to the map of views.
-     */
-    public void addView(View<?>... views) {
-        for (View<?> view : views) {
-            this.views.put(view.getName(), view);
-        }
     }
 }

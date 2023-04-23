@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 public class HelpView extends View<BorderPane> {
 
     public HelpView() {
-        super("Help", BorderPane.class);
+        super(BorderPane.class);
         add(helpText());
     }
 

@@ -22,7 +22,6 @@ public class View<T extends Pane> {
     public static final int DEFAULT_WIDTH = 1000;
     public static final int DEFAULT_HEIGHT = 1000;
     private final String stylesheet = "src/main/resources/stylesheet.css";
-    private final String name;
     private T parentPane;
 
     /**
@@ -31,8 +30,7 @@ public class View<T extends Pane> {
      * @param name The name of the View.
      * @param paneClass The class of the Pane that the View wraps.
      */
-    public View(String name, Class<T> paneClass) {
-        this.name = name;
+    public View(Class<T> paneClass) {
         try {
             parentPane = paneClass.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -75,12 +73,5 @@ public class View<T extends Pane> {
         text.setX(200);
         text.setY(50);
         return text;
-    }
-
-    /**
-     * @return the name of the View.
-     */
-    public String getName() {
-        return name;
     }
 }
