@@ -54,6 +54,16 @@ public class FileHandler {
     }
 
     /**
+     * This method checks if a file exists with a given directory path and whether it contains any information.
+     * @param fileName The file name to be checked, given as a String
+     * @return     If the file contains no information, {@code false} is returned. Else, {@code true} is returned
+     */
+    public static boolean fileExists(String fileName) {
+        File file = createFile(fileName);
+        return file.length() > 0;
+    }
+
+    /**
      * This method takes a file name. It, then, checks whether the name is valid and if so, it creates a file for it.
      * @param fileName                      Name of the file, given as a String.
      * @return                              The file with the given name, represented using a File object.
