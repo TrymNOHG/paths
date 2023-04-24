@@ -44,7 +44,7 @@ public class HomeView extends View<VBox> {
     private List<Node> getStartMenuButtons() {
         List<Node> buttons = new ArrayList<>();
         buttons.add(DefaultButton.big("Nytt spill", controller.goTo(NewGameView.class)));
-        buttons.add(DefaultButton.big("Innstillinger", controller.goTo(NewGameView.class)));
+        buttons.add(DefaultButton.big("Lag ny story", controller.goTo(NewGameView.class)));
         buttons.add(DefaultButton.big("Hjelp", controller.goTo(HelpView.class)));
         return buttons;
     }

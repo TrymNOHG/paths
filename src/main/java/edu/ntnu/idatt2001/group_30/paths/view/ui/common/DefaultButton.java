@@ -22,8 +22,8 @@ public class DefaultButton {
     public static Button big(String textString) {
         Button button = new Button(textString);
         button.setAlignment(Pos.CENTER);
-        button.setMinWidth(200);
-        button.setMinHeight(100);
+        button.setMinWidth(175);
+        button.setMinHeight(75);
         button.setFont(DefaultFont.medium());
         return button;
     }

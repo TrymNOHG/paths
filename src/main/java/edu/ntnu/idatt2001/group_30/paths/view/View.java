@@ -1,14 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
+import edu.ntnu.idatt2001.group_30.paths.view.ui.common.DefaultText;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.layout.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -50,10 +45,18 @@ public class View<T extends Pane> {
         this.parentPane.getChildren().add(node);
     }
 
+    /**
+     * Helper method that adds a JavaFX Node to the Pane that the View wraps.
+     * @param nodes The JavaFX Nodes to be added to the Pane that the View wraps.
+     */
     protected void addAll(Node... nodes) {
         this.parentPane.getChildren().addAll(nodes);
     }
 
+    /**
+     * Helper method that adds a JavaFX Node to the Pane that the View wraps.
+     * @param nodes The JavaFX Nodes as a List to be added to the Pane that the View wraps.
+     */
     protected void addAll(List<Node> nodes) {
         this.parentPane.getChildren().addAll(nodes);
     }
@@ -65,10 +68,12 @@ public class View<T extends Pane> {
      * @return The View as a JavaFX Scene.
      */
     public Scene asScene() {
-        //NOTE: the wrapper may not be necessary. I have not found a use for it, although I have a feeling it may be useful :-)
-        HBox wrapper = new HBox();
-        wrapper.getChildren().add(globalContent());
-        wrapper.getChildren().add(parentPane);
+        //NOTE: the wrapper could also be a HBox or really any other Pane.
+        //      The reason for using a BorderPane is that it is easy to add content to the top, bottom, left and right.
+        //      A view is free to override this method and use a different Pane.
+        BorderPane wrapper = new BorderPane();
+        wrapper.setCenter(parentPane);
+        wrapper.setBottom(globalFooter());
         wrapper.getStylesheets().add(stylesheet);
         return new Scene(wrapper, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
@@ -78,14 +83,14 @@ public class View<T extends Pane> {
      * Method that adds global content to the Scene.
      * @return A JavaFX Node that is added to the Scene.
      */
-    private Node globalContent() {
-        Text text = new Text("This is global text that is shown on every view.");
-        text.setFont(new Font(18));
-        text.setX(200);
-        text.setY(50);
-        return text;
+    private Node globalFooter() {
+        return DefaultText.small("Laget av Trym H. Gudvangen og Nicolai H. Brand");
     }
 
+    /**
+     * Getter for the Pane that the View wraps.
+     * @return The Pane that the View wraps.
+     */
     protected T getParentPane() {
         return parentPane;
     }

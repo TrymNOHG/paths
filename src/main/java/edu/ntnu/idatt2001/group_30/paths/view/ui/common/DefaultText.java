@@ -22,4 +22,25 @@ public class DefaultText {
         return text;
     }
 
+    /**
+     * This method is used to create a medium text using project-wide default settings.
+     * @param textString The text to be displayed.
+     * @return A JavaFX text object.
+     */
+    public static Text medium(String textString) {
+        Text text = new Text(textString);
+        text.setFont(DefaultFont.medium());
+        return text;
+    }
+
+    /**
+     * This method is used to create a small text using project-wide default settings.
+     * @param textString The text to be displayed.
+     * @return A JavaFX text object.
+     */
+    public static Text small(String textString) {
+        Text text = new Text(textString);
+        text.setFont(DefaultFont.small());
+        return text;
+    }
 }
