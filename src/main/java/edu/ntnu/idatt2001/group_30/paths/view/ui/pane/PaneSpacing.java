@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.pane;
+package edu.ntnu.idatt2001.group_30.paths.view.ui.pane;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;

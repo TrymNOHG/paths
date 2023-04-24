@@ -2,11 +2,15 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -19,15 +23,14 @@ import java.lang.reflect.InvocationTargetException;
  * @author Nicolai H. Brand.
  */
 public class View<T extends Pane> {
-    public static final int DEFAULT_WIDTH = 1000;
-    public static final int DEFAULT_HEIGHT = 1000;
+    public static final int DEFAULT_WIDTH = 900;
+    public static final int DEFAULT_HEIGHT = 600;
     private final String stylesheet = "src/main/resources/stylesheet.css";
     private T parentPane;
 
     /**
      * The constructor of the View class.
      * It creates a new instance of the Pane that the View wraps.
-     * @param name The name of the View.
      * @param paneClass The class of the Pane that the View wraps.
      */
     public View(Class<T> paneClass) {
@@ -47,6 +50,14 @@ public class View<T extends Pane> {
         this.parentPane.getChildren().add(node);
     }
 
+    protected void addAll(Node... nodes) {
+        this.parentPane.getChildren().addAll(nodes);
+    }
+
+    protected void addAll(List<Node> nodes) {
+        this.parentPane.getChildren().addAll(nodes);
+    }
+
     /**
      * Method that "converts" the View into a JavaFX Scene.
      * It adds global content to the Scene.
@@ -55,7 +66,7 @@ public class View<T extends Pane> {
      */
     public Scene asScene() {
         //NOTE: the wrapper may not be necessary. I have not found a use for it, although I have a feeling it may be useful :-)
-        AnchorPane wrapper = new AnchorPane();
+        HBox wrapper = new HBox();
         wrapper.getChildren().add(globalContent());
         wrapper.getChildren().add(parentPane);
         wrapper.getStylesheets().add(stylesheet);
@@ -73,5 +84,9 @@ public class View<T extends Pane> {
         text.setX(200);
         text.setY(50);
         return text;
+    }
+
+    protected T getParentPane() {
+        return parentPane;
     }
 }

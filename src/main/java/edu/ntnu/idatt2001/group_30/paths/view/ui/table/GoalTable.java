@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.table;
+package edu.ntnu.idatt2001.group_30.paths.view.ui.table;
 
 
 public class GoalTable<Goal> extends TableDisplay<Goal>{

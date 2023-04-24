@@ -1,14 +1,14 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.HomeController;
+import edu.ntnu.idatt2001.group_30.paths.view.ui.common.DefaultText;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Nicolai H. Brand.
  */
-public class HomeView extends View<BorderPane> {
+public class HomeView extends View<VBox> {
 
     private final HomeController controller;
 
@@ -28,20 +28,16 @@ public class HomeView extends View<BorderPane> {
      * The constructor of the class HomeView.
      */
     public HomeView() {
-        super(BorderPane.class);
+        super(VBox.class);
         controller = new HomeController();
-        Text text = new Text("Paths");
-        text.setFont(new Font(36));
 
-        VBox box = new VBox(30);
-        box.setAlignment(Pos.TOP_LEFT);
-        box.setSpacing(20);
-        box.setPadding(new javafx.geometry.Insets(100));
-        box.getChildren().add(text);
+        VBox parent = getParentPane();
+        parent.setAlignment(Pos.TOP_CENTER);
+        parent.setSpacing(20);
+        parent.setPadding(new javafx.geometry.Insets(100));
 
-        box.getChildren().addAll(getStartMenuButtons());
-
-        add(box);
+        add(DefaultText.big("Paths"));
+        addAll(getStartMenuButtons());
     }
 
     /**
@@ -64,8 +60,8 @@ public class HomeView extends View<BorderPane> {
      * Creates the buttons for the start menu.
      * @return A list of buttons for the start menu.
      */
-    private List<Button> getStartMenuButtons() {
-        List<Button> buttons = new ArrayList<>();
+    private List<Node> getStartMenuButtons() {
+        List<Node> buttons = new ArrayList<>();
         buttons.add(createButton("Nytt spill", controller.goTo(NewGameView.class)));
         buttons.add(createButton("Innstillinger", controller.goTo(NewGameView.class)));
         buttons.add(createButton("Hjelp", controller.goTo(HelpView.class)));
