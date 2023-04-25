@@ -94,4 +94,12 @@ public class StageManager {
     private void updateView() {
         stage.setScene(viewStack.get(viewStack.size() - 1).asScene());
     }
+
+    /**
+     * Returns the primary stage for this application.
+     * @return The primary stage for this application.
+     */
+    public Stage getStage() {
+        return stage;
+    }
 }

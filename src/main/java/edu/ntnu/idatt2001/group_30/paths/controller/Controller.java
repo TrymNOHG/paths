@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.View;
 import edu.ntnu.idatt2001.group_30.paths.view.ViewFactory;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,5 +43,8 @@ public class Controller {
         return actionEvent -> STAGE_MANAGER.goBack();
     }
 
+    public Stage getRootStage() {
+        return STAGE_MANAGER.getStage();
+    }
 }
 

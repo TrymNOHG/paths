@@ -74,7 +74,7 @@ public class View<T extends Pane> {
         BorderPane wrapper = new BorderPane();
         wrapper.setCenter(parentPane);
         wrapper.setBottom(globalFooter());
-        wrapper.getStylesheets().add(stylesheet);
+        //wrapper.getStylesheets().add(stylesheet);
         return new Scene(wrapper, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
