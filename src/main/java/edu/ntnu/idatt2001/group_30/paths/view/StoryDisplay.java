@@ -3,7 +3,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
-import edu.ntnu.idatt2001.group_30.paths.view.pane.PaneSpacing;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pane.PaneSpacing;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 

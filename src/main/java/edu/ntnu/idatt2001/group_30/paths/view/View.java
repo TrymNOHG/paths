@@ -27,7 +27,6 @@ public class View<T extends Pane> {
     /**
      * The constructor of the View class.
      * It creates a new instance of the Pane that the View wraps.
-     * @param name The name of the View.
      * @param paneClass The class of the Pane that the View wraps.
      */
     public View(Class<T> paneClass) {
@@ -74,4 +73,14 @@ public class View<T extends Pane> {
         text.setY(50);
         return text;
     }
+
+    /**
+     * This method retrieves the parent pane.
+     * @return  Parent pane, given as a Generic Parameter T.
+     */
+    public T getParentPane() {
+        return parentPane;
+    }
+
+
 }
