@@ -85,7 +85,7 @@ public class View<T extends Pane> {
      * @return A JavaFX Node that is added to the Scene.
      */
     private Node globalFooter() {
-        return DefaultText.small("Laget av Trym H. Gudvangen og Nicolai H. Brand");
+        return DefaultText.small("Made by Trym H. Gudvangen and Nicolai H. Brand");
     }
 
     /**
