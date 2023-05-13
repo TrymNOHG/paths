@@ -4,7 +4,8 @@ import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalFactory;
-import edu.ntnu.idatt2001.group_30.paths.view.components.AlertDialog;
+import edu.ntnu.idatt2001.group_30.paths.model.utils.TextValidation;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -16,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,10 +72,10 @@ public class NewGameView extends View<BorderPane> {
         playerName.setPromptText("Name");
 
         playerHealth.setPromptText("Health");
-        playerHealth.setTextFormatter(createIntegerTextFormatter());
+        playerHealth.setTextFormatter(TextValidation.createIntegerTextFormatter());
 
         playerGold.setPromptText("Gold");
-        playerGold.setTextFormatter(createIntegerTextFormatter());
+        playerGold.setTextFormatter(TextValidation.createIntegerTextFormatter());
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -95,7 +95,7 @@ public class NewGameView extends View<BorderPane> {
     private VBox createGoalsDropDownVBox() {
         TextField goalsField = new TextField();
         goalSelector.setOnAction((event) -> {
-            TextFormatter<Integer> textFormatter = createIntegerTextFormatter();
+            TextFormatter<Integer> textFormatter = TextValidation.createIntegerTextFormatter();
             switch (goalSelector.getValue()) {
                 case "GoldGoal", "HealthGoal", "ScoreGoal" -> goalsField.setTextFormatter(textFormatter);
                 case "InventoryGoal" -> goalsField.setTextFormatter(null);
@@ -267,16 +267,6 @@ public class NewGameView extends View<BorderPane> {
             System.err.println("Unable to load image: " + imagePath);
         }
         return button;
-    }
-
-    private TextFormatter<Integer> createIntegerTextFormatter() {
-        return new TextFormatter<>(new IntegerStringConverter(), 100, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
-                return change;
-            }
-            return null;
-        });
     }
 
 

@@ -56,7 +56,7 @@ public class View<T extends Pane> {
     public Scene asScene() {
         //NOTE: the wrapper may not be necessary. I have not found a use for it, although I have a feeling it may be useful :-)
         AnchorPane wrapper = new AnchorPane();
-        wrapper.getChildren().add(globalContent());
+//        wrapper.getChildren().add(globalContent()); //TODO: add if global content
         wrapper.getChildren().add(parentPane);
         wrapper.getStylesheets().add(stylesheet);
         return new Scene(wrapper, DEFAULT_WIDTH, DEFAULT_HEIGHT);

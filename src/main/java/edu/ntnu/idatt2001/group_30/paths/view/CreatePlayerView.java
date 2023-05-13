@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.CreatePlayerController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.GoalsPopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.StatsPopUp;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -53,9 +54,7 @@ public class CreatePlayerView extends View<BorderPane> {
         statsButton.setOnAction(e -> new StatsPopUp());
 
         // Goals pop up
-        goalsButton.setOnAction(e -> {
-            // Put your goals pop up code here
-        });
+        goalsButton.setOnAction(e -> new GoalsPopUp());
 
         // Bottom: Name and Continue
         nameField = new TextField();
