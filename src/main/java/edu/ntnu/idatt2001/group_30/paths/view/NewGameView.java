@@ -2,7 +2,11 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalFactory;
 import edu.ntnu.idatt2001.group_30.paths.view.components.AlertDialog;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -66,24 +70,12 @@ public class NewGameView extends View<BorderPane> {
 
     private GridPane createPlayerFieldsGridPane() {
         playerName.setPromptText("Name");
-        playerHealth.setPromptText("Health");
 
-        playerHealth.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 100, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
-                return change;
-            }
-            return null;
-        }));
+        playerHealth.setPromptText("Health");
+        playerHealth.setTextFormatter(createIntegerTextFormatter());
 
         playerGold.setPromptText("Gold");
-        playerGold.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 100, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
-                return change;
-            }
-            return null;
-        }));
+        playerGold.setTextFormatter(createIntegerTextFormatter());
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -101,9 +93,58 @@ public class NewGameView extends View<BorderPane> {
     }
 
     private VBox createGoalsDropDownVBox() {
+        TextField goalsField = new TextField();
+        goalSelector.setOnAction((event) -> {
+            TextFormatter<Integer> textFormatter = createIntegerTextFormatter();
+            switch (goalSelector.getValue()) {
+                case "GoldGoal", "HealthGoal", "ScoreGoal" -> goalsField.setTextFormatter(textFormatter);
+                case "InventoryGoal" -> goalsField.setTextFormatter(null);
+            }
+
+        });
+
         goalSelector.getItems().addAll("GoldGoal", "HealthGoal", "InventoryGoal", "ScoreGoal");
-        return new VBox(10, new Label("Select a goal:"), goalSelector);
+        Button submit = new Button("Confirm");
+        HBox goalsBox = new HBox(new Label("Select a goal:"), goalSelector, goalsField, submit);
+        submit.setOnAction(event -> {
+            Goal<?> selectedGoal = GoalFactory.getGoal(goalSelector.getValue(), goalsField.getText());
+            INSTANCE.addGoal(selectedGoal);
+            System.out.println(INSTANCE.getGoals());
+
+            String selectedValue = goalSelector.getValue();
+            if (selectedValue != null) {
+                goalSelector.getItems().remove(selectedValue);
+            }
+            goalSelector.getSelectionModel().clearSelection();
+            goalsField.clear();
+        });
+
+
+        ObservableList<Goal<?>> goalsList = INSTANCE.getGoals();
+
+
+        VBox visualGoalsContainer = new VBox();
+        visualGoalsContainer.setAlignment(Pos.CENTER);
+        for (Goal<?> goal : goalsList) {
+            Label goalLabel = new Label(goal.toString());
+            visualGoalsContainer.getChildren().add(goalLabel);
+        }
+
+        ListChangeListener<Goal<?>> goalsListener = change -> {
+            visualGoalsContainer.getChildren().clear();
+            for (Goal<?> goal : change.getList()) {
+                Label goalLabel = new Label(goal.toString());
+                visualGoalsContainer.getChildren().add(goalLabel);
+            }
+            if (change.getList().size() == 4) {
+                goalsBox.getChildren().clear();
+            }
+        };
+        goalsList.addListener(goalsListener);
+
+        return new VBox(10, goalsBox, visualGoalsContainer);
     }
+
 
     private VBox createPlayerContainerVBox(GridPane playerForm) {
         playerForm.setAlignment(Pos.CENTER);
@@ -162,6 +203,14 @@ public class NewGameView extends View<BorderPane> {
         BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
         Button loadButton = new Button("Load");
+        Button newButton = new Button("New");
+
+        HBox buttonBox = new HBox(10, loadButton, newButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonVBox = new VBox(buttonBox);
+        buttonVBox.setAlignment(Pos.CENTER);
+        titlePane.setCenter(buttonVBox);
+
         loadButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Paths files (*.paths)", "*.paths"));
@@ -179,20 +228,20 @@ public class NewGameView extends View<BorderPane> {
                             .build();
                     storyVBox.setAlignment(Pos.CENTER);
 
-                    Button newButton = new Button("New");
 
                     Button pencilButton = createIconButton("/images/pencil.png", 16, 16);
                     Button xButton = createIconButton("/images/remove.png", 16, 16);
-                    xButton.setOnAction(event -> {
-                        buttonVBox.getChildren().removeAll(pencilButton, xButton);
-                        buttonVBox.getChildren().addAll(loadButton, newButton);
-                    });
 
                     HBox buttonIcons = new HBox(10, pencilButton, xButton);
                     buttonIcons.setAlignment(Pos.CENTER_LEFT);
 
                     VBox storyContainer = new VBox(storyVBox, buttonIcons);
                     storyContainer.setAlignment(Pos.CENTER);
+
+                    xButton.setOnAction(event -> {
+                        titlePane.getChildren().remove(storyContainer);
+                        titlePane.setCenter(buttonBox);
+                    });
 
                     titlePane.setCenter(storyContainer);
                 } catch (RuntimeException runtimeException) {
@@ -202,15 +251,6 @@ public class NewGameView extends View<BorderPane> {
                 }
             }
         });
-
-        Button newButton = new Button("New");
-        // newButton.setOnAction(e -> newGameController.createNew());
-        HBox buttonBox = new HBox(10, loadButton, newButton);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonVBox = new VBox(buttonBox);
-        buttonVBox.setAlignment(Pos.CENTER);
-
-        titlePane.setCenter(buttonVBox);
 
         return titlePane;
     }
@@ -229,7 +269,15 @@ public class NewGameView extends View<BorderPane> {
         return button;
     }
 
-
+    private TextFormatter<Integer> createIntegerTextFormatter() {
+        return new TextFormatter<>(new IntegerStringConverter(), 100, change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("-?([1-9][0-9]*)?")) {
+                return change;
+            }
+            return null;
+        });
+    }
 
 
 }
