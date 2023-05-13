@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.ui.common;
+package edu.ntnu.idatt2001.group_30.paths.view.components.common;
 
 import javafx.scene.text.Font;
 

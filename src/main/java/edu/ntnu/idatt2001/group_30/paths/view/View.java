@@ -1,11 +1,12 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
-import edu.ntnu.idatt2001.group_30.paths.view.ui.common.DefaultText;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -18,9 +19,9 @@ import java.util.List;
  * @author Nicolai H. Brand.
  */
 public class View<T extends Pane> {
-    public static final int DEFAULT_WIDTH = 900;
-    public static final int DEFAULT_HEIGHT = 600;
-    private final String stylesheet = "src/main/resources/stylesheet.css";
+    public static final int DEFAULT_WIDTH = 1000;
+    public static final int DEFAULT_HEIGHT = 1000;
+    private final String stylesheet = Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm();
     private T parentPane;
 
     /**
@@ -94,4 +95,5 @@ public class View<T extends Pane> {
     protected T getParentPane() {
         return parentPane;
     }
+
 }

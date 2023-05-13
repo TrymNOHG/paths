@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.ui.table;
+package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -64,6 +64,19 @@ public class StoryFileHandler {
     public Story readStoryFromFile(String fileName) throws IOException, InstantiationException {
         Objects.requireNonNull(fileName, "File name cannot be null");
         File file = new File(FileHandler.getFileSourcePath(fileName));
+        return readStoryFromFile(file);
+    }
+
+    //TODO: test new readStory method... basically same as earlier
+
+    /**
+     * This method takes a story file and parses it to create a story object.
+     * @param file      The story file, given as a File object.
+     * @return              The story from the file, given as a Story object.
+     * @throws IOException  This exception is thrown if an I/O error occurs with the reader.
+     */
+    public Story readStoryFromFile(File file) throws IOException, InstantiationException {
+        Objects.requireNonNull(file, "File does not exist");
         if(!FileHandler.fileExists(file)) throw new IllegalArgumentException("There is no story file with that name!");
         Story story;
 
@@ -74,7 +87,8 @@ public class StoryFileHandler {
             List<String> passageInfo = new ArrayList<>(List.of(bufferedReader.lines()
                     .collect(Collectors.joining("\n")).split("\n::")));
 
-            if(passageInfo.size() == 1) throw new CorruptFileException(storyTitle);
+            if(passageInfo.size() == 1) throw new CorruptFileException("The title of a passage was corrupt.\nPassage title: "
+                    + storyTitle + "\nThe expected format is ::PASSAGE TITLE NAME");
             passageInfo.remove(0);
 
             Passage openingPassage = parseStringToPassage(passageInfo.remove(0));
@@ -117,7 +131,8 @@ public class StoryFileHandler {
      * @return          The link, given as a Link object.
      */
     private Link parseStringToLink(String linkInfo){
-        if(!LINK_PATTERN.matcher(linkInfo).matches()) throw new CorruptLinkException(linkInfo);
+        if(!LINK_PATTERN.matcher(linkInfo).matches()) throw new CorruptLinkException("The link info is corrupt in the file.\n" +
+                "Link info: " + linkInfo + "\nThe link should be in this form [Link Name](Reference)");
         String text = linkInfo.substring(linkInfo.indexOf("[") + 1, linkInfo.indexOf("]") );
         String reference = linkInfo.substring(linkInfo.indexOf("(") + 1, linkInfo.indexOf(")"));
 

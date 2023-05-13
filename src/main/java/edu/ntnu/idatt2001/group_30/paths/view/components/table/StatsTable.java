@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.ui.table;
+package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
 public class StatsTable<Player> extends TableDisplay<Player> {
     /**

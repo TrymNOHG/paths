@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.HelpController;
-import edu.ntnu.idatt2001.group_30.paths.view.ui.common.DefaultButton;
-import edu.ntnu.idatt2001.group_30.paths.view.ui.common.DefaultText;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
