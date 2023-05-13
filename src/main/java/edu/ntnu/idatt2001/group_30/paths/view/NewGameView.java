@@ -16,6 +16,7 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
@@ -27,12 +28,12 @@ import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
  */
 public class NewGameView extends View<BorderPane> {
 
-    private NewGameController newGameController;
+    private final NewGameController newGameController;
 
-    private TextField playerName;
-    private TextField playerHealth;
-    private TextField playerGold;
-    private ComboBox<String> goalSelector;
+    private final TextField playerName;
+    private final TextField playerHealth;
+    private final TextField playerGold;
+    private final ComboBox<String> goalSelector;
     private BorderPane titlePane;
     private VBox buttonVBox;
 
@@ -180,24 +181,15 @@ public class NewGameView extends View<BorderPane> {
 
                     Button newButton = new Button("New");
 
-                    // Create pencil button
-                    Button pencilButton = new Button();
-                    pencilButton.setGraphic(new ImageView("/path/to/pencil.png")); // Replace with the path to your pencil image
-
-                    // Create X button
-                    Button xButton = new Button();
-                    xButton.setGraphic(new ImageView("/path/to/x.png")); // Replace with the path to your X image
+                    Button pencilButton = createIconButton("/images/pencil.png", 16, 16);
+                    Button xButton = createIconButton("/images/remove.png", 16, 16);
                     xButton.setOnAction(event -> {
-                        // Hide the pencil and X buttons and show the load and new buttons
                         buttonVBox.getChildren().removeAll(pencilButton, xButton);
                         buttonVBox.getChildren().addAll(loadButton, newButton);
                     });
 
-                    // Create HBox for the pencil and X buttons
                     HBox buttonIcons = new HBox(10, pencilButton, xButton);
                     buttonIcons.setAlignment(Pos.CENTER_LEFT);
-
-                    // Create VBox for the story and button icons
 
                     VBox storyContainer = new VBox(storyVBox, buttonIcons);
                     storyContainer.setAlignment(Pos.CENTER);
@@ -222,6 +214,21 @@ public class NewGameView extends View<BorderPane> {
 
         return titlePane;
     }
+
+    private Button createIconButton(String imagePath, int width, int height) {
+        Button button = new Button();
+        URL imageUrl = getClass().getResource(imagePath);
+        if (imageUrl != null) {
+            ImageView imageView = new ImageView(imageUrl.toString());
+            imageView.setFitWidth(width);
+            imageView.setFitHeight(height);
+            button.setGraphic(imageView);
+        } else {
+            System.err.println("Unable to load image: " + imagePath);
+        }
+        return button;
+    }
+
 
 
 
