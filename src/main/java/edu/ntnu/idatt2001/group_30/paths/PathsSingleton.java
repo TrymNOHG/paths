@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import edu.ntnu.idatt2001.group_30.paths.model.Story;
+
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
  * restricts the amount of instances of the enumeration to one. This is essential for the enumeration's purpose.
@@ -10,7 +12,24 @@ package edu.ntnu.idatt2001.group_30.paths;
 public enum PathsSingleton {
     INSTANCE;
 
+    private Story story;
     private boolean passageMoving = false;
+
+    /**
+     * This method gets the current selected story.
+     * @return  Current selected story, given as a Story object.
+     */
+    public Story getStory() {
+        return story;
+    }
+
+    /**
+     * This method sets story being played.
+     * @param story Story being played, given as a Story object.
+     */
+    public void setStory(Story story) {
+        this.story = story;
+    }
 
     /**
      * This method checks whether a passage is currently being moved.

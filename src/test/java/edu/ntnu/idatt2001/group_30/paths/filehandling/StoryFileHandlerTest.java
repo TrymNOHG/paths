@@ -229,7 +229,7 @@ class StoryFileHandlerTest {
         @Test
         void a_null_file_name_when_reading_file_will_throw_NullPointerException(){
             Assertions.assertThrows(NullPointerException.class, () ->{
-                Story story = storyFileHandler.readStoryFromFile(null);
+                Story story = storyFileHandler.readStoryFromFile((String) null);
             });
         }
 

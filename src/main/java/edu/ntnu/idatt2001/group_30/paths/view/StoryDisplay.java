@@ -7,6 +7,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.components.pane.PaneSpacing;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -80,6 +81,15 @@ public class StoryDisplay extends VBox{
             Text storyName = new Text(story.getTitle());
             storyName.setUnderline(true);
             this.hBoxList.add(PaneSpacing.createHBoxWithSpacing(storyName));
+            return this;
+        }
+
+        public Builder addFileInfo(File file) throws IOException {
+            this.storyFileName = file.getName().replace(".paths", "");
+            this.location = file.getAbsolutePath();
+            addFileNameInfo();
+            addTimeSavedInfo();
+            addFileLocationInfo();
             return this;
         }
 
