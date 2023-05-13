@@ -1,14 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.HomeController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.List;
  *
  * @author Nicolai H. Brand.
  */
-public class HomeView extends View<BorderPane> {
+public class HomeView extends View<VBox> {
 
     private final HomeController controller;
 
@@ -28,36 +25,16 @@ public class HomeView extends View<BorderPane> {
      * The constructor of the class HomeView.
      */
     public HomeView() {
-        super(BorderPane.class);
+        super(VBox.class);
         controller = new HomeController();
-        Text text = new Text("Paths");
-        text.setFont(new Font(36));
 
-        VBox box = new VBox(30);
-        box.setAlignment(Pos.TOP_LEFT);
-        box.setSpacing(20);
-        box.setPadding(new javafx.geometry.Insets(100));
-        box.getChildren().add(text);
+        VBox parent = getParentPane();
+        parent.setAlignment(Pos.TOP_CENTER);
+        parent.setSpacing(20);
+        parent.setPadding(new javafx.geometry.Insets(100));
 
-        box.getChildren().addAll(getStartMenuButtons());
-
-        add(box);
-    }
-
-    /**
-     * Creates a button with the given text and action.
-     * @param text The text to be displayed on the button.
-     * @param action The action to be performed when the button is clicked.
-     * @return The created button.
-     */
-    private Button createButton(String text, EventHandler<ActionEvent> action) {
-        Button button = new Button(text);
-        button.setMinWidth(200);
-        button.setMinHeight(100);
-        button.setFont(new Font(16));
-        button.setAlignment(Pos.CENTER);
-        button.setOnAction(action);
-        return button;
+        add(DefaultText.big("Paths"));
+        addAll(getStartMenuButtons());
     }
 
     /**
