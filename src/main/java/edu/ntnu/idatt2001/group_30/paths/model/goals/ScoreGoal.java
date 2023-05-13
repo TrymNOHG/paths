@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class ScoreGoal implements Goal {
+public class ScoreGoal implements Goal<Integer> {
 
     private final int minimumPoints;
 

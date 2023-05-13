@@ -9,7 +9,7 @@ import edu.ntnu.idatt2001.group_30.paths.model.Player;
  * @author Trym Hamer Gudvangen
  */
 @FunctionalInterface
-public interface Goal {
+public interface Goal<T> {
 
     /**
      * This method checks that the player has fulfilled a certain condition of:

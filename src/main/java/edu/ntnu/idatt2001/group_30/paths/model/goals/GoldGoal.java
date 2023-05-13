@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class GoldGoal implements Goal {
+public class GoldGoal implements Goal<Integer> {
 
     private final int minimumGold;
 
