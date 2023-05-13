@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view.components;
+package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidButtonException;
 import javafx.scene.control.Alert;

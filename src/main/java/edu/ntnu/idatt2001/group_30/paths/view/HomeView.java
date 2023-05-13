@@ -66,7 +66,7 @@ public class HomeView extends View<BorderPane> {
      */
     private List<Button> getStartMenuButtons() {
         List<Button> buttons = new ArrayList<>();
-        buttons.add(createButton("Nytt spill", controller.goTo(NewGameView.class)));
+        buttons.add(createButton("Nytt spill", controller.goTo(CreatePlayerView.class)));
         buttons.add(createButton("Innstillinger", controller.goTo(NewGameView.class)));
         buttons.add(createButton("Hjelp", controller.goTo(HelpView.class)));
         return buttons;

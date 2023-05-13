@@ -1,8 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
 public class PopUp<T extends Region, SELF extends PopUp<T, SELF>> extends Dialog<Void> {
@@ -30,6 +28,19 @@ public class PopUp<T extends Region, SELF extends PopUp<T, SELF>> extends Dialog
 
     public SELF withButton(ButtonType buttonType) {
         dialogPane.getButtonTypes().add(buttonType);
+        return self();
+    }
+
+    public SELF withoutCloseButton() {
+        // Add a close button type to the dialog
+        ButtonType closeButtonType = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialogPane.getButtonTypes().add(closeButtonType);
+
+        // Get the actual button and make it invisible and unmanaged
+        Button closeButton = (Button) dialogPane.lookupButton(closeButtonType);
+        closeButton.setVisible(false);
+        closeButton.setManaged(false);
+
         return self();
     }
 
