@@ -5,22 +5,42 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.Region;
 
-public class PopUp<T extends Region> extends Dialog<Void> {
+public class PopUp<T extends Region, SELF extends PopUp<T, SELF>> extends Dialog<Void> {
 
-    public PopUp(T content, String title) {
-        setTitle(title);
-        setResizable(true);
+    private final DialogPane dialogPane;
 
-        DialogPane dialogPane = new DialogPane();
+    protected PopUp() {
+        dialogPane = new DialogPane();
         setDialogPane(dialogPane);
-
-        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
-
-        dialogPane.setContent(content);
     }
 
-    public void setDialogSize(double width, double height) {
+    public static <T extends Region> PopUp<T, ?> create() {
+        return new PopUp<>();
+    }
+
+    public SELF withTitle(String title) {
+        setTitle(title);
+        return self();
+    }
+
+    public SELF withContent(T content) {
+        dialogPane.setContent(content);
+        return self();
+    }
+
+    public SELF withButton(ButtonType buttonType) {
+        dialogPane.getButtonTypes().add(buttonType);
+        return self();
+    }
+
+    public SELF withDialogSize(double width, double height) {
         getDialogPane().setMinSize(width, height);
         getDialogPane().setMaxSize(width, height);
+        return self();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected SELF self() {
+        return (SELF) this;
     }
 }
