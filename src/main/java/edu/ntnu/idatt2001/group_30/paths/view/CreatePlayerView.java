@@ -56,16 +56,19 @@ public class CreatePlayerView extends View<BorderPane> {
         goalsButton.setOnAction(e -> new GoalsPopUp());
 
         List<String> headURIs = new ArrayList<>();
-        headURIs.add("/images/head1.png");
-        headURIs.add("/images/remove.png");
+        headURIs.add("/images/RedHair.png");
+        headURIs.add("/images/BlueHair.png");
+        headURIs.add("/images/GreenHair.png");
 
         List<String> torsoURIs = new ArrayList<>();
-        torsoURIs.add("/images/torso1.png");
-        torsoURIs.add("/images/remove.png");
+        torsoURIs.add("/images/RedTorso.png");
+        torsoURIs.add("/images/BlueTorso.png");
+        torsoURIs.add("/images/GreenTorso.png");
 
         List<String> legsURIs = new ArrayList<>();
-        legsURIs.add("/images/legs1.png");
-        legsURIs.add("/images/remove.png");
+        legsURIs.add("/images/RedLegs.png");
+        legsURIs.add("/images/BlueLegs.png");
+        legsURIs.add("/images/GreenLegs.png");
 
         ImageCarousel headCarousel = new ImageCarousel(headURIs);
         ImageCarousel headCarousel2 = new ImageCarousel(torsoURIs);
