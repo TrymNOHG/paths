@@ -33,4 +33,13 @@ public class HealthGoal implements Goal<Integer> {
         Objects.requireNonNull(player);
         return player.getHealth() >= this.minimumHealth;
     }
+
+    /**
+     * This method retrieves the goal value.
+     * @return The minimum health goal, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumHealth;
+    }
 }

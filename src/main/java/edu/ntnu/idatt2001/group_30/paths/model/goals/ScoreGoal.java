@@ -31,4 +31,13 @@ public class ScoreGoal implements Goal<Integer> {
         Objects.requireNonNull(player);
         return player.getScore() >= this.minimumPoints;
     }
+
+    /**
+     * This method retrieves the goal value.
+     * @return Minimum points, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumPoints;
+    }
 }

@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
+import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalFactory;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalType;
 import edu.ntnu.idatt2001.group_30.paths.model.utils.TextValidation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.List;
+
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 public class GoalsPopUp {
 
@@ -22,15 +27,18 @@ public class GoalsPopUp {
 
     public GoalsPopUp() {
         healthField = new TextField();
-        healthField.setTextFormatter(TextValidation.createIntegerTextFormatter());
+        healthField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getHealthGoal() == null ?
+                100 : INSTANCE.getHealthGoal().getGoalValue()));
         healthField.setPromptText("Add health goal");
 
         goldField = new TextField();
-        goldField.setTextFormatter(TextValidation.createIntegerTextFormatter());
+        goldField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getGoldGoal() == null ?
+                        100 : INSTANCE.getGoldGoal().getGoalValue()));
         goldField.setPromptText("Add gold goal");
 
         scoreField = new TextField();
-        scoreField.setTextFormatter(TextValidation.createIntegerTextFormatter());
+        scoreField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getScoreGoal() == null ?
+                100 : INSTANCE.getScoreGoal().getGoalValue()));
         scoreField.setPromptText("Add score goal");
 
         saveButton = new Button("Save");
@@ -46,6 +54,9 @@ public class GoalsPopUp {
         //
 
         ObservableList<String> items = FXCollections.observableArrayList();
+        if(INSTANCE.getInventoryGoal() != null) {
+            items.addAll(INSTANCE.getInventoryGoal().getGoalValue());
+        }
         TableView<String> inventoryTable = new TableView<>(items);
         TableColumn<String, String> itemColumn = new TableColumn<>("Items");
         itemColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
@@ -91,7 +102,7 @@ public class GoalsPopUp {
         content.setSpacing(20);
 
         ScrollPane scrollPane = new ScrollPane(content);
-        scrollPane.setFitToWidth(true);  // If you want the content to always fill the width of the scroll pane
+        scrollPane.setFitToWidth(true);
 
         PopUp<ScrollPane, ?> popUp = PopUp.<ScrollPane>create()
                 .withTitle("Add goals to your player")
@@ -103,6 +114,11 @@ public class GoalsPopUp {
             if(healthField.getText().isBlank() || goldField.getText().isBlank()) {
                 AlertDialog.showWarning("The different fields cannot be blank.");
             } else {
+                INSTANCE.changeGoal(GoalFactory.getGoal(GoalType.HEALTH_GOAL, healthField.getText()));
+                INSTANCE.changeGoal(GoalFactory.getGoal(GoalType.GOLD_GOAL, goldField.getText()));
+                INSTANCE.changeGoal(GoalFactory.getGoal(GoalType.SCORE_GOAL, scoreField.getText()));
+                INSTANCE.changeGoal(GoalFactory.getGoal(GoalType.INVENTORY_GOAL, items));
+
                 popUp.close();
             }
         });

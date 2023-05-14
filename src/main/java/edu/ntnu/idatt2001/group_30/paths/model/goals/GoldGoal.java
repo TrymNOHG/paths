@@ -32,4 +32,13 @@ public class GoldGoal implements Goal<Integer> {
         Objects.requireNonNull(player);
         return player.getGold() >= this.minimumGold;
     }
+
+    /**
+     * This method retrieves the goal value.
+     * @return  The minimum gold, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumGold;
+    }
 }

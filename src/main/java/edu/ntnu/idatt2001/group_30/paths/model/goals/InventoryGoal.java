@@ -39,6 +39,15 @@ public class InventoryGoal implements Goal<List<String>> {
         this.mandatoryItems.addAll(inventoryGoal.mandatoryItems);
     }
 
+    /**
+     * This method retrieves the goal value.
+     * @return Mandatory items, given as a List of String objects.
+     */
+    @Override
+    public List<String> getGoalValue() {
+        return this.mandatoryItems;
+    }
+
     @Override
     public String toString() {
         return "InventoryGoal{" +
