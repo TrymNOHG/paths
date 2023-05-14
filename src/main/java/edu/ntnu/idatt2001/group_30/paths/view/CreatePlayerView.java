@@ -44,6 +44,9 @@ public class CreatePlayerView extends View<BorderPane> {
         topBox.setPadding(new Insets(20, 0, 20, 0));
         getParentPane().setTop(topBox);
 
+        getParentPane().getStyleClass().add("create-player-view");
+        getParentPane().getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
+
 
         Button statsButton = new Button("Stats");
         URL imageUrl = getClass().getResource("/images/stats.png");
@@ -66,6 +69,9 @@ public class CreatePlayerView extends View<BorderPane> {
         } else {
             System.err.println("Unable to load image: /images/stats.png");
         }
+
+        statsButton.getStyleClass().add("stats-button");
+        goalsButton.getStyleClass().add("goals-button");
 
         VBox leftVBox = new VBox(statsButton, goalsButton);
         leftVBox.setSpacing(20);
@@ -100,6 +106,9 @@ public class CreatePlayerView extends View<BorderPane> {
                 headCarousel3.getCarousel());
         centerBox.setAlignment(Pos.CENTER);
 
+        leftVBox.getStyleClass().add("left-vbox");
+
+
         nameField = new TextField();
         if(Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
             nameField.setPromptText("Enter your name");
@@ -116,6 +125,12 @@ public class CreatePlayerView extends View<BorderPane> {
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
         centerBox.getChildren().add(bottomBox);
         getParentPane().setCenter(centerBox);
+
+        centerBox.getStyleClass().add("center-box");
+        nameField.getStyleClass().add("name-field");
+
+        continueButton.getStyleClass().add("continue-button");
+        returnButton.getStyleClass().add("return-button");
 
         continueButton.setOnAction(event -> {
             try {
