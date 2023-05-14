@@ -1,13 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.InventoryGoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
@@ -20,8 +18,9 @@ public enum PathsSingleton {
     INSTANCE;
 
     private Story story;
+    private Player player = new Player("Default", 100, 100, 100);
     private boolean passageMoving = false;
-    private final ObservableList<Goal<?>> goals = FXCollections.observableArrayList();;
+    private final ObservableList<Goal<?>> goals = FXCollections.observableArrayList();
 
     /**
      * This method gets the current selected story.
@@ -37,6 +36,14 @@ public enum PathsSingleton {
      */
     public void setStory(Story story) {
         this.story = story;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public ObservableList<Goal<?>> getGoals() {

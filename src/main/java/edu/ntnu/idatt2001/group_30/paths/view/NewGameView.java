@@ -2,18 +2,12 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalFactory;
-import edu.ntnu.idatt2001.group_30.paths.model.utils.TextValidation;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -34,10 +28,6 @@ public class NewGameView extends View<BorderPane> {
 
     private final NewGameController newGameController;
 
-    private final TextField playerName;
-    private final TextField playerHealth;
-    private final TextField playerGold;
-    private final ComboBox<String> goalSelector;
     private BorderPane titlePane;
     private VBox buttonVBox;
 
@@ -52,114 +42,17 @@ public class NewGameView extends View<BorderPane> {
 
         BorderPane titlePane = createTitlePane();
 
-        playerName = new TextField();
-        playerHealth = new TextField();
-        playerGold = new TextField();
-        goalSelector = new ComboBox<>();
 
-        GridPane playerForm = createPlayerFieldsGridPane();
-
-        VBox playerContainer = createPlayerContainerVBox(playerForm);
-        VBox goalContainer = createGoalsDropDownVBox();
-        goalContainer.setAlignment(Pos.CENTER);
-        VBox mainContainer = createMainContainerVBox(titlePane, playerContainer, goalContainer);
+        VBox mainContainer = createMainContainerVBox(titlePane);
 
         setupParentPane(mainContainer);
 
     }
 
-    private GridPane createPlayerFieldsGridPane() {
-        playerName.setPromptText("Name");
 
-        playerHealth.setPromptText("Health");
-        playerHealth.setTextFormatter(TextValidation.createIntegerTextFormatter());
-
-        playerGold.setPromptText("Gold");
-        playerGold.setTextFormatter(TextValidation.createIntegerTextFormatter());
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(10));
-
-        grid.add(new Label("Name:"), 0, 0);
-        grid.add(playerName, 1, 0);
-        grid.add(new Label("Health:"), 0, 1);
-        grid.add(playerHealth, 1, 1);
-        grid.add(new Label("Gold:"), 0, 2);
-        grid.add(playerGold, 1, 2);
-
-        return grid;
-    }
-
-    private VBox createGoalsDropDownVBox() {
-        TextField goalsField = new TextField();
-        goalSelector.setOnAction((event) -> {
-            TextFormatter<Integer> textFormatter = TextValidation.createIntegerTextFormatter();
-            switch (goalSelector.getValue()) {
-                case "GoldGoal", "HealthGoal", "ScoreGoal" -> goalsField.setTextFormatter(textFormatter);
-                case "InventoryGoal" -> goalsField.setTextFormatter(null);
-            }
-
-        });
-
-        goalSelector.getItems().addAll("GoldGoal", "HealthGoal", "InventoryGoal", "ScoreGoal");
-        Button submit = new Button("Confirm");
-        HBox goalsBox = new HBox(new Label("Select a goal:"), goalSelector, goalsField, submit);
-        submit.setOnAction(event -> {
-            Goal<?> selectedGoal = GoalFactory.getGoal(goalSelector.getValue(), goalsField.getText());
-            INSTANCE.addGoal(selectedGoal);
-            System.out.println(INSTANCE.getGoals());
-
-            String selectedValue = goalSelector.getValue();
-            if (selectedValue != null) {
-                goalSelector.getItems().remove(selectedValue);
-            }
-            goalSelector.getSelectionModel().clearSelection();
-            goalsField.clear();
-        });
-
-
-        ObservableList<Goal<?>> goalsList = INSTANCE.getGoals();
-
-
-        VBox visualGoalsContainer = new VBox();
-        visualGoalsContainer.setAlignment(Pos.CENTER);
-        for (Goal<?> goal : goalsList) {
-            Label goalLabel = new Label(goal.toString());
-            visualGoalsContainer.getChildren().add(goalLabel);
-        }
-
-        ListChangeListener<Goal<?>> goalsListener = change -> {
-            visualGoalsContainer.getChildren().clear();
-            for (Goal<?> goal : change.getList()) {
-                Label goalLabel = new Label(goal.toString());
-                visualGoalsContainer.getChildren().add(goalLabel);
-            }
-            if (change.getList().size() == 4) {
-                goalsBox.getChildren().clear();
-            }
-        };
-        goalsList.addListener(goalsListener);
-
-        return new VBox(10, goalsBox, visualGoalsContainer);
-    }
-
-
-    private VBox createPlayerContainerVBox(GridPane playerForm) {
-        playerForm.setAlignment(Pos.CENTER);
-        playerForm.setVgap(20);
-        VBox playerContainer = new VBox();
-        playerContainer.getChildren().addAll(new Label("Create Player"), playerForm);
-        playerContainer.setAlignment(Pos.CENTER);
-        playerContainer.setSpacing(20);
-
-        return playerContainer;
-    }
-
-    private VBox createMainContainerVBox(BorderPane titlePane, VBox playerContainer, VBox goalContainer) {
+    private VBox createMainContainerVBox(BorderPane titlePane) {
         VBox mainContainer = new VBox();
-        mainContainer.getChildren().addAll(titlePane, playerContainer, goalContainer);
+        mainContainer.getChildren().addAll(titlePane);
         mainContainer.setAlignment(Pos.CENTER);
         mainContainer.setSpacing(40);
 

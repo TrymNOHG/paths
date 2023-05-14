@@ -2,19 +2,26 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.CreatePlayerController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
+import edu.ntnu.idatt2001.group_30.paths.view.components.ImageCarousel;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.GoalsPopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.StatsPopUp;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 public class CreatePlayerView extends View<BorderPane> {
 
@@ -27,7 +34,6 @@ public class CreatePlayerView extends View<BorderPane> {
 
         createPlayerController = new CreatePlayerController();
 
-        // Top: Title
         Text title = new Text("Create Your Player");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         VBox topBox = new VBox(title);
@@ -35,40 +41,62 @@ public class CreatePlayerView extends View<BorderPane> {
         topBox.setPadding(new Insets(20, 0, 20, 0));
         getParentPane().setTop(topBox);
 
-        // Center: Player Image Carousel
-        // Here you would use a more complex control than an ImageView, but this is just an example.
-        ImageView playerView = new ImageView();
-        VBox centerBox = new VBox(playerView);
-        centerBox.setAlignment(Pos.CENTER);
-        getParentPane().setCenter(centerBox);
 
-        // Left: Stats and Goals
         Button statsButton = new Button("Stats");
         Button goalsButton = new Button("Goals");
-        VBox leftBox = new VBox(statsButton, goalsButton);
-        leftBox.setSpacing(20);
-        leftBox.setPadding(new Insets(0, 20, 0, 20));
-        getParentPane().setLeft(leftBox);
+        VBox leftVBox = new VBox(statsButton, goalsButton);
+        leftVBox.setSpacing(20);
+        leftVBox.setPadding(new Insets(300, 20, 0, 20));
+        HBox leftHBox = new HBox(leftVBox);
+        leftHBox.setAlignment(Pos.CENTER_LEFT);
+        getParentPane().setLeft(leftHBox);
 
-        // Stats pop up
         statsButton.setOnAction(e -> new StatsPopUp());
 
-        // Goals pop up
         goalsButton.setOnAction(e -> new GoalsPopUp());
 
-        // Bottom: Name and Continue
+        List<String> headURIs = new ArrayList<>();
+        headURIs.add("/images/head1.png");
+        headURIs.add("/images/remove.png");
+
+        List<String> torsoURIs = new ArrayList<>();
+        torsoURIs.add("/images/torso1.png");
+        torsoURIs.add("/images/remove.png");
+
+        List<String> legsURIs = new ArrayList<>();
+        legsURIs.add("/images/legs1.png");
+        legsURIs.add("/images/remove.png");
+
+        ImageCarousel headCarousel = new ImageCarousel(headURIs);
+        ImageCarousel headCarousel2 = new ImageCarousel(torsoURIs);
+        ImageCarousel headCarousel3 = new ImageCarousel(legsURIs);
+        VBox centerBox = new VBox(headCarousel.getCarousel(), headCarousel2.getCarousel(),
+                headCarousel3.getCarousel());
+        centerBox.setAlignment(Pos.CENTER);
+
         nameField = new TextField();
-        nameField.setPromptText("Enter your name");
+        if(Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
+            nameField.setPromptText("Enter your name");
+        } else {
+            nameField.setText(INSTANCE.getPlayer().getName());
+        }
+        nameField.setMinWidth(200);
+
         continueButton = new Button("Continue");
         returnButton = new Button("Return");
         HBox bottomBox = new HBox(nameField, continueButton, returnButton);
         bottomBox.setSpacing(20);
         bottomBox.setAlignment(Pos.CENTER);
-        bottomBox.setPadding(new Insets(20, 0, 20, 0));
-        getParentPane().setBottom(bottomBox);
-
+        bottomBox.setPadding(new Insets(0, 0, 0, 0));
+        centerBox.getChildren().add(bottomBox);
+        getParentPane().setCenter(centerBox);
         //TODO: include error handling
-        continueButton.setOnAction(createPlayerController.goTo(NewGameView.class));
+        continueButton.setOnAction(event -> {
+            INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
+                    INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
+            createPlayerController.goTo(NewGameView.class).handle(event);
+        });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
+
     }
 }

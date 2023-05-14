@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
+
 public class StatsPopUp {
 
     private TextField healthField;
@@ -15,11 +17,12 @@ public class StatsPopUp {
 
     public StatsPopUp() {
         healthField = new TextField();
-        healthField.setTextFormatter(TextValidation.createIntegerTextFormatter());
+        healthField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getPlayer().getHealth()));
+
         healthField.setPromptText("Add health value");
 
         goldField = new TextField();
-        goldField.setTextFormatter(TextValidation.createIntegerTextFormatter());
+        goldField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getPlayer().getGold()));
         goldField.setPromptText("Add gold value");
 
         saveButton = new Button("Save");
@@ -40,6 +43,8 @@ public class StatsPopUp {
             if(healthField.getText().isBlank() || goldField.getText().isBlank()) {
                 AlertDialog.showWarning("The different fields cannot be blank.");
             } else {
+                INSTANCE.getPlayer().setHealth(Integer.parseInt(healthField.getText()));
+                INSTANCE.getPlayer().setGold(Integer.parseInt(goldField.getText()));
                 popUp.close();
             }
         });
