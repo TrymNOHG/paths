@@ -46,7 +46,16 @@ public class GoalsPopUp {
         TextField inventoryField = new TextField();
         inventoryField.setPromptText("Add inventory item");
 
-        Button addButton = new Button("+");
+        Button addButton = new Button();
+        URL imageUrl = getClass().getResource("/images/plus.png");
+        if(imageUrl != null) {
+            ImageView addIcon = new ImageView(new Image(imageUrl.toString()));
+            addIcon.setFitHeight(25);
+            addIcon.setFitWidth(25);
+            addButton.setGraphic(addIcon);
+        } else {
+            System.err.println("Something is wrong with the trash image resource link");
+        }
 
         //TODO: connect this list to the list of an inventory goal
         // Connect other goals to INSTANCE
@@ -66,7 +75,7 @@ public class GoalsPopUp {
 
 
         Button deleteButton = new Button();
-        URL imageUrl = getClass().getResource("/images/pencil.png");
+        imageUrl = getClass().getResource("/images/trash.png");
         if(imageUrl != null) {
             ImageView trashIcon = new ImageView(new Image(imageUrl.toString()));
             trashIcon.setFitHeight(25);

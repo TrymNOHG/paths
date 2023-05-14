@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.group_30.paths.controller.CreatePlayerController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.view.components.ImageCarousel;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.GoalsPopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.StatsPopUp;
 import javafx.geometry.Insets;
@@ -93,11 +94,15 @@ public class CreatePlayerView extends View<BorderPane> {
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
         centerBox.getChildren().add(bottomBox);
         getParentPane().setCenter(centerBox);
-        //TODO: include error handling
+
         continueButton.setOnAction(event -> {
-            INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
-                    INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
-            createPlayerController.goTo(NewGameView.class).handle(event);
+            try {
+                INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
+                        INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
+                createPlayerController.goTo(NewGameView.class).handle(event);
+            } catch (Exception e) {
+                AlertDialog.showWarning(e.getMessage());
+            }
         });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
 
