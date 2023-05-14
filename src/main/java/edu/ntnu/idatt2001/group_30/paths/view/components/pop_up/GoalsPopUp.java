@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.List;
 
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
@@ -46,12 +45,16 @@ public class GoalsPopUp {
         TextField inventoryField = new TextField();
         inventoryField.setPromptText("Add inventory item");
 
-        Button addButton = new Button("+");
-
-        //TODO: connect this list to the list of an inventory goal
-        // Connect other goals to INSTANCE
-        // Connect stats to INSTANCE and to Player
-        //
+        Button addButton = new Button();
+        URL imageUrl = getClass().getResource("/images/plus.png");
+        if(imageUrl != null) {
+            ImageView addIcon = new ImageView(new Image(imageUrl.toString()));
+            addIcon.setFitHeight(25);
+            addIcon.setFitWidth(25);
+            addButton.setGraphic(addIcon);
+        } else {
+            System.err.println("Something is wrong with the trash image resource link");
+        }
 
         ObservableList<String> items = FXCollections.observableArrayList();
         if(INSTANCE.getInventoryGoal() != null) {
@@ -66,7 +69,7 @@ public class GoalsPopUp {
 
 
         Button deleteButton = new Button();
-        URL imageUrl = getClass().getResource("/images/pencil.png");
+        imageUrl = getClass().getResource("/images/trash.png");
         if(imageUrl != null) {
             ImageView trashIcon = new ImageView(new Image(imageUrl.toString()));
             trashIcon.setFitHeight(25);

@@ -30,6 +30,7 @@ public class NewGameView extends View<BorderPane> {
 
     private BorderPane titlePane;
     private VBox buttonVBox;
+    private Button startButton;
 
     /**
      * The constructor of the View class.
@@ -59,7 +60,8 @@ public class NewGameView extends View<BorderPane> {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
 
-        Button startButton = new Button("Start");
+        startButton = new Button("Start");
+        startButton.setVisible(false);
         startButton.setOnAction(e -> {
             // Start button logic...
         });
@@ -134,9 +136,11 @@ public class NewGameView extends View<BorderPane> {
                     xButton.setOnAction(event -> {
                         titlePane.getChildren().remove(storyContainer);
                         titlePane.setCenter(buttonBox);
+                        startButton.setVisible(false);
                     });
 
                     titlePane.setCenter(storyContainer);
+                    startButton.setVisible(true);
                 } catch (RuntimeException runtimeException) {
                     AlertDialog.showError(runtimeException.getMessage());
                 } catch (IOException ex) {

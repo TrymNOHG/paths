@@ -4,12 +4,14 @@ import edu.ntnu.idatt2001.group_30.paths.controller.CreatePlayerController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.view.components.ImageCarousel;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.GoalsPopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.StatsPopUp;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +46,27 @@ public class CreatePlayerView extends View<BorderPane> {
 
 
         Button statsButton = new Button("Stats");
+        URL imageUrl = getClass().getResource("/images/stats.png");
+        if (imageUrl != null) {
+            ImageView imageView = new ImageView(imageUrl.toString());
+            imageView.setFitWidth(64);
+            imageView.setFitHeight(64);
+            statsButton.setGraphic(imageView);
+        } else {
+            System.err.println("Unable to load image: /images/stats.png");
+        }
+
         Button goalsButton = new Button("Goals");
+        imageUrl = getClass().getResource("/images/goals.png");
+        if (imageUrl != null) {
+            ImageView imageView = new ImageView(imageUrl.toString());
+            imageView.setFitWidth(90);
+            imageView.setFitHeight(90);
+            goalsButton.setGraphic(imageView);
+        } else {
+            System.err.println("Unable to load image: /images/stats.png");
+        }
+
         VBox leftVBox = new VBox(statsButton, goalsButton);
         leftVBox.setSpacing(20);
         leftVBox.setPadding(new Insets(300, 20, 0, 20));
@@ -93,11 +116,15 @@ public class CreatePlayerView extends View<BorderPane> {
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
         centerBox.getChildren().add(bottomBox);
         getParentPane().setCenter(centerBox);
-        //TODO: include error handling
+
         continueButton.setOnAction(event -> {
-            INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
-                    INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
-            createPlayerController.goTo(NewGameView.class).handle(event);
+            try {
+                INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
+                        INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
+                createPlayerController.goTo(NewGameView.class).handle(event);
+            } catch (Exception e) {
+                AlertDialog.showWarning(e.getMessage());
+            }
         });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
 
