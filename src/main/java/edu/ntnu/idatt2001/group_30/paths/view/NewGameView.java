@@ -1,14 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
-import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
-
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -17,6 +12,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 /**
  * This class represents the view for creating/initiating a new game. It, therefore, contains the user
@@ -38,14 +40,18 @@ public class NewGameView extends View<BorderPane> {
      */
     public NewGameView() {
         super(BorderPane.class);
+
         newGameController = new NewGameController();
 
         BorderPane titlePane = createTitlePane();
 
+
         VBox mainContainer = createMainContainerVBox(titlePane);
 
         setupParentPane(mainContainer);
+
     }
+
 
     private VBox createMainContainerVBox(BorderPane titlePane) {
         VBox mainContainer = new VBox();
@@ -56,28 +62,19 @@ public class NewGameView extends View<BorderPane> {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
 
-        /*
-        Button startButton = new Button("Start");
-        startButton.setOnAction(e -> {
-            newGameController.goTo(PlaythroughView.class);
-        });
-         */
-        Button startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
+        startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
         startButton.setVisible(false);
 
         HBox buttonBox = new HBox(10, backButton, startButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        ImageView characterImageView = INSTANCE.getCharacterImageView();
-        characterImageView.setFitWidth(150);
-        characterImageView.setFitHeight(300);
-
-        VBox containerWithButtons = new VBox(mainContainer, buttonBox, characterImageView);
+        VBox containerWithButtons = new VBox(mainContainer, buttonBox);
         containerWithButtons.setSpacing(20);
         containerWithButtons.setAlignment(Pos.CENTER);
 
         return containerWithButtons;
     }
+
 
     private void setupParentPane(VBox mainContainer) {
         getParentPane().setCenter(mainContainer);
@@ -120,10 +117,11 @@ public class NewGameView extends View<BorderPane> {
                 try {
                     newGameController.setStory(selectedFile);
                     VBox storyVBox = new StoryDisplay.Builder(INSTANCE.getStory())
-                        .addStoryName()
-                        .addFileInfo(selectedFile)
-                        .build();
+                            .addStoryName()
+                            .addFileInfo(selectedFile)
+                            .build();
                     storyVBox.setAlignment(Pos.CENTER);
+
 
                     Button pencilButton = createIconButton("/images/pencil.png", 16, 16);
                     Button xButton = createIconButton("/images/remove.png", 16, 16);
@@ -166,4 +164,6 @@ public class NewGameView extends View<BorderPane> {
         }
         return button;
     }
+
+
 }
