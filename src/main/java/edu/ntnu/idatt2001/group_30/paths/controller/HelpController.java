@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
 
 /**
  * This class is used to control the HelpView.

@@ -3,12 +3,11 @@ package edu.ntnu.idatt2001.group_30.paths;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
-import javafx.scene.image.ImageView;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.scene.image.ImageView;
 
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
@@ -105,7 +104,10 @@ public enum PathsSingleton {
      * @return A list of all the non-null goals, given as a List of Goal objects.
      */
     public List<Goal> getGoals() {
-        return Stream.of(healthGoal, scoreGoal, inventoryGoal, goldGoal).filter(Objects::nonNull).collect(Collectors.toList());
+        return Stream
+            .of(healthGoal, scoreGoal, inventoryGoal, goldGoal)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     /**

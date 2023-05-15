@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
-import edu.ntnu.idatt2001.group_30.paths.view.View;
-import edu.ntnu.idatt2001.group_30.paths.view.ViewFactory;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.View;
+import edu.ntnu.idatt2001.group_30.paths.view.views.ViewFactory;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.event.ActionEvent;

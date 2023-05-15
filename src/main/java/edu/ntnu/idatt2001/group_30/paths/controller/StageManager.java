@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.View;
+import edu.ntnu.idatt2001.group_30.paths.view.views.View;
 import java.util.Stack;
 import javafx.stage.Stage;
 

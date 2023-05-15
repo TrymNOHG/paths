@@ -4,14 +4,10 @@ import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.ScoreGoal;
-import edu.ntnu.idatt2001.group_30.paths.view.HelpView;
-import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

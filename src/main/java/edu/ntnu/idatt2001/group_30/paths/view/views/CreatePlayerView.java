@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
@@ -99,13 +99,12 @@ public class CreatePlayerView extends View<BorderPane> {
         ImageCarousel headCarousel = new ImageCarousel(headURIs);
         ImageCarousel torsoCarousel = new ImageCarousel(torsoURIs);
         ImageCarousel legsCarousel = new ImageCarousel(legsURIs);
-        VBox centerBox = new VBox(headCarousel.getCarousel(), torsoCarousel.getCarousel(),
-                legsCarousel.getCarousel());
+        VBox centerBox = new VBox(headCarousel.getCarousel(), torsoCarousel.getCarousel(), legsCarousel.getCarousel());
         centerBox.setAlignment(Pos.CENTER);
         leftVBox.getStyleClass().add("left-vbox");
 
         nameField = new TextField();
-        if(Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
+        if (Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
             nameField.setPromptText("Enter your name");
         } else {
             nameField.setText(INSTANCE.getPlayer().getName());
@@ -134,14 +133,23 @@ public class CreatePlayerView extends View<BorderPane> {
 
         continueButton.setOnAction(event -> {
             try {
-                INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
-                        INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
+                INSTANCE.setPlayer(
+                    new Player(
+                        nameField.getText(),
+                        INSTANCE.getPlayer().getHealth(),
+                        INSTANCE.getPlayer().getScore(),
+                        INSTANCE.getPlayer().getGold()
+                    )
+                );
 
                 Image headImage = headCarousel.getCurrentImage().getImage();
                 Image torsoImage = torsoCarousel.getCurrentImage().getImage();
                 Image legsImage = legsCarousel.getCurrentImage().getImage();
 
-                WritableImage characterImage = new WritableImage((int) headImage.getWidth(), (int) headImage.getHeight() * 3);
+                WritableImage characterImage = new WritableImage(
+                    (int) headImage.getWidth(),
+                    (int) headImage.getHeight() * 3
+                );
                 PixelWriter writer = characterImage.getPixelWriter();
 
                 copyImageOnto(headImage, writer, 0);
@@ -157,7 +165,6 @@ public class CreatePlayerView extends View<BorderPane> {
             }
         });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
-
     }
 
     private void copyImageOnto(Image image, PixelWriter writer, int yOffset) {
@@ -168,5 +175,4 @@ public class CreatePlayerView extends View<BorderPane> {
             }
         }
     }
-
 }

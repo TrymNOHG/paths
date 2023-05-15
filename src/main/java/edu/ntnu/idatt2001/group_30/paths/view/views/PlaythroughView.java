@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.PlaytroughController;
 import edu.ntnu.idatt2001.group_30.paths.model.*;
