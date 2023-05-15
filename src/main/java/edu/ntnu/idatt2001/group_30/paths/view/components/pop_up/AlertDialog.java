@@ -1,12 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidButtonException;
+import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
-
-import java.util.Optional;
 
 /**
  * This class contains the features essential for an alert dialog. Therefore, it provides different functions for the
@@ -16,7 +15,6 @@ import java.util.Optional;
  */
 public class AlertDialog {
 
-
     /**
      * This method produces a confirmation dialog by taking in the information to be displayed and returning the status
      * of whether the alert was confirmed or not. In order to create the dialog, the method
@@ -25,7 +23,7 @@ public class AlertDialog {
      * @param header    The header, or brief information on the alert, represented as a String
      * @return          The status of the dialog where cancel is {@code false} and confirm/ok is {@code true}.
      */
-    public static boolean showConfirmation(String message, String header){
+    public static boolean showConfirmation(String message, String header) {
         Optional<ButtonType> buttonPressed = createAlert(Alert.AlertType.CONFIRMATION, message, header);
 
         return buttonPressed.orElseThrow(InvalidButtonException::new) != ButtonType.CANCEL;
@@ -36,7 +34,7 @@ public class AlertDialog {
      * {@link #createAlert(Alert.AlertType, String, String)} was used.
      * @param message   The error message the user will read, represented as a String
      */
-    public static void showError(String message){
+    public static void showError(String message) {
         createAlert(Alert.AlertType.ERROR, message, "An error has occurred!");
     }
 
@@ -45,7 +43,7 @@ public class AlertDialog {
      * {@link #createAlert(Alert.AlertType, String, String)} was used.
      * @param message   The warning message the user will read, represented as a String
      */
-    public static void showWarning(String message){
+    public static void showWarning(String message) {
         createAlert(Alert.AlertType.WARNING, message, "Warning!");
     }
 
@@ -55,7 +53,7 @@ public class AlertDialog {
      * @param message   The information the user will read, represented as a String
      * @param header    The header, or brief information on the dialog, represented as a String.
      */
-    public static void showInformation(String message, String header){
+    public static void showInformation(String message, String header) {
         createAlert(Alert.AlertType.INFORMATION, message, header);
     }
 
@@ -67,7 +65,7 @@ public class AlertDialog {
      * @param content   The prompt or message to the user, represented as a String
      * @return          The input from the user, represented as a String. If nothing was entered, then null is returned.
      */
-    public static String createTextInputDialog(String title, String header, String content){
+    public static String createTextInputDialog(String title, String header, String content) {
         TextInputDialog inputDialog = new TextInputDialog();
         setDialogInformation(inputDialog, title, header, content);
         Optional<String> inputText = inputDialog.showAndWait();
@@ -83,7 +81,7 @@ public class AlertDialog {
      * @param headerText    The header, or brief information on the dialog, represented as a String.
      * @return              A potential result from a button, represented using a Optional{@code <ButtonType>} object.
      */
-    private static Optional<ButtonType> createAlert(Alert.AlertType alertType, String message, String headerText){
+    private static Optional<ButtonType> createAlert(Alert.AlertType alertType, String message, String headerText) {
         Alert alert = new Alert(alertType);
         setDialogInformation(alert, alertType.name(), headerText, message);
 
@@ -97,10 +95,9 @@ public class AlertDialog {
      * @param header    The header, or brief information on the dialog, represented as a String.
      * @param content   The prompt or message to the user, represented as a String.
      */
-    private static void setDialogInformation(Dialog<?> dialog, String title, String header, String content){
+    private static void setDialogInformation(Dialog<?> dialog, String title, String header, String content) {
         dialog.setTitle(title);
         dialog.setHeaderText(header);
         dialog.setContentText(content);
     }
-
 }

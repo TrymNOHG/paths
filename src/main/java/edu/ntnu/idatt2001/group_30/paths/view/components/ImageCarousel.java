@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components;
 
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 //TODO: make this into an HBOX with arrows that actually work.
 // Add option of looping or not and adjust how arrows are display accordingly
@@ -26,7 +25,7 @@ public class ImageCarousel {
             throw new IllegalArgumentException("Image URI list must not be empty.");
         }
 
-        for(String imageURI : imageNames) {
+        for (String imageURI : imageNames) {
             URL imageUrl = getClass().getResource(imageURI);
             if (imageUrl != null) {
                 images.add(new Image(imageUrl.toString()));

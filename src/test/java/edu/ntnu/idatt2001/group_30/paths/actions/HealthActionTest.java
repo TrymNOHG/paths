@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.actions;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.HealthAction;
 import org.junit.jupiter.api.Assertions;
@@ -8,27 +10,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class HealthActionTest {
 
     @Nested
     public class A_HealthAction_object {
+
         @Test
         public void instantiates_properly_with_valid_argument() {
             HealthAction healthAction;
 
-            try{
+            try {
                 healthAction = new HealthAction(10);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 fail();
             }
-
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {-1, 0, 1})
+        @ValueSource(ints = { -1, 0, 1 })
         public void properly_adds_health_amount_to_Player_health(int healthAmount) {
             int playerStartHealth = 20;
             HealthAction healthAction = new HealthAction(healthAmount);
@@ -49,6 +48,4 @@ class HealthActionTest {
             assertThrows(NullPointerException.class, () -> healthAction.execute(player));
         }
     }
-
-
 }

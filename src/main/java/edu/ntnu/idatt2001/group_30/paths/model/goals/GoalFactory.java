@@ -23,9 +23,10 @@ public class GoalFactory {
             case INVENTORY_GOAL -> {
                 if (goalValue instanceof List<?> valueList) {
                     if (valueList.stream().allMatch(String.class::isInstance)) {
-                        List<String> stringList = valueList.stream()
-                                .map(String.class::cast)
-                                .collect(Collectors.toList());
+                        List<String> stringList = valueList
+                            .stream()
+                            .map(String.class::cast)
+                            .collect(Collectors.toList());
                         return new InventoryGoal(stringList);
                     }
                 } else if (goalValue instanceof String) {
@@ -36,9 +37,7 @@ public class GoalFactory {
         throw new IllegalArgumentException("Invalid goal type or value");
     }
 
-    public static Goal<?> getGoal(String goalType, Object goalValue) throws IllegalArgumentException{
+    public static Goal<?> getGoal(String goalType, Object goalValue) throws IllegalArgumentException {
         return getGoal(GoalType.getGoalType(goalType), goalValue);
     }
-
-
 }

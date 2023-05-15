@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths.goals;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.InventoryGoal;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 class InventoryGoalTest {
 
@@ -25,10 +24,9 @@ class InventoryGoalTest {
         @Test
         public void can_properly_be_instantiated() {
             InventoryGoal inventoryGoal;
-            try{
+            try {
                 inventoryGoal = new InventoryGoal(getMandatoryInventory());
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 fail();
             }
         }
@@ -66,5 +64,4 @@ class InventoryGoalTest {
             assertThrows(NullPointerException.class, () -> inventoryGoal.isFulfilled(player));
         }
     }
-
 }

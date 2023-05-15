@@ -1,13 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths.goals;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.ScoreGoal;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ScoreGoalTest {
 
@@ -26,7 +26,7 @@ class ScoreGoalTest {
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {20, 21})
+        @ValueSource(ints = { 20, 21 })
         public void returns_true_when_Player_has_more_than_or_equal_to_min_score(int playerScore) {
             int minScoreAmount = 20;
             ScoreGoal scoreGoal = new ScoreGoal(minScoreAmount);
@@ -39,7 +39,7 @@ class ScoreGoalTest {
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {0, 19})
+        @ValueSource(ints = { 0, 19 })
         public void returns_false_when_Player_has_less_than_min_score(int playerScore) {
             int minScoreAmount = 20;
             ScoreGoal scoreGoal = new ScoreGoal(minScoreAmount);
@@ -58,7 +58,5 @@ class ScoreGoalTest {
 
             assertThrows(NullPointerException.class, () -> scoreGoal.isFulfilled(player));
         }
-
     }
-
 }

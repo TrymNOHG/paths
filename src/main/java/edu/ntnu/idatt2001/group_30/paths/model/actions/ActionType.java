@@ -9,5 +9,5 @@ public enum ActionType {
     GOLD_ACTION,
     HEALTH_ACTION,
     INVENTORY_ACTION,
-    SCORE_ACTION
+    SCORE_ACTION,
 }

@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
-
-import java.io.File;
-import java.io.IOException;
-import edu.ntnu.idatt2001.group_30.paths.view.PlaythroughView;
-
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
-public class NewGameController extends Controller{
+import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
+import edu.ntnu.idatt2001.group_30.paths.view.PlaythroughView;
+import java.io.File;
+import java.io.IOException;
+
+public class NewGameController extends Controller {
 
     public NewGameController() {
         super(PlaythroughView.class);
@@ -22,6 +21,4 @@ public class NewGameController extends Controller{
             throw new RuntimeException(ex);
         }
     }
-
-
 }

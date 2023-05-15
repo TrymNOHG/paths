@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pane;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This class provides utility for spacing layouts using panes. This is done by placing panes between each node
@@ -24,7 +23,7 @@ public class PaneSpacing {
      * @param nodes Any type of node from JavaFX such as Text
      * @return      An HBox with spacing between the nodes
      */
-    public static HBox createHBoxWithSpacing(Node...nodes){
+    public static HBox createHBoxWithSpacing(Node... nodes) {
         return (HBox) createPaneWithSpacing(new HBox(), nodes);
     }
 
@@ -34,7 +33,7 @@ public class PaneSpacing {
      * @param nodes Any type of node from JavaFX such as Text
      * @return      A VBox with spacing between the nodes
      */
-    public static VBox createVBoxWithSpacing(Node...nodes){
+    public static VBox createVBoxWithSpacing(Node... nodes) {
         return (VBox) createPaneWithSpacing(new VBox(), nodes);
     }
 
@@ -44,7 +43,7 @@ public class PaneSpacing {
      * @param nodeList A list of nodes from JavaFX such as Text
      * @return         A VBox with spacing between the nodes
      */
-    public static VBox createVBoxWithSpacing(List<HBox> nodeList){
+    public static VBox createVBoxWithSpacing(List<HBox> nodeList) {
         return (VBox) createPaneWithSpacing(new VBox(), nodeList);
     }
 
@@ -55,16 +54,18 @@ public class PaneSpacing {
      * @param nodes      Any type of node from JavaFX such as Text
      * @return           A pane that has spacing between the given nodes
      */
-    private static Pane createPaneWithSpacing(Pane typeOfPane, Node...nodes){
+    private static Pane createPaneWithSpacing(Pane typeOfPane, Node... nodes) {
         Pane initialPaneSpacing = new Pane();
         typeOfPane.getChildren().add(initialPaneSpacing);
         addPaneProperties(initialPaneSpacing, typeOfPane);
 
-        Arrays.stream(nodes).forEach(node -> {
-            Pane spacingPane = new Pane();
-            addPaneProperties(spacingPane, typeOfPane);
-            typeOfPane.getChildren().addAll(node, spacingPane);
-        });
+        Arrays
+            .stream(nodes)
+            .forEach(node -> {
+                Pane spacingPane = new Pane();
+                addPaneProperties(spacingPane, typeOfPane);
+                typeOfPane.getChildren().addAll(node, spacingPane);
+            });
         return typeOfPane;
     }
 
@@ -75,7 +76,7 @@ public class PaneSpacing {
      * @param nodeList      A list of nodes from JavaFX such as Text
      * @return           A pane that has spacing between the given nodes
      */
-    private static Pane createPaneWithSpacing(Pane typeOfPane, List<? extends Pane> nodeList){
+    private static Pane createPaneWithSpacing(Pane typeOfPane, List<? extends Pane> nodeList) {
         Pane initialPaneSpacing = new Pane();
         typeOfPane.getChildren().add(initialPaneSpacing);
         addPaneProperties(initialPaneSpacing, typeOfPane);
@@ -94,10 +95,10 @@ public class PaneSpacing {
      * @param nodeToGetProperty The node that will get a property, represented as a Node object.
      * @param typeOfPane        The type of pane it will be attached to, represented as a Pane object.
      */
-    private static void addPaneProperties(Node nodeToGetProperty, Pane typeOfPane){
-        if(typeOfPane instanceof HBox) HBox.setHgrow(nodeToGetProperty, Priority.ALWAYS);
-        else if(typeOfPane instanceof VBox) VBox.setVgrow(nodeToGetProperty, Priority.ALWAYS);
+    private static void addPaneProperties(Node nodeToGetProperty, Pane typeOfPane) {
+        if (typeOfPane instanceof HBox) HBox.setHgrow(nodeToGetProperty, Priority.ALWAYS); else if (
+            typeOfPane instanceof VBox
+        ) VBox.setVgrow(nodeToGetProperty, Priority.ALWAYS);
         typeOfPane.setPadding(new Insets(20));
     }
-
 }

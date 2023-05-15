@@ -1,14 +1,14 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
+import edu.ntnu.idatt2001.group_30.paths.model.actions.GoldAction;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import edu.ntnu.idatt2001.group_30.paths.model.actions.GoldAction;
-
 class LinkTest {
+
     @Nested
     class An_instantiated_Link_object {
 
@@ -23,7 +23,7 @@ class LinkTest {
         void cannot_be_constructed_with_empty_text() {
             /* here the text is completely empty */
             assertThrows(IllegalArgumentException.class, () -> new Link("", "ref"));
-            /* here the text contains some spaces */ 
+            /* here the text contains some spaces */
             assertThrows(IllegalArgumentException.class, () -> new Link("   ", "ref"));
         }
 
@@ -61,6 +61,7 @@ class LinkTest {
 
     @Nested
     class Two_Link_objects {
+
         @Test
         void are_equal_if_they_have_the_same_reference() {
             /* different text, same reference */
@@ -77,5 +78,4 @@ class LinkTest {
             assertNotEquals(link1, link2);
         }
     }
-
 }

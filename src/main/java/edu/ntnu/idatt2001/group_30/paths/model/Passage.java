@@ -11,6 +11,7 @@ import java.util.Objects;
  * @author Trym Hamer Gudvangen
  */
 public class Passage {
+
     private final String title;
     private final String content;
     private final List<Link> links;
@@ -21,7 +22,7 @@ public class Passage {
      * @param content                       The content of the passage, represented using a String.
      * @throws IllegalArgumentException     This exception is thrown if title or content is invalid.
      */
-    public Passage(String title, String content) throws IllegalArgumentException{
+    public Passage(String title, String content) throws IllegalArgumentException {
         if (title.isBlank()) throw new IllegalArgumentException("Title cannot be blank or empty");
         this.title = title;
         if (content.isBlank()) throw new IllegalArgumentException("Content cannot be blank or empty");
@@ -76,8 +77,7 @@ public class Passage {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("::").append(title).append("\n")
-                .append(content).append("\n");
+        sb.append("::").append(title).append("\n").append(content).append("\n");
 
         links.forEach(link -> sb.append(link.toString()));
 

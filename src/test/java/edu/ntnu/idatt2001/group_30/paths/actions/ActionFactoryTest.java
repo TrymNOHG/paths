@@ -11,7 +11,7 @@ class ActionFactoryTest {
     public class ActionFactory_with_valid_value {
 
         @Test
-        void can_get_GoldAction(){
+        void can_get_GoldAction() {
             ActionType goldAction = ActionType.GOLD_ACTION;
             String value = "5";
             Action<Integer> expectedAction = new GoldAction(5);
@@ -23,7 +23,7 @@ class ActionFactoryTest {
         }
 
         @Test
-        void can_get_HealthAction(){
+        void can_get_HealthAction() {
             ActionType healthAction = ActionType.HEALTH_ACTION;
             String value = "5";
             Action<Integer> expectedAction = new HealthAction(5);
@@ -35,7 +35,7 @@ class ActionFactoryTest {
         }
 
         @Test
-        void can_get_InventoryAction(){
+        void can_get_InventoryAction() {
             ActionType inventoryAction = ActionType.INVENTORY_ACTION;
             String value = "Sword";
             Action<String> expectedAction = new InventoryAction("Sword");
@@ -47,7 +47,7 @@ class ActionFactoryTest {
         }
 
         @Test
-        void can_get_ScoreAction(){
+        void can_get_ScoreAction() {
             ActionType scoreAction = ActionType.SCORE_ACTION;
             String value = "5";
             Action<Integer> expectedAction = new ScoreAction(5);
@@ -57,23 +57,29 @@ class ActionFactoryTest {
             Assertions.assertTrue(actualAction instanceof ScoreAction);
             Assertions.assertEquals(expectedAction, actualAction);
         }
-
     }
 
     @Nested
     public class ActionFactory_with_invalid_value_such_as {
+
         @Test
         void null_action_type_throws_NullPointerException() {
-            Assertions.assertThrows(NullPointerException.class, () -> {
-                Action<?> action = ActionFactory.getAction(null, "5");
-            });
+            Assertions.assertThrows(
+                NullPointerException.class,
+                () -> {
+                    Action<?> action = ActionFactory.getAction(null, "5");
+                }
+            );
         }
 
         @Test
         void value_throws_NumberFormatException() {
-            Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                Action<?> action = ActionFactory.getAction(ActionType.GOLD_ACTION, "Invalid value");
-            });
+            Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    Action<?> action = ActionFactory.getAction(ActionType.GOLD_ACTION, "Invalid value");
+                }
+            );
         }
     }
 }

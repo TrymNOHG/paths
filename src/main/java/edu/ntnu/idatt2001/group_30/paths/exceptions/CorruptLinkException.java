@@ -3,13 +3,12 @@ package edu.ntnu.idatt2001.group_30.paths.exceptions;
 /**
  * An exception that is thrown when Link information a paths file has been corrupted.
  */
-public class CorruptLinkException extends RuntimeException{
+public class CorruptLinkException extends RuntimeException {
 
     /**
      * Constructs a new CorruptLinkException with no detail message.
      */
-    public CorruptLinkException() {
-    }
+    public CorruptLinkException() {}
 
     /**
      * Constructs a new CorruptLinkException with the specified detail message.
@@ -39,5 +38,4 @@ public class CorruptLinkException extends RuntimeException{
     public CorruptLinkException(Throwable cause) {
         super(cause);
     }
-
 }

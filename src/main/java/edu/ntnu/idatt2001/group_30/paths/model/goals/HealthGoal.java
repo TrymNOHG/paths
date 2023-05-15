@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.model.goals;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
-
 import java.util.Objects;
 
 /**
@@ -18,7 +17,7 @@ public class HealthGoal implements Goal<Integer> {
      * @param minimumHealth                 Minimum amount of health, given as an int.
      * @throws IllegalArgumentException     This exception is thrown if minimum health less than 0.
      */
-    public HealthGoal(int minimumHealth) throws IllegalArgumentException{
+    public HealthGoal(int minimumHealth) throws IllegalArgumentException {
         if (minimumHealth < 0) throw new IllegalArgumentException("Minimum health cannot be less than 0");
         this.minimumHealth = minimumHealth;
     }

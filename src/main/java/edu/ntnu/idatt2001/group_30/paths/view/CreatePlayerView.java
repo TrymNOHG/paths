@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
+
 import edu.ntnu.idatt2001.group_30.paths.controller.CreatePlayerController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
@@ -7,6 +9,10 @@ import edu.ntnu.idatt2001.group_30.paths.view.components.ImageCarousel;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.GoalsPopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.StatsPopUp;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,13 +25,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
-
 public class CreatePlayerView extends View<BorderPane> {
 
     private final CreatePlayerController createPlayerController;
@@ -34,7 +33,6 @@ public class CreatePlayerView extends View<BorderPane> {
 
     public CreatePlayerView() {
         super(BorderPane.class);
-
         createPlayerController = new CreatePlayerController();
 
         Text title = new Text("Create Your Player");
@@ -46,7 +44,6 @@ public class CreatePlayerView extends View<BorderPane> {
 
         getParentPane().getStyleClass().add("create-player-view");
         getParentPane().getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
-
 
         Button statsButton = new Button("Stats");
         URL imageUrl = getClass().getResource("/images/stats.png");
@@ -102,15 +99,13 @@ public class CreatePlayerView extends View<BorderPane> {
         ImageCarousel headCarousel = new ImageCarousel(headURIs);
         ImageCarousel headCarousel2 = new ImageCarousel(torsoURIs);
         ImageCarousel headCarousel3 = new ImageCarousel(legsURIs);
-        VBox centerBox = new VBox(headCarousel.getCarousel(), headCarousel2.getCarousel(),
-                headCarousel3.getCarousel());
+        VBox centerBox = new VBox(headCarousel.getCarousel(), headCarousel2.getCarousel(), headCarousel3.getCarousel());
         centerBox.setAlignment(Pos.CENTER);
 
         leftVBox.getStyleClass().add("left-vbox");
 
-
         nameField = new TextField();
-        if(Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
+        if (Objects.equals(INSTANCE.getPlayer().getName(), "Default")) {
             nameField.setPromptText("Enter your name");
         } else {
             nameField.setText(INSTANCE.getPlayer().getName());
@@ -134,14 +129,19 @@ public class CreatePlayerView extends View<BorderPane> {
 
         continueButton.setOnAction(event -> {
             try {
-                INSTANCE.setPlayer(new Player(nameField.getText(), INSTANCE.getPlayer().getHealth(),
-                        INSTANCE.getPlayer().getScore(), INSTANCE.getPlayer().getGold()));
+                INSTANCE.setPlayer(
+                    new Player(
+                        nameField.getText(),
+                        INSTANCE.getPlayer().getHealth(),
+                        INSTANCE.getPlayer().getScore(),
+                        INSTANCE.getPlayer().getGold()
+                    )
+                );
                 createPlayerController.goTo(NewGameView.class).handle(event);
             } catch (Exception e) {
                 AlertDialog.showWarning(e.getMessage());
             }
         });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
-
     }
 }

@@ -7,9 +7,10 @@ public class ViewFactory {
     public static <T extends View<?>> T createView(Class<T> viewClass) {
         try {
             return viewClass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (
+            InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e
+        ) {
             throw new RuntimeException("Failed to create view", e);
         }
     }
-
 }

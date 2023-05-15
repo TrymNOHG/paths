@@ -1,34 +1,33 @@
 package edu.ntnu.idatt2001.group_30.paths.actions;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.GoldAction;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GoldActionTest {
 
     @Nested
     public class A_GoldAction_object {
+
         @Test
         public void instantiates_properly_with_valid_argument() {
             GoldAction goldAction;
 
-            try{
+            try {
                 goldAction = new GoldAction(10);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 fail();
             }
-
         }
 
         @ParameterizedTest
-        @ValueSource(ints = {-1, 0, 1})
+        @ValueSource(ints = { -1, 0, 1 })
         public void properly_adds_gold_amount_to_Player_gold(int goldAmount) {
             int playerStartGold = 10;
             GoldAction goldAction = new GoldAction(goldAmount);
@@ -49,6 +48,4 @@ class GoldActionTest {
             assertThrows(NullPointerException.class, () -> goldAction.execute(player));
         }
     }
-
-
 }

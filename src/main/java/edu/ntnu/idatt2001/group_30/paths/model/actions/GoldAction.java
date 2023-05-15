@@ -21,7 +21,6 @@ public class GoldAction implements Action<Integer> {
         //TODO: Add exception?
     }
 
-
     /**
      * {@inheritDoc} gold.
      * @param player The player, given as a Player object.

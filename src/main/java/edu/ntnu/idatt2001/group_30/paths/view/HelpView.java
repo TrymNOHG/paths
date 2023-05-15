@@ -19,16 +19,17 @@ public class HelpView extends View<VBox> {
         super(VBox.class);
         add(helpText());
         add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
-        add(DefaultButton.medium("Go back to " + StageManager.getInstance().getPreviousViewName(), controller.goBack()));
+        add(
+            DefaultButton.medium("Go back to " + StageManager.getInstance().getPreviousViewName(), controller.goBack())
+        );
     }
 
     public Text helpText() {
         String howToPlay =
-                """
+            """
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl eget aliquam tincidunt, nisl nisl aliquet nisl, eget aliquam nis
                 """;
 
         return DefaultText.medium(howToPlay);
     }
-
 }

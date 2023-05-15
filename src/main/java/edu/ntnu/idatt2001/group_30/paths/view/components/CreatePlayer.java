@@ -53,5 +53,4 @@ public class CreatePlayer extends GridPane {
     public String getGoal() {
         return goalBox.getValue();
     }
-
 }

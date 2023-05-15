@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.model.goals;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;

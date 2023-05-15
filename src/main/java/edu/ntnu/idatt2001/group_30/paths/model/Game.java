@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.model;
 
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
-
 import java.util.List;
 
 /**
@@ -11,6 +10,7 @@ import java.util.List;
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Game {
+
     private final Player player;
     private final Story story;
     private final List<Goal> goals;
@@ -22,7 +22,7 @@ public class Game {
      * @param goals                     A list of goals that determines the desired goals of the game:
      * @throws IllegalArgumentException This exception is thrown if any argument is null.
      */
-    public Game(Player player, Story story, List<Goal> goals) throws IllegalArgumentException{
+    public Game(Player player, Story story, List<Goal> goals) throws IllegalArgumentException {
         if (player == null || story == null || goals == null) {
             throw new IllegalArgumentException("Player, story, and goals cannot be null");
         }
@@ -97,5 +97,3 @@ public class Game {
         return goals;
     }
 }
-
-

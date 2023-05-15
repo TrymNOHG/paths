@@ -3,12 +3,11 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 import edu.ntnu.idatt2001.group_30.paths.controller.HomeController;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Home page for the application.
@@ -43,8 +42,9 @@ public class HomeView extends View<VBox> {
      */
     private List<Node> getStartMenuButtons() {
         List<Node> buttons = new ArrayList<>();
-        if (controller.canContinueAGame())
-            buttons.add(DefaultButton.big("Continue", controller.goTo(PlaythroughView.class)));
+        if (controller.canContinueAGame()) buttons.add(
+            DefaultButton.big("Continue", controller.goTo(PlaythroughView.class))
+        );
         buttons.add(DefaultButton.big("New game", controller.goTo(CreatePlayerView.class)));
         buttons.add(DefaultButton.big("Help", controller.goTo(HelpView.class)));
         return buttons;

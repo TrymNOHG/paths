@@ -5,15 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-
 /**
  * This class concerns itself with building a table view filled with the desired information in columns. It does so
  * by using a TableBuilder.
  *
  * @author Trym Hamer Gudvangen
  */
-public class TableDisplay<T> extends TableView<T>{
-
+public class TableDisplay<T> extends TableView<T> {
 
     /**
      * This is a constructor which is used to construct a table.
@@ -30,6 +28,7 @@ public class TableDisplay<T> extends TableView<T>{
      * was utilized.
      */
     public static class Builder<T> {
+
         private final ObservableList<TableColumn<T, ?>> tableColumns;
 
         public Builder() {
@@ -52,9 +51,8 @@ public class TableDisplay<T> extends TableView<T>{
          * This method actually constructs the table by creating an TableDisplay object.
          * @return The table view, represented using an TableDisplay object.
          */
-        public TableDisplay<T> build(){
+        public TableDisplay<T> build() {
             return new TableDisplay<T>(this);
         }
     }
-
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Trym Hamer Gudvangen
  */
 public class TableDisplayColumn<T> {
+
     private TableColumn<T, ?> column;
 
     /**
@@ -27,7 +28,7 @@ public class TableDisplayColumn<T> {
      * @param infoHeader    The header of the column being added, represented as a String.
      * @param variableName  The name of the variable from the Unit, represented as a String.
      */
-    private void createUnitColumn(String infoHeader, String variableName){
+    private void createUnitColumn(String infoHeader, String variableName) {
         this.column = new TableColumn<>(infoHeader);
         this.column.setCellValueFactory(new PropertyValueFactory<>(variableName));
         this.column.setStyle("-fx-alignment: CENTER");

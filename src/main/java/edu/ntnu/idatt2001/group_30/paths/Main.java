@@ -9,6 +9,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.App;
  * @author Nicolai H. Brand, Trym H. Gudvangen
  */
 public class Main {
+
     public static void main(String[] args) {
         App.main(args);
     }

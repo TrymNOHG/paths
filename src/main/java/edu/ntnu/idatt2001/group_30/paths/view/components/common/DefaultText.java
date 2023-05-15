@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.group_30.paths.view.components.common;
 
 import javafx.scene.text.Text;
 
-
 /**
  * This class contains the default text used in the application.
  * Used for cohesion between the different texts in the application.

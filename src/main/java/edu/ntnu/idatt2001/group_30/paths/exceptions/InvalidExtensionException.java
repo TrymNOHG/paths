@@ -3,13 +3,12 @@ package edu.ntnu.idatt2001.group_30.paths.exceptions;
 /**
  * An exception that is thrown when an invalid file extension is used.
  */
-public class InvalidExtensionException extends IllegalArgumentException{
+public class InvalidExtensionException extends IllegalArgumentException {
 
     /**
      * Constructs a new InvalidExtensionException with no detail message.
      */
-    public InvalidExtensionException() {
-    }
+    public InvalidExtensionException() {}
 
     /**
      * Constructs a new InvalidExtensionException with the specified detail message.
@@ -40,4 +39,3 @@ public class InvalidExtensionException extends IllegalArgumentException{
         super(cause);
     }
 }
-

@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.model;
 
 import edu.ntnu.idatt2001.group_30.paths.model.actions.Action;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +12,7 @@ import java.util.Objects;
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Link {
+
     private final String text;
     private final String reference;
     private final List<Action<?>> actions;
@@ -23,14 +23,13 @@ public class Link {
      * @param reference,                    a string that unambiguously identify a passage
      * @throws IllegalArgumentException     This exception is thrown if text or reference is invalid
      */
-    public Link(String text, String reference) throws IllegalArgumentException{
+    public Link(String text, String reference) throws IllegalArgumentException {
         if (text.isBlank()) throw new IllegalArgumentException("Text cannot be blank or empty.");
         this.text = text;
         if (reference.isBlank()) throw new IllegalArgumentException("Reference cannot be blank or empty.");
         this.reference = reference;
         this.actions = new ArrayList<>();
     }
-
 
     /**
      * Adds an action to the list of actions
@@ -82,8 +81,13 @@ public class Link {
         StringBuilder sb = new StringBuilder();
         sb.append("[").append(text).append("](").append(reference).append(")\n");
 
-        for(Action<?> action : actions) {
-            sb.append("<").append(action.getClass().getSimpleName()).append(">\\").append(action.getActionValue()).append("/\n");
+        for (Action<?> action : actions) {
+            sb
+                .append("<")
+                .append(action.getClass().getSimpleName())
+                .append(">\\")
+                .append(action.getActionValue())
+                .append("/\n");
         }
 
         return sb.toString();

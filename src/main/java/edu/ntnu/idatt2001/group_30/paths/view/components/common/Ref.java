@@ -4,7 +4,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-
 /**
  * This class is used to create Text objects that are bound to an observable property.
  * This means that the text will update when the property changes.
