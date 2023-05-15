@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -60,11 +61,13 @@ public class NewGameView extends View<BorderPane> {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
 
-        startButton = new Button("Start");
-        startButton.setVisible(false);
+        /*
+        Button startButton = new Button("Start");
         startButton.setOnAction(e -> {
-            // Start button logic...
+            newGameController.goTo(PlaythroughView.class);
         });
+         */
+        Button startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
 
         HBox buttonBox = new HBox(10, backButton, startButton);
         buttonBox.setAlignment(Pos.CENTER);

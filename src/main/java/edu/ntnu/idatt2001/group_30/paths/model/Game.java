@@ -53,6 +53,27 @@ public class Game {
     }
 
     /**
+     * If the player is out of health, the game is defined as over.
+     * @return {@code true} if the player is out of health, else {@code false}.
+     */
+    public boolean isGameOver() {
+        return this.player.getHealth() <= 0;
+    }
+
+    /**
+     * This method checks if the player has fulfilled all the goals of the game.
+     * If the player has fulfilled all the goals, the game is defined as won.
+     * @return {@code true} if the player has fulfilled all the goals, else {@code false}.
+     */
+    public boolean isGameWon() {
+        /*
+         * One may think it's faster to check for one non-fulfilled goal and then exit early.
+         * This is actually what allMatch does internally, so this is just as fast while being more readable
+         */
+        return this.goals.stream().allMatch(goal -> goal.isFulfilled(this.player));
+    }
+
+    /**
      * This method returns the player for the game.
      * @return  the player object for the game.
      */

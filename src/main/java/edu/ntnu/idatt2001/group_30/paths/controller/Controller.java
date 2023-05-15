@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
+import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
 import edu.ntnu.idatt2001.group_30.paths.view.View;
 import edu.ntnu.idatt2001.group_30.paths.view.ViewFactory;
 import javafx.event.ActionEvent;
@@ -45,6 +46,10 @@ public class Controller {
 
     public Stage getRootStage() {
         return STAGE_MANAGER.getStage();
+    }
+
+    public void goToHome() {
+        STAGE_MANAGER.setCurrentView(ViewFactory.createView(HomeView.class));
     }
 }
 

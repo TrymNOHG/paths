@@ -102,4 +102,28 @@ public class StageManager {
     public Stage getStage() {
         return stage;
     }
+
+    /**
+     * Returns the name of the current view without 'View' at the end.
+     * @return The name of the current view.
+     */
+    public String getCurrentViewName() {
+        return viewStack.peek().getClass().getSimpleName().replace("View", "");
+    }
+
+    /**
+     * Returns the name of the previous view without 'View' at the end.
+     * @return The name of the previous view.
+     */
+    public String getPreviousViewName() {
+        return viewStack.peek().getClass().getSimpleName().replace("View", "");
+    }
+
+    /**
+     * Returns the entire stack of views.
+     * @return The viewStack.
+     */
+    public Stack<View<?>> getViewStack() {
+        return viewStack;
+    }
 }

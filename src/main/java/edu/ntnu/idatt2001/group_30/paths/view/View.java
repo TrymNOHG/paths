@@ -19,8 +19,8 @@ import java.util.Objects;
  * @author Nicolai H. Brand.
  */
 public class View<T extends Pane> {
-    public static final int DEFAULT_WIDTH = 1000;
-    public static final int DEFAULT_HEIGHT = 1000;
+    public static final int DEFAULT_WIDTH = 1280;
+    public static final int DEFAULT_HEIGHT = 720;
     private final String stylesheet = Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm();
     private T parentPane;
 
@@ -75,7 +75,7 @@ public class View<T extends Pane> {
         BorderPane wrapper = new BorderPane();
         wrapper.setCenter(parentPane);
         wrapper.setBottom(globalFooter());
-        //wrapper.getStylesheets().add(stylesheet);
+        wrapper.getStylesheets().add(stylesheet);
         return new Scene(wrapper, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
