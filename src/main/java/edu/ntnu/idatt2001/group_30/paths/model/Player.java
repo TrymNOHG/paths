@@ -10,6 +10,7 @@ import java.util.List;
  * @author Trym Hamer Gudvangen, Nicolai H. Brand
  */
 public class Player {
+
     private final String name;
     private int health;
     private int score;
@@ -24,7 +25,7 @@ public class Player {
      * @param gold                          Amount of gold the player has, represented using an int.
      * @throws IllegalArgumentException     This exception is thrown if the health, score, gold or name arguments are invalid.
      */
-    public Player(String name, int health, int score, int gold) throws IllegalArgumentException{
+    public Player(String name, int health, int score, int gold) throws IllegalArgumentException {
         if (name.isBlank()) throw new IllegalArgumentException("The name cannot be blank or empty");
         this.name = name;
         if (health < 0) throw new IllegalArgumentException("Initial health cannot be less than 0");

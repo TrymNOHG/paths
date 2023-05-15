@@ -1,32 +1,29 @@
 package edu.ntnu.idatt2001.group_30.paths.actions;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.InventoryAction;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 class InventoryActionTest {
 
     @Nested
     public class An_InventoryAction_object {
+
         @Test
         public void instantiates_properly_with_valid_argument() {
             InventoryAction inventoryAction;
             String item = "Apple";
 
-            try{
+            try {
                 inventoryAction = new InventoryAction(item);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 fail();
             }
-
         }
 
         @Test
@@ -36,7 +33,6 @@ class InventoryActionTest {
             expectedInventory.add(expectedItem);
             InventoryAction inventoryAction = new InventoryAction(expectedItem);
             Player player = new Player("Trym", 10, 10, 10);
-
 
             inventoryAction.execute(player);
             List<String> actualInventory = player.getInventory();
@@ -52,6 +48,4 @@ class InventoryActionTest {
             assertThrows(NullPointerException.class, () -> inventoryAction.execute(player));
         }
     }
-
-
 }

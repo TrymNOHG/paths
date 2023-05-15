@@ -29,5 +29,4 @@ public enum GoalType {
     public String getStringVal() {
         return stringVal;
     }
-
 }

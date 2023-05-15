@@ -1,8 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
+
 import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalFactory;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.GoalType;
 import edu.ntnu.idatt2001.group_30.paths.model.utils.TextValidation;
+import java.net.URL;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-
-import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
-
 public class GoalsPopUp {
 
     private TextField healthField;
@@ -26,18 +25,27 @@ public class GoalsPopUp {
 
     public GoalsPopUp() {
         healthField = new TextField();
-        healthField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getHealthGoal() == null ?
-                100 : INSTANCE.getHealthGoal().getGoalValue()));
+        healthField.setTextFormatter(
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getHealthGoal() == null ? 100 : INSTANCE.getHealthGoal().getGoalValue()
+            )
+        );
         healthField.setPromptText("Add health goal");
 
         goldField = new TextField();
-        goldField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getGoldGoal() == null ?
-                        100 : INSTANCE.getGoldGoal().getGoalValue()));
+        goldField.setTextFormatter(
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getGoldGoal() == null ? 100 : INSTANCE.getGoldGoal().getGoalValue()
+            )
+        );
         goldField.setPromptText("Add gold goal");
 
         scoreField = new TextField();
-        scoreField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getScoreGoal() == null ?
-                100 : INSTANCE.getScoreGoal().getGoalValue()));
+        scoreField.setTextFormatter(
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getScoreGoal() == null ? 100 : INSTANCE.getScoreGoal().getGoalValue()
+            )
+        );
         scoreField.setPromptText("Add score goal");
 
         saveButton = new Button("Save");
@@ -47,7 +55,7 @@ public class GoalsPopUp {
 
         Button addButton = new Button();
         URL imageUrl = getClass().getResource("/images/plus.png");
-        if(imageUrl != null) {
+        if (imageUrl != null) {
             ImageView addIcon = new ImageView(new Image(imageUrl.toString()));
             addIcon.setFitHeight(25);
             addIcon.setFitWidth(25);
@@ -57,7 +65,7 @@ public class GoalsPopUp {
         }
 
         ObservableList<String> items = FXCollections.observableArrayList();
-        if(INSTANCE.getInventoryGoal() != null) {
+        if (INSTANCE.getInventoryGoal() != null) {
             items.addAll(INSTANCE.getInventoryGoal().getGoalValue());
         }
         TableView<String> inventoryTable = new TableView<>(items);
@@ -67,10 +75,9 @@ public class GoalsPopUp {
         itemColumn.prefWidthProperty().bind(inventoryTable.widthProperty());
         inventoryTable.setMaxHeight(200);
 
-
         Button deleteButton = new Button();
         imageUrl = getClass().getResource("/images/trash.png");
-        if(imageUrl != null) {
+        if (imageUrl != null) {
             ImageView trashIcon = new ImageView(new Image(imageUrl.toString()));
             trashIcon.setFitHeight(25);
             trashIcon.setFitWidth(25);
@@ -78,7 +85,6 @@ public class GoalsPopUp {
         } else {
             System.err.println("Something is wrong with the trash image resource link");
         }
-
 
         addButton.setOnAction(e -> {
             if (!inventoryField.getText().isBlank()) {
@@ -95,11 +101,18 @@ public class GoalsPopUp {
         });
 
         VBox content = new VBox(
-                new Label("Health:"), healthField,
-                new Label("Gold:"), goldField,
-                new Label("Score:"), scoreField,
-                new Label("Inventory"), new HBox(inventoryField, addButton), inventoryTable, deleteButton,
-                saveButton);
+            new Label("Health:"),
+            healthField,
+            new Label("Gold:"),
+            goldField,
+            new Label("Score:"),
+            scoreField,
+            new Label("Inventory"),
+            new HBox(inventoryField, addButton),
+            inventoryTable,
+            deleteButton,
+            saveButton
+        );
 
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
@@ -107,14 +120,15 @@ public class GoalsPopUp {
         ScrollPane scrollPane = new ScrollPane(content);
         scrollPane.setFitToWidth(true);
 
-        PopUp<ScrollPane, ?> popUp = PopUp.<ScrollPane>create()
-                .withTitle("Add goals to your player")
-                .withoutCloseButton()
-                .withContent(scrollPane)
-                .withDialogSize(400, 500);
+        PopUp<ScrollPane, ?> popUp = PopUp
+            .<ScrollPane>create()
+            .withTitle("Add goals to your player")
+            .withoutCloseButton()
+            .withContent(scrollPane)
+            .withDialogSize(400, 500);
 
         saveButton.setOnAction(e -> {
-            if(healthField.getText().isBlank() || goldField.getText().isBlank()) {
+            if (healthField.getText().isBlank() || goldField.getText().isBlank()) {
                 AlertDialog.showWarning("The different fields cannot be blank.");
             } else {
                 INSTANCE.changeGoal(GoalFactory.getGoal(GoalType.HEALTH_GOAL, healthField.getText()));

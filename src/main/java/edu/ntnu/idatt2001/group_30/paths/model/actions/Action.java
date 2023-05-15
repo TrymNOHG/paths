@@ -9,7 +9,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.Player;
  * @author Trym Hamer Gudvangen
  */
 public interface Action<T> {
-
     /**
      * This method changes a given player's attribute:
      * @param player The player, given as a Player object.
@@ -28,5 +27,4 @@ public interface Action<T> {
      * @return  Boolean representing {@code true} if the actions are equal, otherwise {@code false}
      */
     boolean equals(Object o);
-
 }

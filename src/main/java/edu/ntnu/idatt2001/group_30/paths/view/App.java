@@ -12,6 +12,7 @@ import javafx.stage.StageStyle;
  * @author Nicolai H. Brand
  */
 public class App extends Application {
+
     private static StageManager STAGE_MANAGER;
 
     /**

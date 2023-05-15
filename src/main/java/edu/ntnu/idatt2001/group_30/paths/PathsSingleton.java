@@ -4,7 +4,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
 
-
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
  * restricts the amount of instances of the enumeration to one. This is essential for the enumeration's purpose.
@@ -51,7 +50,6 @@ public enum PathsSingleton {
         setGoal(GoalType.getGoalType(newGoal.getClass().getSimpleName()), newGoal);
     }
 
-
     public <T> void setGoal(GoalType goalType, Goal<?> goal) {
         switch (goalType) {
             case HEALTH_GOAL -> healthGoal = (HealthGoal) goal;
@@ -78,8 +76,8 @@ public enum PathsSingleton {
         return goldGoal;
     }
 
-    public  <T> Goal<?> getGoal(GoalType goalType) {
-        return switch(goalType) {
+    public <T> Goal<?> getGoal(GoalType goalType) {
+        return switch (goalType) {
             case HEALTH_GOAL -> healthGoal;
             case SCORE_GOAL -> scoreGoal;
             case INVENTORY_GOAL -> inventoryGoal;

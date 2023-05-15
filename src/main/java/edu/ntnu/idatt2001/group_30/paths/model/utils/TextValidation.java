@@ -10,13 +10,16 @@ public class TextValidation {
     }
 
     public static TextFormatter<Integer> createIntegerTextFormatter(int startValue) {
-        return new TextFormatter<>(new IntegerStringConverter(), startValue, change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("-?([1-9][0-9]*)?")) {
-                return change;
+        return new TextFormatter<>(
+            new IntegerStringConverter(),
+            startValue,
+            change -> {
+                String newText = change.getControlNewText();
+                if (newText.matches("-?([1-9][0-9]*)?")) {
+                    return change;
+                }
+                return null;
             }
-            return null;
-        });
+        );
     }
-
 }

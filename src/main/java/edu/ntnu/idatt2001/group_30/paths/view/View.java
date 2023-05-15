@@ -1,12 +1,12 @@
 package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.layout.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Objects;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.*;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -19,9 +19,12 @@ import java.util.Objects;
  * @author Nicolai H. Brand.
  */
 public class View<T extends Pane> {
+
     public static final int DEFAULT_WIDTH = 1280;
     public static final int DEFAULT_HEIGHT = 720;
-    private final String stylesheet = Objects.requireNonNull(getClass().getResource("/stylesheet.css")).toExternalForm();
+    private final String stylesheet = Objects
+        .requireNonNull(getClass().getResource("/stylesheet.css"))
+        .toExternalForm();
     private T parentPane;
 
     /**
@@ -32,7 +35,9 @@ public class View<T extends Pane> {
     public View(Class<T> paneClass) {
         try {
             parentPane = paneClass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (
+            InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e
+        ) {
             //TODO: better error handling
             e.printStackTrace();
         }
@@ -95,5 +100,4 @@ public class View<T extends Pane> {
     protected T getParentPane() {
         return parentPane;
     }
-
 }

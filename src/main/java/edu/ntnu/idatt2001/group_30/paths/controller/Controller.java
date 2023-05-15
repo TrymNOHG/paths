@@ -3,12 +3,11 @@ package edu.ntnu.idatt2001.group_30.paths.controller;
 import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
 import edu.ntnu.idatt2001.group_30.paths.view.View;
 import edu.ntnu.idatt2001.group_30.paths.view.ViewFactory;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The class Controller is the superclass of all controllers.
@@ -18,12 +17,13 @@ import java.util.Map;
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Controller {
+
     protected final StageManager STAGE_MANAGER = StageManager.getInstance();
     protected final Map<Class<? extends View<?>>, Runnable> availableViews = new HashMap<>();
 
     @SafeVarargs
     public Controller(Class<? extends View<?>>... viewClasses) {
-        for(Class<? extends View<?>> viewClass : viewClasses) {
+        for (Class<? extends View<?>> viewClass : viewClasses) {
             availableViews.put(viewClass, () -> STAGE_MANAGER.setCurrentView(ViewFactory.createView(viewClass)));
         }
     }
@@ -52,4 +52,3 @@ public class Controller {
         STAGE_MANAGER.setCurrentView(ViewFactory.createView(HomeView.class));
     }
 }
-

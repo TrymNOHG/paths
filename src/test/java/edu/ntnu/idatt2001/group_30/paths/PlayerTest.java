@@ -1,14 +1,16 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PlayerTest {
+
     @Nested
     class An_instantiated_Player_object {
+
         @Test
         void can_be_constructed() {
             Player player = new Player("Ola Nordmann", 1, 2, 3);
@@ -20,11 +22,7 @@ class PlayerTest {
 
         @Test
         void can_be_constructed_using_builder_pattern() {
-            Player player = new Player.Builder("Ola Nordmann")
-                    .health(10)
-                    .score(2)
-                    .gold(50)
-                    .build();
+            Player player = new Player.Builder("Ola Nordmann").health(10).score(2).gold(50).build();
             assertEquals("Ola Nordmann", player.getName());
             assertEquals(10, player.getHealth());
             assertEquals(2, player.getScore());
@@ -34,10 +32,10 @@ class PlayerTest {
         @Test
         void can_be_constructed_using_builder_pattern_with_inventory() {
             Player player = new Player.Builder("Ola Nordmann")
-                    .addToInventory("Sword")
-                    .addToInventory("Shield")
-                    .addToInventory("Potion")
-                    .build();
+                .addToInventory("Sword")
+                .addToInventory("Shield")
+                .addToInventory("Potion")
+                .build();
             assertEquals("Ola Nordmann", player.getName());
             /* when not specified, zero is the default value */
             assertEquals(0, player.getHealth());
@@ -88,6 +86,5 @@ class PlayerTest {
             player.addHealth(-6);
             assertEquals(0, player.getHealth());
         }
-
     }
 }

@@ -2,15 +2,14 @@ package edu.ntnu.idatt2001.group_30.paths.filehandling;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
+import java.io.File;
+import java.nio.file.FileSystems;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.io.File;
-import java.nio.file.FileSystems;
 
 class FileHandlerTest {
 
@@ -23,8 +22,21 @@ class FileHandlerTest {
     public class The_FileHandler_makes_sure_a_file_name {
 
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"$123test", "50%Off", "***Story***", "LOTR?", "Winnie the Pooh!",
-                "LOTR > Hobbit", "The/Hobbit", "[LOTF]", "{LOTR}", "Trym's : Adventure", "Story.paths"})
+        @ValueSource(
+            strings = {
+                "$123test",
+                "50%Off",
+                "***Story***",
+                "LOTR?",
+                "Winnie the Pooh!",
+                "LOTR > Hobbit",
+                "The/Hobbit",
+                "[LOTF]",
+                "{LOTR}",
+                "Trym's : Adventure",
+                "Story.paths",
+            }
+        )
         void does_not_contain_special_characters(String fileName) {
             String expectedExceptionMessage = "File name contains invalid characters";
 
@@ -36,8 +48,8 @@ class FileHandlerTest {
         }
 
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"", "  "})
-        void is_not_empty_or_blank(String fileName){
+        @ValueSource(strings = { "", "  " })
+        void is_not_empty_or_blank(String fileName) {
             String expectedExceptionMessage = "File name cannot be blank";
 
             try {
@@ -48,7 +60,7 @@ class FileHandlerTest {
         }
 
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        @ValueSource(strings = { "Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123" })
         void only_contains_valid_characters(String fileName) {
             boolean expectedStatus = true;
 
@@ -60,11 +72,13 @@ class FileHandlerTest {
 
     @Nested
     public class The_FileHandler_can_check {
+
         @Test
-        void if_a_file_exists_using_File_object(){
+        void if_a_file_exists_using_File_object() {
             boolean expectedStatus = true;
-            File validFile = new File(FileSystems.getDefault()
-                    .getPath("src", "test", "resources", "storytestfiles", "Bones") + ".paths");
+            File validFile = new File(
+                FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles", "Bones") + ".paths"
+            );
 
             boolean actualStatusOfFile = FileHandler.fileExists(validFile);
 
@@ -72,7 +86,7 @@ class FileHandlerTest {
         }
 
         @Test
-        void if_a_file_exists_using_file_name(){
+        void if_a_file_exists_using_file_name() {
             boolean expectedStatus = true;
             String fileName = "Bones";
 
@@ -82,10 +96,11 @@ class FileHandlerTest {
         }
 
         @Test
-        void if_a_file_does_not_exist(){
+        void if_a_file_does_not_exist() {
             boolean expectedStatus = false;
-            File validFile = new File(FileSystems.getDefault()
-                    .getPath("src", "test", "resources", "storytestfiles", "Fairy tale") + ".paths");
+            File validFile = new File(
+                FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles", "Fairy tale") + ".paths"
+            );
 
             boolean actualStatusOfFile = FileHandler.fileExists(validFile);
 
@@ -93,7 +108,7 @@ class FileHandlerTest {
         }
 
         @Test
-        void the_file_source_path(){
+        void the_file_source_path() {
             String expectedFileSourcePath = "src/test/resources/storytestfiles/story.paths";
             String fileName = "story";
 
@@ -109,23 +124,25 @@ class FileHandlerTest {
             boolean isPathValid = FileHandler.isFileExtensionValid(validPath);
 
             Assertions.assertTrue(isPathValid);
-
         }
 
         @ParameterizedTest(name = "{index}. File path: {0}")
-        @ValueSource(strings = {"Winnie the Pooh.exe", "78924378.doc", "The-Bible.txt", "Story123.csv"})
+        @ValueSource(strings = { "Winnie the Pooh.exe", "78924378.doc", "The-Bible.txt", "Story123.csv" })
         void if_file_extension_is_invalid(String filePath) {
-
-            Assertions.assertThrows(InvalidExtensionException.class, () -> {
-                FileHandler.isFileExtensionValid(filePath);
-            });
+            Assertions.assertThrows(
+                InvalidExtensionException.class,
+                () -> {
+                    FileHandler.isFileExtensionValid(filePath);
+                }
+            );
         }
     }
 
     @Nested
     public class The_FileHandler_can_create {
+
         @ParameterizedTest(name = "{index}. File name: {0}")
-        @ValueSource(strings = {"Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123"})
+        @ValueSource(strings = { "Winnie the Pooh", "L.O.T.R", "The-Bible", "Story123" })
         void new_files_with_valid_names(String fileName) {
             try {
                 File file = FileHandler.createFile(fileName);
@@ -139,5 +156,4 @@ class FileHandlerTest {
             }
         }
     }
-
 }

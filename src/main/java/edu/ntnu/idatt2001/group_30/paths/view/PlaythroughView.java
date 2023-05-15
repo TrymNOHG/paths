@@ -4,8 +4,8 @@ import edu.ntnu.idatt2001.group_30.paths.controller.PlaytroughController;
 import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
-import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
@@ -66,20 +66,26 @@ public class PlaythroughView extends View<VBox> {
         add(mainContent);
 
         /* game state */
-        controller.getGameWon().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                boolean continuing = AlertDialog.showConfirmation("Congratulations, you completed all your goals and won the game." +
-                        "You can still continue to the story if its not finished. Do you want to continue the story?", "You won!");
-                if (!continuing)
-                    controller.goToHome();
-            }
-        });
-        controller.getGameOver().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                AlertDialog.showConfirmation("You lost!", "You lost!");
-                controller.goTo(HomeView.class);
-            }
-        });
+        controller
+            .getGameWon()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    boolean continuing = AlertDialog.showConfirmation(
+                        "Congratulations, you completed all your goals and won the game." +
+                        "You can still continue to the story if its not finished. Do you want to continue the story?",
+                        "You won!"
+                    );
+                    if (!continuing) controller.goToHome();
+                }
+            });
+        controller
+            .getGameOver()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    AlertDialog.showConfirmation("You lost!", "You lost!");
+                    controller.goTo(HomeView.class);
+                }
+            });
     }
 
     /**
@@ -99,14 +105,24 @@ public class PlaythroughView extends View<VBox> {
         header.getChildren().add(DefaultText.big("Playing: " + controller.getStory().getTitle()));
         header.getChildren().add(new Separator(Orientation.VERTICAL));
         header.getChildren().add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
-        header.getChildren().add(DefaultButton.medium("Restart", e -> {
-            if (AlertDialog.showConfirmation("Are you sure you want to restart the game? All progress will be lost.", "Confirm restart"))
-                controller.startNewGame();
-        }));
+        header
+            .getChildren()
+            .add(
+                DefaultButton.medium(
+                    "Restart",
+                    e -> {
+                        if (
+                            AlertDialog.showConfirmation(
+                                "Are you sure you want to restart the game? All progress will be lost.",
+                                "Confirm restart"
+                            )
+                        ) controller.startNewGame();
+                    }
+                )
+            );
         header.getChildren().add(DefaultButton.medium("Help", controller.goTo(HelpView.class)));
         return header;
     }
-
 
     /**
      * Creates the play-trough box.
@@ -138,12 +154,14 @@ public class PlaythroughView extends View<VBox> {
         linksBox.setAlignment(Pos.TOP_CENTER);
         linksBox.setSpacing(10);
         ObservableList<Link> links = controller.getLinks();
-        links.addListener((ListChangeListener<Link>) change -> {
-            linksBox.getChildren().clear();
-            for (Link link : links) {
-                linksBox.getChildren().add(DefaultButton.big(link.getText(), e -> controller.chooseLink(link)));
+        links.addListener(
+            (ListChangeListener<Link>) change -> {
+                linksBox.getChildren().clear();
+                for (Link link : links) {
+                    linksBox.getChildren().add(DefaultButton.big(link.getText(), e -> controller.chooseLink(link)));
+                }
             }
-        });
+        );
         for (Link link : links) {
             linksBox.getChildren().add(DefaultButton.big(link.getText(), e -> controller.chooseLink(link)));
         }
@@ -238,9 +256,11 @@ public class PlaythroughView extends View<VBox> {
         content.setSpacing(20);
 
         ObservableMap<Goal, Boolean> goals = controller.getGoals();
-        goals.addListener((MapChangeListener<Goal, Boolean>) change -> {
-            showGoals(goals, content);
-        });
+        goals.addListener(
+            (MapChangeListener<Goal, Boolean>) change -> {
+                showGoals(goals, content);
+            }
+        );
 
         showGoals(goals, content);
         goalBox.setContent(content);
@@ -270,9 +290,11 @@ public class PlaythroughView extends View<VBox> {
         content.setSpacing(20);
 
         ObservableList<String> inventory = controller.getInventory();
-        inventory.addListener((ListChangeListener<String>) change -> {
-            showInventory(inventory, content);
-        });
+        inventory.addListener(
+            (ListChangeListener<String>) change -> {
+                showInventory(inventory, content);
+            }
+        );
 
         showInventory(inventory, content);
         inventoryBox.setContent(content);

@@ -1,9 +1,8 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
 import edu.ntnu.idatt2001.group_30.paths.view.View;
-import javafx.stage.Stage;
-
 import java.util.Stack;
+import javafx.stage.Stage;
 
 /**
  * The class StageManager is responsible for managing the JavaFX Stage of the application.
@@ -14,6 +13,7 @@ import java.util.Stack;
  * @author Nicolai H. Brand.
  */
 public class StageManager {
+
     private final Stage stage;
     private final Stack<View<?>> viewStack;
 

@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
 public class Story {
+
     private final String title;
     private final Map<Link, Passage> passages;
     private final Passage openingPassage;
@@ -23,11 +24,13 @@ public class Story {
      * @param openingPassage                the first passage of the story. Also added to the passage.
      * @throws IllegalArgumentException     This exception is thrown if title or openingPassage is invalid
      */
-    public Story(String title, Passage openingPassage) throws IllegalArgumentException{
+    public Story(String title, Passage openingPassage) throws IllegalArgumentException {
         //if (title.isBlank() || !title.matches("[a-zA-Z]")) {
         //    throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
         //}
-        if (title.isBlank()) throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
+        if (title.isBlank()) throw new IllegalArgumentException(
+            "Title cannot be blank, empty, or contain special characters."
+        );
         this.title = title;
         if (openingPassage == null) throw new IllegalArgumentException("Opening passage cannot be null");
         this.openingPassage = openingPassage;
@@ -64,19 +67,17 @@ public class Story {
     public boolean removePassage(Link link) {
         Passage toRemove = this.passages.get(link);
         /* the passage was not found */
-        if (toRemove == null)
-            return false;
-
+        if (toRemove == null) return false;
 
         /* find out if any other passages has a link to the passage we want to remove */
-        boolean anyMatch = this.passages.values()
+        boolean anyMatch =
+            this.passages.values()
                 .stream()
                 .flatMap(passage -> passage.getLinks().stream())
                 .anyMatch(l -> l.equals(link));
 
         //TODO: should we throw an exception here instead?
-        if (anyMatch)
-            return false;
+        if (anyMatch) return false;
 
         this.passages.remove(link);
         return true;
@@ -89,10 +90,10 @@ public class Story {
      */
     public List<Link> getBrokenLinks() {
         return this.passages.values()
-                .stream()
-                .flatMap(passage -> passage.getLinks().stream())
-                .filter(link -> this.passages.get(link) == null)
-                .toList();
+            .stream()
+            .flatMap(passage -> passage.getLinks().stream())
+            .filter(link -> this.passages.get(link) == null)
+            .toList();
     }
 
     /**
@@ -123,9 +124,10 @@ public class Story {
         sb.append(this.title).append("\n\n");
         sb.append(this.openingPassage.toString()).append("\n");
 
-        this.passages.values().forEach(passage -> {
-            if(!passage.equals(openingPassage)) sb.append(passage.toString()).append("\n");
-        });
+        this.passages.values()
+            .forEach(passage -> {
+                if (!passage.equals(openingPassage)) sb.append(passage.toString()).append("\n");
+            });
 
         return sb.toString();
     }

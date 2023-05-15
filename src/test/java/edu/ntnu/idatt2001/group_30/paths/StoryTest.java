@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
 
 public class StoryTest {
 
@@ -17,7 +16,10 @@ public class StoryTest {
 
         @Test
         void can_be_constructed() {
-            Story story = new Story("Berachad chronicles", new Passage("Cast magic spell", "You cast a magic spell on Berachad"));
+            Story story = new Story(
+                "Berachad chronicles",
+                new Passage("Cast magic spell", "You cast a magic spell on Berachad")
+            );
             assertEquals("Berachad chronicles", story.getTitle());
         }
 
@@ -38,6 +40,7 @@ public class StoryTest {
 
     @Nested
     class A_valid_Story_object {
+
         @Test
         void can_get_all_passages() {
             Story story = new Story("A story of war and Eilor", new Passage("You see Eilor", "What do you do?"));
@@ -71,6 +74,7 @@ public class StoryTest {
 
     @Nested
     class A_valid_Story_object_with_passage_data {
+
         Story story;
 
         @BeforeEach
@@ -95,7 +99,8 @@ public class StoryTest {
             // this means that passageOne should not be removed
             passageTwo.addLink(new Link("Observing the master", "You observe the master..."));
             story.addPassage(passageTwo);
-            boolean return_value = this.story.removePassage(new Link("Observing the master", "You observe the master..."));
+            boolean return_value =
+                this.story.removePassage(new Link("Observing the master", "You observe the master..."));
             assertFalse(return_value);
         }
 
@@ -111,7 +116,5 @@ public class StoryTest {
             story.addPassage(passageTwo);
             assertEquals(1, this.story.getBrokenLinks().size());
         }
-
     }
-    
 }

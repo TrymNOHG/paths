@@ -15,7 +15,7 @@ public class ActionFactory {
      * @param actionValue   The action value, given as a String.
      * @return              An action object with the information specified
      */
-    public static Action<?> getAction(ActionType actionType, String actionValue) throws IllegalArgumentException{
+    public static Action<?> getAction(ActionType actionType, String actionValue) throws IllegalArgumentException {
         return switch (actionType) {
             case GOLD_ACTION -> new GoldAction(Integer.parseInt(actionValue));
             case HEALTH_ACTION -> new HealthAction(Integer.parseInt(actionValue));
@@ -23,5 +23,4 @@ public class ActionFactory {
             case SCORE_ACTION -> new ScoreAction(Integer.parseInt(actionValue));
         };
     }
-
 }

@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.PathsSingleton;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -10,13 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class StoryCreation extends Application {
+
     public static final int DEFAULT_WIDTH = 1000;
     public static final int DEFAULT_HEIGHT = 1000;
     private static Stage stage;
@@ -48,7 +49,6 @@ public class StoryCreation extends Application {
         contentPane.setStyle("-fx-border-color: black;");
         scrollPane.setContent(contentPane);
 
-
         PassageNode passage1 = new PassageNode(50, 50, 100, 50, new Passage("Passage title", "Content"));
         PassageNode passage2 = new PassageNode(200, 200, 100, 50, new Passage("Passage title2", "Content2"));
 
@@ -71,29 +71,32 @@ public class StoryCreation extends Application {
         menu.setTranslateX(300);
         menu.setTranslateY(300);
 
+        anchorPane.getChildren().addAll(scrollPane, menu);
 
-        anchorPane.getChildren().addAll(
-                scrollPane,
-                menu
+        addPassage
+            .onActionProperty()
+            .set(actionEvent -> {
+                PassageNode newPassage = new PassageNode(
+                    200 + 100 * passages.size(),
+                    200,
+                    100,
+                    50,
+                    new Passage("Passage title", "Content2")
                 );
-
-        addPassage.onActionProperty().set(actionEvent -> {
-            PassageNode newPassage = new PassageNode(200 + 100 * passages.size(), 200, 100, 50, new Passage("Passage title", "Content2"));
-            passages.add(newPassage);
-            contentPane.getChildren().add(newPassage);
-        });
+                passages.add(newPassage);
+                contentPane.getChildren().add(newPassage);
+            });
 
         Scene scene = new Scene(anchorPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         StoryCreation.stage.setScene(scene);
         StoryCreation.stage.show();
-
-
     }
 
     private void addContentPaneEventListeners(Pane contentPane) {
         contentPane.setOnMousePressed(mouseEvent -> {
             contentPane.setCursor(Cursor.HAND);
-            contentPaneInitOffset = new Point2D(mouseEvent.getX(), mouseEvent.getY())
+            contentPaneInitOffset =
+                new Point2D(mouseEvent.getX(), mouseEvent.getY())
                     .subtract(contentPane.getTranslateX(), contentPane.getTranslateY());
         });
 
@@ -102,19 +105,24 @@ public class StoryCreation extends Application {
         });
 
         contentPane.setOnMouseDragged(mouseEvent -> {
-            if(!PathsSingleton.INSTANCE.isPassageMoving()) {
+            if (!PathsSingleton.INSTANCE.isPassageMoving()) {
                 contentPane.setCursor(Cursor.HAND);
 
                 double newX = mouseEvent.getX() - contentPaneInitOffset.getX();
                 double newY = mouseEvent.getY() - contentPaneInitOffset.getY();
                 contentPane.setTranslateX(newX);
                 contentPane.setTranslateY(newY);
-
             }
         });
 
         contentPane.setOnMouseClicked(mouseEvent -> {
-            PassageNode newPassage = new PassageNode(mouseEvent.getX(), mouseEvent.getY(), 100, 50, new Passage("Passage title", "Content2"));
+            PassageNode newPassage = new PassageNode(
+                mouseEvent.getX(),
+                mouseEvent.getY(),
+                100,
+                50,
+                new Passage("Passage title", "Content2")
+            );
             passages.add(newPassage);
             contentPane.getChildren().add(newPassage);
         });

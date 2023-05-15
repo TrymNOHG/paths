@@ -4,9 +4,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pane.PaneSpacing;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 /**
  * This class represents a depiction of a story. This story can come in both the form of a Story file as well as just a
@@ -24,7 +23,7 @@ import java.util.List;
  *
  * @author Trym Hamer Gudvangen
  */
-public class StoryDisplay extends VBox{
+public class StoryDisplay extends VBox {
 
     /**
      * This constructor represents a display filled with a given story's information. It utilizes a builder object,
@@ -40,7 +39,8 @@ public class StoryDisplay extends VBox{
      * This static class employs the builder design pattern. It allows for a person to construct a display by adding
      * on the desired parts of information. It, therefore, includes multiple methods for adding story information.
      */
-    public static class Builder{
+    public static class Builder {
+
         private String storyFileName;
 
         private String location;
@@ -77,7 +77,7 @@ public class StoryDisplay extends VBox{
          * This method adds an HBox containing the story name to the hBoxList.
          * @return The builder itself, represented as a Builder object.
          */
-        public Builder addStoryName(){
+        public Builder addStoryName() {
             Text storyName = new Text(story.getTitle());
             storyName.setUnderline(true);
             this.hBoxList.add(PaneSpacing.createHBoxWithSpacing(storyName));
@@ -97,8 +97,8 @@ public class StoryDisplay extends VBox{
          * This method creates the file name information of the story file.
          * @return A horizontal layout with the file name information, represented using an HBox object
          */
-        public Builder addFileNameInfo(){
-            if(storyFileName == null) return this;
+        public Builder addFileNameInfo() {
+            if (storyFileName == null) return this;
             Text description = new Text("File Name: ");
             Text fileName = new Text(this.storyFileName);
             this.hBoxList.add(PaneSpacing.createHBoxWithSpacing(description, fileName));
@@ -110,7 +110,7 @@ public class StoryDisplay extends VBox{
          * @return A horizontal layout with the file save information, represented using an HBox object
          */
         public Builder addTimeSavedInfo() throws IOException {
-            if(storyFileName == null) return this;
+            if (storyFileName == null) return this;
             Text savedText = new Text("Saved: ");
             FileTime fileTime = Files.getLastModifiedTime(Path.of(FileHandler.getFileSourcePath(this.storyFileName)));
             Text timeSaved = new Text(fileTime.toString().substring(0, 10));
@@ -122,8 +122,8 @@ public class StoryDisplay extends VBox{
          * This method creates the file location information of the story file.
          * @return A horizontal layout with the file location information,represented using an HBox object
          */
-        public Builder addFileLocationInfo(){
-            if(storyFileName == null) return this;
+        public Builder addFileLocationInfo() {
+            if (storyFileName == null) return this;
             Text locationText = new Text("Location: ");
             Text pathSaved = new Text(this.location);
             pathSaved.setWrappingWidth(200);
@@ -135,7 +135,7 @@ public class StoryDisplay extends VBox{
          * This method retrieves the location and story information from the story file.
          * @throws IOException This exception is thrown if the file read is invalid.
          */
-        private void setStoryInformation() throws IOException, InstantiationException{
+        private void setStoryInformation() throws IOException, InstantiationException {
             this.location = String.valueOf(FileHandler.createFile(this.storyFileName).toPath());
             this.story = new StoryFileHandler().readStoryFromFile(this.storyFileName);
         }
@@ -145,9 +145,8 @@ public class StoryDisplay extends VBox{
          * {@link StoryDisplay#StoryDisplay(Builder)}.
          * @return  A story display with all the information added, represented as a VBox.
          */
-        public VBox build(){
+        public VBox build() {
             return new StoryDisplay(this);
         }
     }
-
 }

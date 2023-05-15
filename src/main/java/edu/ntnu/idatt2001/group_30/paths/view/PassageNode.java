@@ -2,6 +2,8 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.PathsSingleton;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
@@ -10,9 +12,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /*
     TODO:
@@ -57,37 +56,36 @@ public class PassageNode extends Pane {
         this.setLayoutX(v);
         this.setLayoutY(v1);
         this.setPrefSize(v2, v3);
-
-//        this.setTranslateX(v);
-//        this.setTranslateY(v1);
+        //        this.setTranslateX(v);
+        //        this.setTranslateY(v1);
 
     }
 
-    private void addPassageEventListener(){
+    private void addPassageEventListener() {
         this.setOnMousePressed(mouseEvent -> {
-            this.setCursor(Cursor.HAND);
-            this.passageInitOffset = new Point2D(mouseEvent.getX(), mouseEvent.getY())
-                    .subtract(this.getTranslateX(), this.getTranslateY());
-        });
+                this.setCursor(Cursor.HAND);
+                this.passageInitOffset =
+                    new Point2D(mouseEvent.getX(), mouseEvent.getY())
+                        .subtract(this.getTranslateX(), this.getTranslateY());
+            });
 
         this.setOnMouseDragged(event -> {
-            this.setCursor(Cursor.MOVE);
-            PathsSingleton.INSTANCE.setPassageMoving(true);
+                this.setCursor(Cursor.MOVE);
+                PathsSingleton.INSTANCE.setPassageMoving(true);
 
-            double newX = event.getX() - this.passageInitOffset.getX();
-            double newY = event.getY() - this.passageInitOffset.getY();
+                double newX = event.getX() - this.passageInitOffset.getX();
+                double newY = event.getY() - this.passageInitOffset.getY();
 
-            this.setTranslateX(newX);
-            this.setTranslateY(newY);
-
-//            this.getChildren().forEach(child -> child.setTranslateX(event.getX() - this.getWidth()/2));
-//            this.setX(event.getX() - this.getWidth()/2);
-//            this.setY(event.getY() - this.getHeight()/2);
-            //TODO: adjust link as well
-        });
+                this.setTranslateX(newX);
+                this.setTranslateY(newY);
+                //            this.getChildren().forEach(child -> child.setTranslateX(event.getX() - this.getWidth()/2));
+                //            this.setX(event.getX() - this.getWidth()/2);
+                //            this.setY(event.getY() - this.getHeight()/2);
+                //TODO: adjust link as well
+            });
 
         this.setOnMouseReleased(mouseDragEvent -> {
-            PathsSingleton.INSTANCE.setPassageMoving(false);
-        });
+                PathsSingleton.INSTANCE.setPassageMoving(false);
+            });
     }
 }

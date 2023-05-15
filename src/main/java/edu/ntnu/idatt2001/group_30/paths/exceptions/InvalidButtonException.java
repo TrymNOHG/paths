@@ -3,13 +3,12 @@ package edu.ntnu.idatt2001.group_30.paths.exceptions;
 /**
  * An exception that is thrown when an invalid ButtonType is used.
  */
-public class InvalidButtonException extends RuntimeException{
+public class InvalidButtonException extends RuntimeException {
 
     /**
      * Constructs a new InvalidButtonException with no detail message.
      */
-    public InvalidButtonException() {
-    }
+    public InvalidButtonException() {}
 
     /**
      * Constructs a new InvalidButtonException with the specified detail message.
@@ -39,5 +38,4 @@ public class InvalidButtonException extends RuntimeException{
     public InvalidButtonException(Throwable cause) {
         super(cause);
     }
-
 }

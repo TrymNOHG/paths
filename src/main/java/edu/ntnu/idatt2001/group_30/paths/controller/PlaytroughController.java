@@ -1,22 +1,19 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
+
 import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.ScoreGoal;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import edu.ntnu.idatt2001.group_30.paths.view.HelpView;
 import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-
-import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
-
 
 /**
  * Controller for the play-through of the game.

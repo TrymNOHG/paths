@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.model.actions;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
-
 import java.util.Objects;
 
 /**
