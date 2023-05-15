@@ -1,6 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths;
 
+import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
+import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
+
 
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
@@ -13,7 +16,12 @@ public enum PathsSingleton {
     INSTANCE;
 
     private Story story;
+    private Player player = new Player("Default", 100, 100, 100);
     private boolean passageMoving = false;
+    private HealthGoal healthGoal;
+    private ScoreGoal scoreGoal;
+    private InventoryGoal inventoryGoal;
+    private GoldGoal goldGoal;
 
     /**
      * This method gets the current selected story.
@@ -29,6 +37,54 @@ public enum PathsSingleton {
      */
     public void setStory(Story story) {
         this.story = story;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void changeGoal(Goal<?> newGoal) {
+        setGoal(GoalType.getGoalType(newGoal.getClass().getSimpleName()), newGoal);
+    }
+
+
+    public <T> void setGoal(GoalType goalType, Goal<?> goal) {
+        switch (goalType) {
+            case HEALTH_GOAL -> healthGoal = (HealthGoal) goal;
+            case SCORE_GOAL -> scoreGoal = (ScoreGoal) goal;
+            case INVENTORY_GOAL -> inventoryGoal = (InventoryGoal) goal;
+            case GOLD_GOAL -> goldGoal = (GoldGoal) goal;
+            default -> throw new IllegalArgumentException("Unsupported goal type: " + goalType);
+        }
+    }
+
+    public HealthGoal getHealthGoal() {
+        return healthGoal;
+    }
+
+    public ScoreGoal getScoreGoal() {
+        return scoreGoal;
+    }
+
+    public InventoryGoal getInventoryGoal() {
+        return inventoryGoal;
+    }
+
+    public GoldGoal getGoldGoal() {
+        return goldGoal;
+    }
+
+    public  <T> Goal<?> getGoal(GoalType goalType) {
+        return switch(goalType) {
+            case HEALTH_GOAL -> healthGoal;
+            case SCORE_GOAL -> scoreGoal;
+            case INVENTORY_GOAL -> inventoryGoal;
+            case GOLD_GOAL -> goldGoal;
+        };
     }
 
     /**

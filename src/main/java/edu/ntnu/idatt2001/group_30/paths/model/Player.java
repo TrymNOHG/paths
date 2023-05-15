@@ -106,6 +106,14 @@ public class Player {
     }
 
     /**
+     * This method sets the gold field to the given value.
+     * @param gold  New gold value, given as an int.
+     */
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    /**
      * This method retrieves the player's amount of gold.
      * @return  Player's amount of gold, represented using an int.
      */
@@ -131,7 +139,7 @@ public class Player {
 
     /**
      * Static Builder class that enables the creation of a Player object using the builder pattern.
-     * @Author Nicolai H. Brand
+     * @author Nicolai H. Brand
      */
     public static class Builder {
 

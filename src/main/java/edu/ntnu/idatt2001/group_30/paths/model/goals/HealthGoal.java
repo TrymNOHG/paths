@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class HealthGoal implements Goal {
+public class HealthGoal implements Goal<Integer> {
 
     private final int minimumHealth;
 
@@ -32,5 +32,14 @@ public class HealthGoal implements Goal {
     public boolean isFulfilled(Player player) {
         Objects.requireNonNull(player);
         return player.getHealth() >= this.minimumHealth;
+    }
+
+    /**
+     * This method retrieves the goal value.
+     * @return The minimum health goal, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumHealth;
     }
 }

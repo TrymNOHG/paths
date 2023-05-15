@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.model.goals;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class InventoryGoal implements Goal {
+public class InventoryGoal implements Goal<List<String>> {
 
     private final List<String> mandatoryItems;
 
@@ -31,6 +32,26 @@ public class InventoryGoal implements Goal {
     @Override
     public boolean isFulfilled(Player player) {
         Objects.requireNonNull(player);
-        return player.getInventory().containsAll(mandatoryItems);
+        return new HashSet<>(player.getInventory()).containsAll(mandatoryItems);
+    }
+
+    public void concatGoals(InventoryGoal inventoryGoal) {
+        this.mandatoryItems.addAll(inventoryGoal.mandatoryItems);
+    }
+
+    /**
+     * This method retrieves the goal value.
+     * @return Mandatory items, given as a List of String objects.
+     */
+    @Override
+    public List<String> getGoalValue() {
+        return this.mandatoryItems;
+    }
+
+    @Override
+    public String toString() {
+        return "InventoryGoal{" +
+                "mandatoryItems=" + mandatoryItems +
+                '}';
     }
 }

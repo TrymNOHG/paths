@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class ScoreGoal implements Goal {
+public class ScoreGoal implements Goal<Integer> {
 
     private final int minimumPoints;
 
@@ -30,5 +30,14 @@ public class ScoreGoal implements Goal {
     public boolean isFulfilled(Player player) {
         Objects.requireNonNull(player);
         return player.getScore() >= this.minimumPoints;
+    }
+
+    /**
+     * This method retrieves the goal value.
+     * @return Minimum points, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumPoints;
     }
 }

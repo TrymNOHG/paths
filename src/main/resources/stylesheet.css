@@ -56,3 +56,50 @@
 #load-button:hover, #new-button:hover {
     -fx-background-color: #005ce6;
 }
+
+.create-player-view {
+    -fx-background-color: #f0f0f0;
+}
+
+.left-vbox {
+    -fx-spacing: 30;
+}
+
+.name-field {
+    -fx-padding: 10;
+}
+
+.stats-button,
+.goals-button {
+    -fx-background-color: #64b5f6;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #42a5f5;
+    -fx-border-width: 1px;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+}
+
+.stats-button:hover,
+.goals-button:hover {
+    -fx-background-color: #42a5f5;
+}
+
+.continue-button,
+.return-button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #43a047;
+    -fx-border-width: 1px;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+}
+
+.continue-button:hover,
+.return-button:hover {
+    -fx-background-color: #43a047;
+}
+
+.center-box {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}

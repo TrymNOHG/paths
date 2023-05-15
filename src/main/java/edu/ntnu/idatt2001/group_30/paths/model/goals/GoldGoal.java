@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author Trym Hamer Gudvangen
  */
-public class GoldGoal implements Goal {
+public class GoldGoal implements Goal<Integer> {
 
     private final int minimumGold;
 
@@ -31,5 +31,14 @@ public class GoldGoal implements Goal {
     public boolean isFulfilled(Player player) {
         Objects.requireNonNull(player);
         return player.getGold() >= this.minimumGold;
+    }
+
+    /**
+     * This method retrieves the goal value.
+     * @return  The minimum gold, given as an Integer.
+     */
+    @Override
+    public Integer getGoalValue() {
+        return this.minimumGold;
     }
 }
