@@ -63,6 +63,7 @@ public class NewGameView extends View<BorderPane> {
         });
          */
         Button startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
+        startButton.setVisible(false);
 
         HBox buttonBox = new HBox(10, backButton, startButton);
         buttonBox.setAlignment(Pos.CENTER);
