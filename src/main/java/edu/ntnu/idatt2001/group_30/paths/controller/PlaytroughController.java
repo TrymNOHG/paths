@@ -10,6 +10,8 @@ import edu.ntnu.idatt2001.group_30.paths.view.HelpView;
 import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,16 +54,9 @@ public class PlaytroughController extends Controller {
      * It also resets the reactive properties.
      */
     public void startNewGame() {
-        //TODO: add from Singleton
-        Player player = new Player("Gorm", 50, 0, 100);
-        HealthGoal healthGoal = new HealthGoal(10);
-        ScoreGoal scoreGoal = new ScoreGoal(100);
-        ArrayList<Goal> goals = new ArrayList<>();
-        goals.add(healthGoal);
-        goals.add(scoreGoal);
-
         gameAlreadyWon = false;
-        game = new Game(player, INSTANCE.getStory(), goals);
+        game = new Game(INSTANCE.getPlayer(), INSTANCE.getStory(), INSTANCE.getGoals());
+        System.out.println("Starting new game");
         Passage openingPassage = game.begin();
         updateReactiveProperties(openingPassage);
     }
