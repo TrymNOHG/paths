@@ -67,7 +67,11 @@ public class NewGameView extends View<BorderPane> {
         HBox buttonBox = new HBox(10, backButton, startButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        VBox containerWithButtons = new VBox(mainContainer, buttonBox);
+        ImageView characterImageView = INSTANCE.getCharacterImageView();
+        characterImageView.setFitWidth(150);
+        characterImageView.setFitHeight(300);
+
+        VBox containerWithButtons = new VBox(mainContainer, buttonBox, characterImageView);
         containerWithButtons.setSpacing(20);
         containerWithButtons.setAlignment(Pos.CENTER);
 

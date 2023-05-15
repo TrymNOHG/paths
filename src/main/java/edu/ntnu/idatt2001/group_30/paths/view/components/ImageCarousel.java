@@ -9,8 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-//TODO: make this into an HBOX with arrows that actually work.
-// Add option of looping or not and adjust how arrows are display accordingly
 public class ImageCarousel {
 
     private final LinkedList<Image> images = new LinkedList<>();
@@ -50,7 +48,6 @@ public class ImageCarousel {
 
         HBox carousel = new HBox(leftButton, currentImage, rightButton);
         carousel.setAlignment(Pos.CENTER);
-
         return carousel;
     }
 
@@ -66,5 +63,9 @@ public class ImageCarousel {
 
     public int size() {
         return size;
+    }
+
+    public ImageView getCurrentImage() {
+        return currentImage;
     }
 }

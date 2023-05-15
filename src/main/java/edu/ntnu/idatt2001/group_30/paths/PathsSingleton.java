@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.group_30.paths;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
+import javafx.scene.image.ImageView;
 
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
@@ -21,6 +22,7 @@ public enum PathsSingleton {
     private ScoreGoal scoreGoal;
     private InventoryGoal inventoryGoal;
     private GoldGoal goldGoal;
+    private ImageView characterImageView;
 
     /**
      * This method gets the current selected story.
@@ -83,6 +85,14 @@ public enum PathsSingleton {
             case INVENTORY_GOAL -> inventoryGoal;
             case GOLD_GOAL -> goldGoal;
         };
+    }
+
+    public ImageView getCharacterImageView() {
+        return characterImageView;
+    }
+
+    public void setCharacterImageView(ImageView characterImageView) {
+        this.characterImageView = characterImageView;
     }
 
     /**
