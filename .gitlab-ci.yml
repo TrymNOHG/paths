@@ -1,14 +1,20 @@
-image: maven:eclipse-temurin
+image: maven:latest
+
+stages:
+  - checkstyle
+  - compile
+  - test
 
 checkstyle:
   stage: checkstyle
   script:
     - mvn clean prettier:check
 
-build:
-  stage: build
+compile:
+  stage: compile
   script:
-    - mvn clean compile
+    - mvn compile
+    - mvn clean
 
 test:
   stage: test
