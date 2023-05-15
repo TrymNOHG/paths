@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * This class represents a minimum health threshold.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand.
  */
 public class HealthGoal implements Goal<Integer> {
 
@@ -41,5 +41,14 @@ public class HealthGoal implements Goal<Integer> {
     @Override
     public Integer getGoalValue() {
         return this.minimumHealth;
+    }
+
+    /**
+     * String representation of the HealthGoal object.
+     * @return  String representation of the HealthGoal object.
+     */
+    @Override
+    public String toString() {
+        return "Need to have at least " + this.minimumHealth + " health.";
     }
 }

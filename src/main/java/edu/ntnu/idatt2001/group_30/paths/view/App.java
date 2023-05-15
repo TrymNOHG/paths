@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * The class App is the main class of the application Paths.
@@ -28,6 +29,9 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) {
+        stage.initStyle(StageStyle.UTILITY);
+        stage.setAlwaysOnTop(true);
+        stage.setTitle("Paths");
         /* initialize STAGE_MANAGER */
         STAGE_MANAGER = StageManager.init(stage);
         STAGE_MANAGER.setCurrentView(new HomeView());

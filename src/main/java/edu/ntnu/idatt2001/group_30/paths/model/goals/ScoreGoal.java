@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * This class represents a minimum goal threshold.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand.
  */
 public class ScoreGoal implements Goal<Integer> {
 
@@ -39,5 +39,14 @@ public class ScoreGoal implements Goal<Integer> {
     @Override
     public Integer getGoalValue() {
         return this.minimumPoints;
+    }
+
+    /**
+     * String representation of the ScoreGoal object.
+     * @return  String representation of the ScoreGoal object.
+     */
+    @Override
+    public String toString() {
+        return "Need to have at least " + this.minimumPoints + " points.";
     }
 }

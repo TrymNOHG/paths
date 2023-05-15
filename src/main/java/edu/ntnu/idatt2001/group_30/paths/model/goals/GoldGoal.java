@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * This class represents a minimum gold threshold.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand
  */
 public class GoldGoal implements Goal<Integer> {
 
@@ -40,5 +40,14 @@ public class GoldGoal implements Goal<Integer> {
     @Override
     public Integer getGoalValue() {
         return this.minimumGold;
+    }
+
+    /**
+     * String representation of the GoldGoal object.
+     * @return  String representation of the GoldGoal object.
+     */
+    @Override
+    public String toString() {
+        return "Need to collect " + this.minimumGold + " gold.";
     }
 }

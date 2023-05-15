@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * This class represents the items that are expected in a player's inventory.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand.
  */
 public class InventoryGoal implements Goal<List<String>> {
 
@@ -48,10 +48,12 @@ public class InventoryGoal implements Goal<List<String>> {
         return this.mandatoryItems;
     }
 
+    /**
+     * String representation of the InventoryGoal object.
+     * @return  String representation of the InventoryGoal object.
+     */
     @Override
     public String toString() {
-        return "InventoryGoal{" +
-                "mandatoryItems=" + mandatoryItems +
-                '}';
+        return "Need to have the following items in your inventory: " + this.mandatoryItems;
     }
 }
