@@ -20,7 +20,7 @@ public class DefaultFont {
      * @return A JavaFX font.
      */
     public static Font big() {
-        return new Font(DEFAULT_FONT, 48);
+        return new Font(DEFAULT_FONT, 42);
     }
 
     /**
@@ -28,7 +28,7 @@ public class DefaultFont {
      * @return A JavaFX font.
      */
     public static Font medium() {
-        return new Font(DEFAULT_FONT, 24);
+        return new Font(DEFAULT_FONT, 26);
     }
 
     /**

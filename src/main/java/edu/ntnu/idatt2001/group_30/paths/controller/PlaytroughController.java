@@ -12,6 +12,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller for the play-through of the game.
@@ -52,7 +53,6 @@ public class PlaytroughController extends Controller {
     public void startNewGame() {
         gameAlreadyWon = false;
         game = new Game(INSTANCE.getPlayer(), INSTANCE.getStory(), INSTANCE.getGoals());
-        System.out.println("Starting new game");
         Passage openingPassage = game.begin();
         updateReactiveProperties(openingPassage);
     }
@@ -171,19 +171,35 @@ public class PlaytroughController extends Controller {
     }
 
     /**
-     * Returns the current story.
+     * Helper method that returns the current story.
      * @return the current story.
      */
-    public Story getStory() {
+    private Story getStory() {
         return game.getStory();
     }
 
     /**
-     * Returns the current player.
+     * Returns the title of the current story.
+     * @return the title of the current story.
+     */
+    public String getStoryTitle() {
+        return game.getStory().getTitle();
+    }
+
+    /**
+     * Helper method that returns the current player.
      * @return the current player.
      */
-    public Player getPlayer() {
+    private Player getPlayer() {
         return game.getPlayer();
+    }
+
+    /**
+     * Returns the name of the player.
+     * @return the name of the player.
+     */
+    public String getPlayerName() {
+        return game.getPlayer().getName();
     }
 
     /**
@@ -224,5 +240,9 @@ public class PlaytroughController extends Controller {
      */
     public BooleanProperty getGameWon() {
         return gameWon;
+    }
+
+    public ImageView getCharacterImageView() {
+        return INSTANCE.getCharacterImageView();
     }
 }
