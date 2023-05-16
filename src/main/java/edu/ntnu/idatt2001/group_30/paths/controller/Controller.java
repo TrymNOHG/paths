@@ -44,6 +44,15 @@ public class Controller {
         return actionEvent -> STAGE_MANAGER.goBack();
     }
 
+    /**
+     * Go back to the previous instance of the given view class.
+     * @param viewClass The class of the view to go back to.
+     * @return An EventHandler that will set the current view to the previous instance of the given view class.
+     */
+    public EventHandler<ActionEvent> goBackTo(Class<? extends View<?>> viewClass) {
+        return actionEvent -> STAGE_MANAGER.goBackTo(viewClass);
+    }
+
     public Stage getRootStage() {
         return STAGE_MANAGER.getStage();
     }

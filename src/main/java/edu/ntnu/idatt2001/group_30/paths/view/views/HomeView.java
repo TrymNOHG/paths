@@ -43,7 +43,7 @@ public class HomeView extends View<VBox> {
     private List<Node> getStartMenuButtons() {
         List<Node> buttons = new ArrayList<>();
         if (controller.canContinueAGame()) buttons.add(
-            DefaultButton.big("Continue", controller.goTo(PlaythroughView.class))
+            DefaultButton.big("Continue", controller.goBackTo(PlaythroughView.class))
         );
         buttons.add(DefaultButton.big("New game", controller.goTo(CreatePlayerView.class)));
         buttons.add(DefaultButton.big("Help", controller.goTo(HelpView.class)));

@@ -72,6 +72,22 @@ public class StageManager {
     }
 
     /**
+     * Sets the current view of the stage to the previous instance of the given view class.
+     * If the view is not in the viewStack, an IllegalArgumentException is thrown.
+     * @param viewClass The class of the view to go back to.
+     * @throws IllegalArgumentException if the view is not in the viewStack.
+     */
+    public void goBackTo(Class<? extends View<?>> viewClass) throws IllegalArgumentException {
+        while (viewStack.size() > 1 && !viewStack.peek().getClass().equals(viewClass)) {
+            popAndUpdate();
+        }
+
+        if (viewStack.size() == 1 && !viewStack.peek().getClass().equals(viewClass)) {
+            throw new IllegalArgumentException("The view " + viewClass.getSimpleName() + " is not in the viewStack.");
+        }
+    }
+
+    /**
      * Pushes the given view onto the viewStack and updates the stage.
      * @param view The view to push onto the viewStack.
      */
