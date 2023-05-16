@@ -7,6 +7,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
+import java.net.URL;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
@@ -279,6 +280,7 @@ public class PlaythroughView extends View<VBox> {
         VBox content = new VBox();
         content.setAlignment(Pos.TOP_LEFT);
         content.setSpacing(20);
+        content.setPadding(new Insets(0, 0, 0, 20));
 
         ObservableMap<Goal, Boolean> goals = controller.getGoals();
         goals.addListener(
@@ -347,7 +349,17 @@ public class PlaythroughView extends View<VBox> {
             goalBox.setAlignment(Pos.TOP_LEFT);
             goalBox.setSpacing(10);
             goalBox.getChildren().add(DefaultText.small(goal.toString()));
-            goalBox.getChildren().add(DefaultText.small(completed ? "Completed" : "Not completed"));
+            //goalBox.getChildren().add(DefaultText.small(completed ? "Completed" : "Not completed"));
+            URL imageUrl = getClass().getResource("/images/checkbox-" + (completed ? "marked" : "blank") + ".png");
+            if (imageUrl != null) {
+                ImageView imageView = new ImageView(imageUrl.toString());
+                imageView.setFitWidth(20);
+                imageView.setPreserveRatio(true);
+                goalBox.getChildren().add(imageView);
+            } else {
+                System.err.println("Unable to load image: " + imageUrl);
+            }
+
             content.getChildren().add(goalBox);
         });
     }
