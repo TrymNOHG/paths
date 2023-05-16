@@ -222,7 +222,7 @@ public class PlaythroughView extends View<VBox> {
 
         /* player data */
         VBox playerData = new VBox();
-        playerData.setAlignment(Pos.TOP_LEFT);
+        playerData.setAlignment(Pos.TOP_CENTER);
         playerData.setSpacing(10);
         playerData.prefWidthProperty().bind(playerInfoBox.widthProperty().multiply(0.5));
         playerData.getChildren().add(DefaultText.small("Name: " + controller.getPlayerName()));
@@ -247,8 +247,8 @@ public class PlaythroughView extends View<VBox> {
 
         /* player image */
         ImageView characterImageView = controller.getCharacterImageView();
-        characterImageView.setFitHeight(100);
-        characterImageView.setFitWidth(100);
+        characterImageView.setFitHeight(150);
+        characterImageView.setPreserveRatio(true);
 
         playerDataAndImage.getChildren().add(playerData);
         playerDataAndImage.getChildren().add(characterImageView);

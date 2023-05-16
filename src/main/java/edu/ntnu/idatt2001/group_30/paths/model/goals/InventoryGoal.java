@@ -18,9 +18,9 @@ public class InventoryGoal implements Goal<List<String>> {
      * The constructor defines the items a player must have.
      * @param mandatoryItems    Expected items, given as a List{@code <String>}.
      */
-    public InventoryGoal(List<String> mandatoryItems) {
+    public InventoryGoal(List<String> mandatoryItems) throws IllegalArgumentException {
+        Objects.requireNonNull(mandatoryItems);
         this.mandatoryItems = mandatoryItems;
-        //TODO: Add exception?
     }
 
     /**
