@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
 import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,8 +52,12 @@ public class PlaytroughController extends Controller {
      * It also resets the reactive properties.
      */
     public void startNewGame() {
+        assert INSTANCE.getPlayer() != null;
+        assert INSTANCE.getStory() != null;
+        assert INSTANCE.getGoals() != null;
+
         gameAlreadyWon = false;
-        game = new Game(INSTANCE.getPlayer(), INSTANCE.getStory(), INSTANCE.getGoals());
+        game = new Game(new Player(INSTANCE.getPlayer()), INSTANCE.getStory(), INSTANCE.getGoals());
         Passage openingPassage = game.begin();
         updateReactiveProperties(openingPassage);
     }
@@ -84,7 +89,7 @@ public class PlaytroughController extends Controller {
      * Computes the current state of the game.
      * Updates the reactive properties based on the current state of the game.
      */
-    private void updateGameState() {
+    public void updateGameState() {
         if (gameAlreadyWon) return;
 
         if (game.isGameWon()) {

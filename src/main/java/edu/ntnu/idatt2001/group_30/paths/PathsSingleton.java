@@ -109,7 +109,7 @@ public enum PathsSingleton {
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
 
-        if (inventoryGoal.getGoalValue().size() != 0) {
+        if (inventoryGoal != null && inventoryGoal.getGoalValue().size() != 0) {
             goals.add(inventoryGoal);
         }
         return goals;

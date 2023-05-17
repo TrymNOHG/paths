@@ -7,6 +7,7 @@ import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
+import javafx.scene.shape.SVGPath;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -79,6 +80,7 @@ public class View<T extends Pane> {
         //      The reason for using a BorderPane is that it is easy to add content to the top, bottom, left and right.
         //      A view is free to override this method and use a different Pane.
         BorderPane wrapper = new BorderPane();
+
         wrapper.setCenter(parentPane);
         wrapper.setBottom(globalFooter());
         wrapper.getStylesheets().add(stylesheet);
