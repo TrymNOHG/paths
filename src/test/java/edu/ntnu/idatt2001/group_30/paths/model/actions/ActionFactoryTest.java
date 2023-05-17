@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.actions;
+package edu.ntnu.idatt2001.group_30.paths.model.actions;
 
 import edu.ntnu.idatt2001.group_30.paths.model.actions.*;
 import org.junit.jupiter.api.Assertions;

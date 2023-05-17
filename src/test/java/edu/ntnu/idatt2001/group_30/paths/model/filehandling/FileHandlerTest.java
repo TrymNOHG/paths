@@ -1,9 +1,10 @@
-package edu.ntnu.idatt2001.group_30.paths.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.model.filehandling;
 
 import edu.ntnu.idatt2001.group_30.paths.exceptions.InvalidExtensionException;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +16,8 @@ class FileHandlerTest {
 
     @BeforeAll
     static void setFileHandlerPath() {
-        FileHandler.changeDefaultPath("src/test/resources/storytestfiles");
+        Path defaultPath = FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles");
+        FileHandler.changeDefaultPath(defaultPath);
     }
 
     @Nested
@@ -38,12 +40,12 @@ class FileHandlerTest {
             }
         )
         void does_not_contain_special_characters(String fileName) {
-            String expectedExceptionMessage = "File name contains invalid characters";
+            String expectedExceptionMessage = "File name contains invalid characters: ";
 
             try {
                 FileHandler.isFileNameValid(fileName);
             } catch (IllegalArgumentException e) {
-                Assertions.assertEquals(expectedExceptionMessage, e.getMessage());
+                Assertions.assertTrue(e.getMessage().contains(expectedExceptionMessage));
             }
         }
 

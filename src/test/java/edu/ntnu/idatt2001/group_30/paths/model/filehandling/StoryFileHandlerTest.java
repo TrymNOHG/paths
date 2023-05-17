@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.filehandling;
+package edu.ntnu.idatt2001.group_30.paths.model.filehandling;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +15,8 @@ import edu.ntnu.idatt2001.group_30.paths.model.actions.ScoreAction;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +29,8 @@ class StoryFileHandlerTest {
 
     @BeforeAll
     static void setFileHandlerPath() {
-        FileHandler.changeDefaultPath("src/test/resources/storytestfiles");
+        Path defaultPath = FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles");
+        FileHandler.changeDefaultPath(defaultPath);
     }
 
     StoryFileHandler storyFileHandler = new StoryFileHandler();
