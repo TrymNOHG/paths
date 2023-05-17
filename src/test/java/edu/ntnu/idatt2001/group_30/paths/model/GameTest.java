@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.group_30.paths.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.GoldGoal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
