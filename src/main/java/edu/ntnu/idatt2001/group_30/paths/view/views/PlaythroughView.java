@@ -160,6 +160,9 @@ public class PlaythroughView extends View<VBox> {
         linksBoxWrapper.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.5));
         linksBoxWrapper.centerShapeProperty().setValue(true);
         VBox linksBox = new VBox();
+        linksBox.setAlignment(Pos.TOP_CENTER);
+        linksBox.prefWidthProperty().bind(linksBoxWrapper.widthProperty());
+
         linksBox.setSpacing(10);
         ObservableList<Link> links = controller.getLinks();
         links.addListener(
@@ -178,7 +181,9 @@ public class PlaythroughView extends View<VBox> {
     private void populateLinksBox(VBox linksBox, ObservableList<Link> links) {
         linksBox.getChildren().clear();
         for (Link link : links) {
-            Button button = DefaultButton.big(link.getText(), e -> controller.chooseLink(link));
+            Button button = DefaultButton.medium(link.getText(), e -> controller.chooseLink(link));
+            button.setWrapText(true);
+            button.setPrefWidth(300);
             button.getStyleClass().add("link-button");
             linksBox.getChildren().add(button);
         }
