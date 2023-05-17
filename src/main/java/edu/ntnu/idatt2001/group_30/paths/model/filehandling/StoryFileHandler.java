@@ -85,7 +85,12 @@ public class StoryFileHandler {
             String storyTitle = bufferedReader.readLine();
 
             List<String> passageInfo = new ArrayList<>(
-                List.of(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())).split(System.lineSeparator() + "::"))
+                List.of(
+                    bufferedReader
+                        .lines()
+                        .collect(Collectors.joining(System.lineSeparator()))
+                        .split(System.lineSeparator() + "::")
+                )
             );
 
             if (passageInfo.size() == 1) throw new CorruptFileException(
