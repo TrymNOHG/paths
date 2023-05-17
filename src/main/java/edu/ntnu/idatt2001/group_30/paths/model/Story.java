@@ -38,6 +38,10 @@ public class Story {
         addPassage(this.openingPassage);
     }
 
+    public boolean goalsAreAchievable() {
+        return true;
+    }
+
     /**
      * Adds a passage to the passages map
      * The link object used as the key in the map is made from properties of the passage

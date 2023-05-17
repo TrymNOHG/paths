@@ -26,6 +26,7 @@ public class PlaytroughController extends Controller {
     private Game game;
 
     /* reactive state */
+    private final StringProperty gameTitle = new SimpleStringProperty("Playing: " + INSTANCE.getStory().getTitle());
     private final StringProperty passageTitle = new SimpleStringProperty();
     private final StringProperty passageContent = new SimpleStringProperty();
     private final ObservableList<Link> links = FXCollections.observableList(new ArrayList<>());
@@ -56,7 +57,12 @@ public class PlaytroughController extends Controller {
         assert INSTANCE.getStory() != null;
         assert INSTANCE.getGoals() != null;
 
+        /* cleanup previous game */
         gameAlreadyWon = false;
+        gameOver.set(false);
+        gameWon.set(false);
+
+        /* start new game */
         game = new Game(new Player(INSTANCE.getPlayer()), INSTANCE.getStory(), INSTANCE.getGoals());
         Passage openingPassage = game.begin();
         updateReactiveProperties(openingPassage);
@@ -83,6 +89,7 @@ public class PlaytroughController extends Controller {
         updateGoals();
         updateGameState();
         updateInventory();
+        updateGameTitle();
     }
 
     /**
@@ -136,6 +143,20 @@ public class PlaytroughController extends Controller {
     }
 
     /**
+     * Updates the game title based on the game state.
+     */
+    private void updateGameTitle() {
+        System.out.println("value: " + gameWon.getValue() + " " + gameOver.getValue() + " " + gameAlreadyWon);
+        if (gameOver.getValue()) {
+            gameTitle.setValue("You died and lost the game!");
+        } else if (gameWon.getValue()) {
+            gameTitle.setValue("You won! (You can still play on)");
+        } else {
+            gameTitle.setValue("Playing: " + INSTANCE.getStory().getTitle());
+        }
+    }
+
+    /**
      * Returns the title of the current passage as an observable StringProperty.
      * @return the title of the current passage.
      */
@@ -181,14 +202,6 @@ public class PlaytroughController extends Controller {
      */
     private Story getStory() {
         return game.getStory();
-    }
-
-    /**
-     * Returns the title of the current story.
-     * @return the title of the current story.
-     */
-    public String getStoryTitle() {
-        return game.getStory().getTitle();
     }
 
     /**
@@ -247,6 +260,19 @@ public class PlaytroughController extends Controller {
         return gameWon;
     }
 
+    /**
+     * Returns the title of the game as an observable StringProperty.
+     * The title of the game will be the title of the story while playing. If not playing, it will show the status of the game.
+     * @return the title of the game.
+     */
+    public StringProperty getGameTitle() {
+        return gameTitle;
+    }
+
+    /**
+     * Returns the image of the character as an ImageView.
+     * @return the image of the character.
+     */
     public ImageView getCharacterImageView() {
         return INSTANCE.getCharacterImageView();
     }

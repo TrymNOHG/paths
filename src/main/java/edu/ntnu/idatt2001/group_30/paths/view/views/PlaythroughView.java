@@ -107,7 +107,7 @@ public class PlaythroughView extends View<VBox> {
         header.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
 
         /* header content */
-        header.getChildren().add(DefaultText.big("Playing: " + controller.getStoryTitle()));
+        header.getChildren().add(Ref.bigText(controller.getGameTitle()));
         header.getChildren().add(new Separator(Orientation.VERTICAL));
         header.getChildren().add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
         header
