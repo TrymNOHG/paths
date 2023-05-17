@@ -85,7 +85,7 @@ public class StoryFileHandler {
             String storyTitle = bufferedReader.readLine();
 
             List<String> passageInfo = new ArrayList<>(
-                List.of(bufferedReader.lines().collect(Collectors.joining("\n")).split("\n::"))
+                List.of(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())).split(System.lineSeparator() + "::"))
             );
 
             if (passageInfo.size() == 1) throw new CorruptFileException(
@@ -115,7 +115,7 @@ public class StoryFileHandler {
      * @return              The passage, given as a Passage object.
      */
     private Passage parseStringToPassage(String passageInfo) throws InstantiationException {
-        String[] splitPassageInfo = passageInfo.split("\n");
+        String[] splitPassageInfo = passageInfo.split(System.lineSeparator());
         Passage passage = new Passage(splitPassageInfo[0], splitPassageInfo[1]);
         for (int i = 2; i < splitPassageInfo.length; i++) {
             Link link = parseStringToLink(splitPassageInfo[i]);
