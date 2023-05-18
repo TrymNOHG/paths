@@ -38,6 +38,19 @@ public class Player {
     }
 
     /**
+     * This constructor creates a new Player from an existing Player object.
+     * This creates a deep copy of the Player object.
+     * @param player    The Player object to be copied.
+     */
+    public Player(Player player) {
+        this.name = player.name;
+        this.health = player.health;
+        this.score = player.score;
+        this.gold = player.gold;
+        this.inventory = new ArrayList<>(player.inventory);
+    }
+
+    /**
      * The Builder class is used to create a Player object.
      * @param build The Builder object that contains the information needed to create a Player object.
      */

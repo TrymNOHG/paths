@@ -1,23 +1,28 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.PlaytroughController;
-import edu.ntnu.idatt2001.group_30.paths.model.*;
+import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
+import java.net.URL;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 
 /**
@@ -102,7 +107,7 @@ public class PlaythroughView extends View<VBox> {
         header.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
 
         /* header content */
-        header.getChildren().add(DefaultText.big("Playing: " + controller.getStory().getTitle()));
+        header.getChildren().add(Ref.bigText(controller.getGameTitle()));
         header.getChildren().add(new Separator(Orientation.VERTICAL));
         header.getChildren().add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
         header
@@ -133,41 +138,55 @@ public class PlaythroughView extends View<VBox> {
     private Node playtroughBox(Pane parentPane) {
         /* container box configuration */
         VBox playtrough = new VBox();
-        playtrough.prefWidthProperty().bind(parentPane.widthProperty().multiply(0.7));
+        playtrough.getStyleClass().add("box-shadow");
+        playtrough.prefWidthProperty().bind(parentPane.widthProperty().multiply(0.6));
         playtrough.prefHeightProperty().bind(parentPane.heightProperty());
         playtrough.setAlignment(Pos.TOP_CENTER);
         playtrough.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), null)));
 
         /* Passage title */
-        playtrough.getChildren().add(Ref.bigText(controller.getPassageTitle()));
+        playtrough.getChildren().add(Ref.mediumText(controller.getPassageTitle()));
         /* Passage content */
         ScrollPane passagePane = new ScrollPane();
         passagePane.paddingProperty().setValue(new javafx.geometry.Insets(20));
         passagePane.setMinHeight(350);
-        Text content = Ref.mediumText(controller.getPassageContent());
+        Text content = Ref.smallText(controller.getPassageContent());
         content.wrappingWidthProperty().bind(passagePane.widthProperty().multiply(0.85));
         passagePane.setContent(content);
         playtrough.getChildren().add(passagePane);
 
         /* links */
+        ScrollPane linksBoxWrapper = new ScrollPane();
+        linksBoxWrapper.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.5));
+        linksBoxWrapper.centerShapeProperty().setValue(true);
         VBox linksBox = new VBox();
         linksBox.setAlignment(Pos.TOP_CENTER);
+        linksBox.prefWidthProperty().bind(linksBoxWrapper.widthProperty());
+
         linksBox.setSpacing(10);
         ObservableList<Link> links = controller.getLinks();
         links.addListener(
             (ListChangeListener<Link>) change -> {
                 linksBox.getChildren().clear();
-                for (Link link : links) {
-                    linksBox.getChildren().add(DefaultButton.big(link.getText(), e -> controller.chooseLink(link)));
-                }
+                populateLinksBox(linksBox, links);
             }
         );
-        for (Link link : links) {
-            linksBox.getChildren().add(DefaultButton.big(link.getText(), e -> controller.chooseLink(link)));
-        }
-        playtrough.getChildren().add(linksBox);
+        populateLinksBox(linksBox, links);
+        linksBoxWrapper.setContent(linksBox);
+        playtrough.getChildren().add(linksBoxWrapper);
 
         return playtrough;
+    }
+
+    private void populateLinksBox(VBox linksBox, ObservableList<Link> links) {
+        linksBox.getChildren().clear();
+        for (Link link : links) {
+            Button button = DefaultButton.medium(link.getText(), e -> controller.chooseLink(link));
+            button.setWrapText(true);
+            button.setPrefWidth(300);
+            button.getStyleClass().add("link-button");
+            linksBox.getChildren().add(button);
+        }
     }
 
     /**
@@ -179,11 +198,11 @@ public class PlaythroughView extends View<VBox> {
      */
     private Node infoBox(Pane parentPane) {
         VBox infoBox = new VBox();
-        infoBox.prefWidthProperty().bind(parentPane.widthProperty().multiply(0.3));
+        infoBox.prefWidthProperty().bind(parentPane.widthProperty().multiply(0.4));
         infoBox.prefHeightProperty().bind(parentPane.heightProperty());
         infoBox.setAlignment(Pos.TOP_CENTER);
-        infoBox.setSpacing(10);
-        infoBox.setPadding(new javafx.geometry.Insets(10));
+        infoBox.setSpacing(20);
+        infoBox.setPadding(new Insets(0, 0, 0, 20)); // Set 20 pixels of left padding
 
         /* player information */
         infoBox.getChildren().add(playerInfo(infoBox));
@@ -201,34 +220,58 @@ public class PlaythroughView extends View<VBox> {
      * @return The parent node of the player information box.
      */
     private Node playerInfo(Pane parentPane) {
+        /*
+         *         Player info:
+         * player info     |  image
+         */
         VBox playerInfoBox = new VBox();
+        playerInfoBox.getStyleClass().add("box-shadow");
         playerInfoBox.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.3));
         playerInfoBox.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), null)));
         playerInfoBox.setAlignment(Pos.TOP_CENTER);
         playerInfoBox.setSpacing(10);
 
-        final Player player = controller.getPlayer();
+        /* title */
+        playerInfoBox.getChildren().add(DefaultText.medium("Player info:"));
 
-        playerInfoBox.getChildren().add(DefaultText.medium("Game info:"));
-        playerInfoBox.getChildren().add(DefaultText.small("Player name: " + player.getName()));
+        /* player data and image container */
+        HBox playerDataAndImage = new HBox();
+        playerDataAndImage.setAlignment(Pos.TOP_LEFT);
+
+        /* player data */
+        VBox playerData = new VBox();
+        playerData.setAlignment(Pos.TOP_CENTER);
+        playerData.setSpacing(10);
+        playerData.prefWidthProperty().bind(playerInfoBox.widthProperty().multiply(0.5));
+        playerData.getChildren().add(DefaultText.small("Name: " + controller.getPlayerName()));
 
         HBox score = new HBox();
         score.setAlignment(Pos.TOP_CENTER);
         score.getChildren().add(DefaultText.small("Score: "));
         score.getChildren().add(Ref.smallText(controller.getScore()));
-        playerInfoBox.getChildren().add(score);
+        playerData.getChildren().add(score);
 
         HBox health = new HBox();
         health.setAlignment(Pos.TOP_CENTER);
         health.getChildren().add(DefaultText.small("Health: "));
         health.getChildren().add(Ref.smallText(controller.getHealth()));
-        playerInfoBox.getChildren().add(health);
+        playerData.getChildren().add(health);
 
         HBox gold = new HBox();
         gold.setAlignment(Pos.TOP_CENTER);
         gold.getChildren().add(DefaultText.small("Gold: "));
         gold.getChildren().add(Ref.smallText(controller.getGold()));
-        playerInfoBox.getChildren().add(gold);
+        playerData.getChildren().add(gold);
+
+        /* player image */
+        ImageView characterImageView = controller.getCharacterImageView();
+        characterImageView.setFitHeight(150);
+        characterImageView.setPreserveRatio(true);
+
+        playerDataAndImage.getChildren().add(playerData);
+        playerDataAndImage.getChildren().add(characterImageView);
+
+        playerInfoBox.getChildren().add(playerDataAndImage);
 
         return playerInfoBox;
     }
@@ -240,10 +283,7 @@ public class PlaythroughView extends View<VBox> {
      * @return The parent node of the goal information box.
      */
     private Node goalInfo(Pane parentPane) {
-        VBox goalInfoBox = new VBox();
-        goalInfoBox.setAlignment(Pos.TOP_CENTER);
-        goalInfoBox.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.3));
-        goalInfoBox.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), null)));
+        Pane goalInfoBox = initInfoCard(parentPane);
 
         /* title */
         goalInfoBox.getChildren().add(DefaultText.medium("Goals:"));
@@ -254,6 +294,7 @@ public class PlaythroughView extends View<VBox> {
         VBox content = new VBox();
         content.setAlignment(Pos.TOP_LEFT);
         content.setSpacing(20);
+        content.setPadding(new Insets(0, 0, 0, 20));
 
         ObservableMap<Goal, Boolean> goals = controller.getGoals();
         goals.addListener(
@@ -274,10 +315,7 @@ public class PlaythroughView extends View<VBox> {
      * @return The parent node of the inventory information box.
      */
     private Node inventoryInfo(Pane parentPane) {
-        VBox inventoryInfoBox = new VBox();
-        inventoryInfoBox.setAlignment(Pos.TOP_CENTER);
-        inventoryInfoBox.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.3));
-        inventoryInfoBox.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), null)));
+        Pane inventoryInfoBox = initInfoCard(parentPane);
 
         /* title */
         inventoryInfoBox.getChildren().add(DefaultText.medium("Inventory:"));
@@ -302,6 +340,15 @@ public class PlaythroughView extends View<VBox> {
         return inventoryInfoBox;
     }
 
+    private Pane initInfoCard(Pane parentPane) {
+        VBox box = new VBox();
+        box.getStyleClass().add("box-shadow");
+        box.setAlignment(Pos.TOP_CENTER);
+        box.prefHeightProperty().bind(parentPane.heightProperty().multiply(0.3));
+        box.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), null)));
+        return box;
+    }
+
     private void showInventory(ObservableList<String> inventory, Pane content) {
         content.getChildren().clear();
         for (String item : inventory) {
@@ -322,7 +369,17 @@ public class PlaythroughView extends View<VBox> {
             goalBox.setAlignment(Pos.TOP_LEFT);
             goalBox.setSpacing(10);
             goalBox.getChildren().add(DefaultText.small(goal.toString()));
-            goalBox.getChildren().add(DefaultText.small(completed ? "Completed" : "Not completed"));
+            //goalBox.getChildren().add(DefaultText.small(completed ? "Completed" : "Not completed"));
+            URL imageUrl = getClass().getResource("/images/checkbox-" + (completed ? "marked" : "blank") + ".png");
+            if (imageUrl != null) {
+                ImageView imageView = new ImageView(imageUrl.toString());
+                imageView.setFitWidth(20);
+                imageView.setPreserveRatio(true);
+                goalBox.getChildren().add(imageView);
+            } else {
+                System.err.println("Unable to load image: " + imageUrl);
+            }
+
             content.getChildren().add(goalBox);
         });
     }

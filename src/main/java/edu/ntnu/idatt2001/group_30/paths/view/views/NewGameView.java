@@ -1,9 +1,10 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
+import edu.ntnu.idatt2001.group_30.paths.view.StoryDisplay;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import java.io.File;
@@ -56,13 +57,8 @@ public class NewGameView extends View<BorderPane> {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
 
-        /*
-        Button startButton = new Button("Start");
-        startButton.setOnAction(e -> {
-            newGameController.goTo(PlaythroughView.class);
-        });
-         */
-        Button startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
+        startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
+        startButton.setVisible(false);
 
         HBox buttonBox = new HBox(10, backButton, startButton);
         buttonBox.setAlignment(Pos.CENTER);

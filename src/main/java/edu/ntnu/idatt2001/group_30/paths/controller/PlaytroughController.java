@@ -4,16 +4,16 @@ import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
-import edu.ntnu.idatt2001.group_30.paths.model.goals.ScoreGoal;
-import edu.ntnu.idatt2001.group_30.paths.view.HelpView;
-import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller for the play-through of the game.
@@ -26,6 +26,7 @@ public class PlaytroughController extends Controller {
     private Game game;
 
     /* reactive state */
+    private final StringProperty gameTitle = new SimpleStringProperty("Playing: " + INSTANCE.getStory().getTitle());
     private final StringProperty passageTitle = new SimpleStringProperty();
     private final StringProperty passageContent = new SimpleStringProperty();
     private final ObservableList<Link> links = FXCollections.observableList(new ArrayList<>());
@@ -52,16 +53,17 @@ public class PlaytroughController extends Controller {
      * It also resets the reactive properties.
      */
     public void startNewGame() {
-        //TODO: add from Singleton
-        Player player = new Player("Gorm", 50, 0, 100);
-        HealthGoal healthGoal = new HealthGoal(10);
-        ScoreGoal scoreGoal = new ScoreGoal(100);
-        ArrayList<Goal> goals = new ArrayList<>();
-        goals.add(healthGoal);
-        goals.add(scoreGoal);
+        assert INSTANCE.getPlayer() != null;
+        assert INSTANCE.getStory() != null;
+        assert INSTANCE.getGoals() != null;
 
+        /* cleanup previous game */
         gameAlreadyWon = false;
-        game = new Game(player, INSTANCE.getStory(), goals);
+        gameOver.set(false);
+        gameWon.set(false);
+
+        /* start new game */
+        game = new Game(new Player(INSTANCE.getPlayer()), INSTANCE.getStory(), INSTANCE.getGoals());
         Passage openingPassage = game.begin();
         updateReactiveProperties(openingPassage);
     }
@@ -87,13 +89,14 @@ public class PlaytroughController extends Controller {
         updateGoals();
         updateGameState();
         updateInventory();
+        updateGameTitle();
     }
 
     /**
      * Computes the current state of the game.
      * Updates the reactive properties based on the current state of the game.
      */
-    private void updateGameState() {
+    public void updateGameState() {
         if (gameAlreadyWon) return;
 
         if (game.isGameWon()) {
@@ -140,6 +143,20 @@ public class PlaytroughController extends Controller {
     }
 
     /**
+     * Updates the game title based on the game state.
+     */
+    private void updateGameTitle() {
+        System.out.println("value: " + gameWon.getValue() + " " + gameOver.getValue() + " " + gameAlreadyWon);
+        if (gameOver.getValue()) {
+            gameTitle.setValue("You died and lost the game!");
+        } else if (gameWon.getValue()) {
+            gameTitle.setValue("You won! (You can still play on)");
+        } else {
+            gameTitle.setValue("Playing: " + INSTANCE.getStory().getTitle());
+        }
+    }
+
+    /**
      * Returns the title of the current passage as an observable StringProperty.
      * @return the title of the current passage.
      */
@@ -180,19 +197,27 @@ public class PlaytroughController extends Controller {
     }
 
     /**
-     * Returns the current story.
+     * Helper method that returns the current story.
      * @return the current story.
      */
-    public Story getStory() {
+    private Story getStory() {
         return game.getStory();
     }
 
     /**
-     * Returns the current player.
+     * Helper method that returns the current player.
      * @return the current player.
      */
-    public Player getPlayer() {
+    private Player getPlayer() {
         return game.getPlayer();
+    }
+
+    /**
+     * Returns the name of the player.
+     * @return the name of the player.
+     */
+    public String getPlayerName() {
+        return game.getPlayer().getName();
     }
 
     /**
@@ -233,5 +258,22 @@ public class PlaytroughController extends Controller {
      */
     public BooleanProperty getGameWon() {
         return gameWon;
+    }
+
+    /**
+     * Returns the title of the game as an observable StringProperty.
+     * The title of the game will be the title of the story while playing. If not playing, it will show the status of the game.
+     * @return the title of the game.
+     */
+    public StringProperty getGameTitle() {
+        return gameTitle;
+    }
+
+    /**
+     * Returns the image of the character as an ImageView.
+     * @return the image of the character.
+     */
+    public ImageView getCharacterImageView() {
+        return INSTANCE.getCharacterImageView();
     }
 }

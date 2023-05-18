@@ -3,13 +3,18 @@ package edu.ntnu.idatt2001.group_30.paths;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javafx.scene.image.ImageView;
 
 /**
  * This enumeration is constructed using the singleton design pattern. The implementation of this design pattern
  * restricts the amount of instances of the enumeration to one. This is essential for the enumeration's purpose.
  * The enum contains all the data that needs to be transmitted between controllers.
  *
- * @author Trym Hamer Gudvangen
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand.
  */
 public enum PathsSingleton {
     INSTANCE;
@@ -21,6 +26,7 @@ public enum PathsSingleton {
     private ScoreGoal scoreGoal;
     private InventoryGoal inventoryGoal;
     private GoldGoal goldGoal;
+    private ImageView characterImageView;
 
     /**
      * This method gets the current selected story.
@@ -83,6 +89,30 @@ public enum PathsSingleton {
             case INVENTORY_GOAL -> inventoryGoal;
             case GOLD_GOAL -> goldGoal;
         };
+    }
+
+    public ImageView getCharacterImageView() {
+        return characterImageView;
+    }
+
+    public void setCharacterImageView(ImageView characterImageView) {
+        this.characterImageView = characterImageView;
+    }
+
+    /**
+     * Returns a list of all the non-null goals.
+     * @return A list of all the non-null goals, given as a List of Goal objects.
+     */
+    public List<Goal> getGoals() {
+        List<Goal> goals = Stream
+            .of(healthGoal, scoreGoal, goldGoal)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+
+        if (inventoryGoal != null && inventoryGoal.getGoalValue().size() != 0) {
+            goals.add(inventoryGoal);
+        }
+        return goals;
     }
 
     /**

@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.HomeView;
-import edu.ntnu.idatt2001.group_30.paths.view.View;
-import edu.ntnu.idatt2001.group_30.paths.view.ViewFactory;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.View;
+import edu.ntnu.idatt2001.group_30.paths.view.views.ViewFactory;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.event.ActionEvent;
@@ -42,6 +42,15 @@ public class Controller {
      */
     public EventHandler<ActionEvent> goBack() {
         return actionEvent -> STAGE_MANAGER.goBack();
+    }
+
+    /**
+     * Go back to the previous instance of the given view class.
+     * @param viewClass The class of the view to go back to.
+     * @return An EventHandler that will set the current view to the previous instance of the given view class.
+     */
+    public EventHandler<ActionEvent> goBackTo(Class<? extends View<?>> viewClass) {
+        return actionEvent -> STAGE_MANAGER.goBackTo(viewClass);
     }
 
     public Stage getRootStage() {

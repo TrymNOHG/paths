@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import java.lang.reflect.InvocationTargetException;
@@ -7,6 +7,7 @@ import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
+import javafx.scene.shape.SVGPath;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -35,6 +36,7 @@ public class View<T extends Pane> {
     public View(Class<T> paneClass) {
         try {
             parentPane = paneClass.getDeclaredConstructor().newInstance();
+            parentPane.getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
         } catch (
             InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e
         ) {
@@ -78,6 +80,7 @@ public class View<T extends Pane> {
         //      The reason for using a BorderPane is that it is easy to add content to the top, bottom, left and right.
         //      A view is free to override this method and use a different Pane.
         BorderPane wrapper = new BorderPane();
+
         wrapper.setCenter(parentPane);
         wrapper.setBottom(globalFooter());
         wrapper.getStylesheets().add(stylesheet);

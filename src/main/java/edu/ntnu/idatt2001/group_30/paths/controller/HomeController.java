@@ -1,9 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.CreatePlayerView;
-import edu.ntnu.idatt2001.group_30.paths.view.HelpView;
-import edu.ntnu.idatt2001.group_30.paths.view.NewGameView;
-import edu.ntnu.idatt2001.group_30.paths.view.PlaythroughView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.CreatePlayerView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.NewGameView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.PlaythroughView;
 
 /**
  * This class is used to control the HomeView.

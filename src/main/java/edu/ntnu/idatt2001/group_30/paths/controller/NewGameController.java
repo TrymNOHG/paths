@@ -3,7 +3,7 @@ package edu.ntnu.idatt2001.group_30.paths.controller;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
-import edu.ntnu.idatt2001.group_30.paths.view.PlaythroughView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.PlaythroughView;
 import java.io.File;
 import java.io.IOException;
 

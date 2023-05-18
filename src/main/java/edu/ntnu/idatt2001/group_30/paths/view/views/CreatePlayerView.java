@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
@@ -17,7 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -97,11 +97,10 @@ public class CreatePlayerView extends View<BorderPane> {
         legsURIs.add("/images/GreenLegs.png");
 
         ImageCarousel headCarousel = new ImageCarousel(headURIs);
-        ImageCarousel headCarousel2 = new ImageCarousel(torsoURIs);
-        ImageCarousel headCarousel3 = new ImageCarousel(legsURIs);
-        VBox centerBox = new VBox(headCarousel.getCarousel(), headCarousel2.getCarousel(), headCarousel3.getCarousel());
+        ImageCarousel torsoCarousel = new ImageCarousel(torsoURIs);
+        ImageCarousel legsCarousel = new ImageCarousel(legsURIs);
+        VBox centerBox = new VBox(headCarousel.getCarousel(), torsoCarousel.getCarousel(), legsCarousel.getCarousel());
         centerBox.setAlignment(Pos.CENTER);
-
         leftVBox.getStyleClass().add("left-vbox");
 
         nameField = new TextField();
@@ -114,7 +113,12 @@ public class CreatePlayerView extends View<BorderPane> {
 
         continueButton = new Button("Continue");
         returnButton = new Button("Return");
-        HBox bottomBox = new HBox(nameField, continueButton, returnButton);
+        HBox viewButtons = new HBox(returnButton, continueButton);
+        returnButton.setAlignment(Pos.CENTER_LEFT);
+        continueButton.setAlignment(Pos.CENTER_RIGHT);
+        viewButtons.setSpacing(200);
+
+        VBox bottomBox = new VBox(nameField, viewButtons);
         bottomBox.setSpacing(20);
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
@@ -137,11 +141,38 @@ public class CreatePlayerView extends View<BorderPane> {
                         INSTANCE.getPlayer().getGold()
                     )
                 );
+
+                Image headImage = headCarousel.getCurrentImage().getImage();
+                Image torsoImage = torsoCarousel.getCurrentImage().getImage();
+                Image legsImage = legsCarousel.getCurrentImage().getImage();
+
+                WritableImage characterImage = new WritableImage(
+                    (int) headImage.getWidth(),
+                    (int) headImage.getHeight() * 3
+                );
+                PixelWriter writer = characterImage.getPixelWriter();
+
+                copyImageOnto(headImage, writer, 0);
+                copyImageOnto(torsoImage, writer, (int) headImage.getHeight());
+                copyImageOnto(legsImage, writer, (int) ((int) headImage.getHeight() + torsoImage.getHeight()));
+
+                ImageView characterImageView = new ImageView(characterImage);
+                INSTANCE.setCharacterImageView(characterImageView);
+
                 createPlayerController.goTo(NewGameView.class).handle(event);
             } catch (Exception e) {
                 AlertDialog.showWarning(e.getMessage());
             }
         });
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
+    }
+
+    private void copyImageOnto(Image image, PixelWriter writer, int yOffset) {
+        PixelReader reader = image.getPixelReader();
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                writer.setColor(x, y + yOffset, reader.getColor(x, y));
+            }
+        }
     }
 }

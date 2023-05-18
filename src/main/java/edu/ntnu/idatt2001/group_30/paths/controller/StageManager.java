@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.controller;
 
-import edu.ntnu.idatt2001.group_30.paths.view.View;
+import edu.ntnu.idatt2001.group_30.paths.view.views.View;
 import java.util.Stack;
 import javafx.stage.Stage;
 
@@ -68,6 +68,22 @@ public class StageManager {
     public void goBack() {
         if (viewStack.size() > 1) {
             popAndUpdate();
+        }
+    }
+
+    /**
+     * Sets the current view of the stage to the previous instance of the given view class.
+     * If the view is not in the viewStack, an IllegalArgumentException is thrown.
+     * @param viewClass The class of the view to go back to.
+     * @throws IllegalArgumentException if the view is not in the viewStack.
+     */
+    public void goBackTo(Class<? extends View<?>> viewClass) throws IllegalArgumentException {
+        while (viewStack.size() > 1 && !viewStack.peek().getClass().equals(viewClass)) {
+            popAndUpdate();
+        }
+
+        if (viewStack.size() == 1 && !viewStack.peek().getClass().equals(viewClass)) {
+            throw new IllegalArgumentException("The view " + viewClass.getSimpleName() + " is not in the viewStack.");
         }
     }
 
