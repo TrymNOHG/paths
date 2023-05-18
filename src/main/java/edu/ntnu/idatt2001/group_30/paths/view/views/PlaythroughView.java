@@ -2,13 +2,14 @@ package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.PlaytroughController;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
+import edu.ntnu.idatt2001.group_30.paths.model.PlaythroughState;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import java.net.URL;
-import javafx.beans.property.BooleanProperty;
+import java.util.Optional;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
@@ -23,7 +24,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 
 /**
@@ -72,23 +72,36 @@ public class PlaythroughView extends View<VBox> {
         add(mainContent);
 
         /* game state */
+        listenForGameStateUpdate();
+    }
+
+    /**
+     * Sets up an event listener for the game state.
+     */
+    private void listenForGameStateUpdate() {
         controller
-            .getGameWon()
+            .getPlaythroughState()
             .addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    boolean continuing = AlertDialog.showConfirmation(
-                        "Congratulations, you completed all your goals and won the game." +
-                        "You can still continue to the story if its not finished. Do you want to continue the story?",
-                        "You won!"
+                Optional<PlaythroughState> state = PlaythroughState.fromNumber((Integer) newValue);
+                if (state.isEmpty()) return;
+
+                switch (state.get()) {
+                    case WON -> {
+                        boolean continuePlaying = AlertDialog.showConfirmation(
+                            "Congratulations, you completed all your goals and won the game." +
+                            "You can still continue to the story if its not finished. Do you want to continue the story?",
+                            "You won!"
+                        );
+                        if (!continuePlaying) controller.goToHome(); else controller.setWonButKeepPlaying();
+                    }
+                    case DEAD -> AlertDialog.showConfirmation(
+                        "You ran out of health and died. Press restart to try again.",
+                        "You lost!"
                     );
-                    if (!continuing) controller.goToHome();
-                }
-            });
-        controller
-            .getGameOver()
-            .addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    AlertDialog.showConfirmation("You lost!", "You lost!");
+                    case STUCK -> AlertDialog.showConfirmation(
+                        "You got stuck and cannot continue as no paths lead to you of this mess!. Press restart to try again.",
+                        "You lost!"
+                    );
                 }
             });
     }
@@ -121,7 +134,7 @@ public class PlaythroughView extends View<VBox> {
                                 "Are you sure you want to restart the game? All progress will be lost.",
                                 "Confirm restart"
                             )
-                        ) controller.startNewGame();
+                        ) controller.startNewPlaythrough();
                     }
                 )
             );
@@ -178,22 +191,21 @@ public class PlaythroughView extends View<VBox> {
         return playtrough;
     }
 
+    /**
+     * Populates the links box with the given links.
+     * Sets the links to disabled if the player cannot keep playing.
+     * @param linksBox The box to populate.
+     * @param links The links to populate the box with.
+     */
     private void populateLinksBox(VBox linksBox, ObservableList<Link> links) {
         linksBox.getChildren().clear();
-        BooleanProperty gameOver = controller.getGameOver();
         for (Link link : links) {
-            Button button = DefaultButton.medium(link.getText(), e -> controller.chooseLink(link));
+            Button button = DefaultButton.medium(link.getText(), e -> controller.makeTurn(link));
             button.setWrapText(true);
             button.setPrefWidth(300);
             button.getStyleClass().add("link-button");
-            button
-                .disabledProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    button.setOpacity(newValue ? 0.5 : 1);
-                });
-
-            /* ad-hoc solution: may not be the most resource efficient, but works */
-            gameOver.addListener((observable, oldValue, newValue) -> button.setDisable(newValue));
+            button.setDisable(!controller.canKeepPlaying());
+            button.setOpacity(controller.canKeepPlaying() ? 1 : 0.5);
             linksBox.getChildren().add(button);
         }
     }
@@ -358,6 +370,11 @@ public class PlaythroughView extends View<VBox> {
         return box;
     }
 
+    /**
+     * Shows the inventory in the given content pane.
+     * @param inventory The inventory to show.
+     * @param content The pane to show the inventory in.
+     */
     private void showInventory(ObservableList<String> inventory, Pane content) {
         content.getChildren().clear();
         for (String item : inventory) {
@@ -378,7 +395,6 @@ public class PlaythroughView extends View<VBox> {
             goalBox.setAlignment(Pos.TOP_LEFT);
             goalBox.setSpacing(10);
             goalBox.getChildren().add(DefaultText.small(goal.toString()));
-            //goalBox.getChildren().add(DefaultText.small(completed ? "Completed" : "Not completed"));
             URL imageUrl = getClass().getResource("/images/checkbox-" + (completed ? "marked" : "blank") + ".png");
             if (imageUrl != null) {
                 ImageView imageView = new ImageView(imageUrl.toString());

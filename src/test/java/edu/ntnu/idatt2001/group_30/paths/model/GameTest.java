@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.group_30.paths.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2001.group_30.paths.model.*;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.GoldGoal;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.HealthGoal;
@@ -64,17 +63,17 @@ public class GameTest {
         @Test
         void can_get_player() {
             // The player object from the class is created in the setup method and passed to the Game's constructor
-            assertEquals(player, game.getPlayer());
+            assertEquals(player, game.player());
         }
 
         @Test
         void can_get_story() {
-            assertEquals(story, game.getStory());
+            assertEquals(story, game.story());
         }
 
         @Test
         void can_get_goals() {
-            assertEquals(goals, game.getGoals());
+            assertEquals(goals, game.goals());
         }
 
         @Test

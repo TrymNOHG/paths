@@ -9,31 +9,25 @@ import java.util.List;
  *
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
-public class Game {
-
-    private final Player player;
-    private final Story story;
-    private final List<Goal> goals;
-
+public record Game(Player player, Story story, List<Goal> goals) {
     /**
      * This method constructs a Game object with the given parameters.
-     * @param player                    The player who will be playing game.
-     * @param story                     The story for the game that the player will play through.
-     * @param goals                     A list of goals that determines the desired goals of the game:
+     *
+     * @param player The player who will be playing game.
+     * @param story  The story for the game that the player will play through.
+     * @param goals  A list of goals that determines the desired goals of the game:
      * @throws IllegalArgumentException This exception is thrown if any argument is null.
      */
-    public Game(Player player, Story story, List<Goal> goals) throws IllegalArgumentException {
+    public Game {
         if (player == null || story == null || goals == null) {
             throw new IllegalArgumentException("Player, story, and goals cannot be null");
         }
-        this.player = player;
-        this.story = story;
-        this.goals = goals;
     }
 
     /**
      * This method starts a game.
-     * @return  the first passage of the story.
+     *
+     * @return the first passage of the story.
      */
     public Passage begin() {
         return this.story.getOpeningPassage();
@@ -45,8 +39,9 @@ public class Game {
 
     /**
      * This method takes in a link and returns the corresponding passage of the story.
-     * @param link  a link to a passage in the story.
-     * @return      the corresponding passage for the link.
+     *
+     * @param link a link to a passage in the story.
+     * @return the corresponding passage for the link.
      */
     public Passage go(Link link) {
         return this.story.getPassage(link);
@@ -54,6 +49,7 @@ public class Game {
 
     /**
      * If the player is out of health, the game is defined as over.
+     *
      * @return {@code true} if the player is out of health, else {@code false}.
      */
     public boolean isGameOver() {
@@ -63,6 +59,7 @@ public class Game {
     /**
      * This method checks if the player has fulfilled all the goals of the game.
      * If the player has fulfilled all the goals, the game is defined as won.
+     *
      * @return {@code true} if the player has fulfilled all the goals, else {@code false}.
      */
     public boolean isGameWon() {
@@ -71,29 +68,5 @@ public class Game {
          * This is actually what allMatch does internally, so this is just as fast while being more readable
          */
         return this.goals.stream().allMatch(goal -> goal.isFulfilled(this.player));
-    }
-
-    /**
-     * This method returns the player for the game.
-     * @return  the player object for the game.
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * This method returns the story for the game.
-     * @return  the story object for the game
-     */
-    public Story getStory() {
-        return story;
-    }
-
-    /**
-     * This method returns all the goals of the game.
-     * @return  all the goals of the game as a List{@code <Goal>}
-     */
-    public List<Goal> getGoals() {
-        return goals;
     }
 }
