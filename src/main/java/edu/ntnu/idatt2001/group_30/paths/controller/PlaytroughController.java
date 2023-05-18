@@ -146,7 +146,6 @@ public class PlaytroughController extends Controller {
      * Updates the game title based on the game state.
      */
     private void updateGameTitle() {
-        System.out.println("value: " + gameWon.getValue() + " " + gameOver.getValue() + " " + gameAlreadyWon);
         if (gameOver.getValue()) {
             gameTitle.setValue("You died and lost the game!");
         } else if (gameWon.getValue()) {

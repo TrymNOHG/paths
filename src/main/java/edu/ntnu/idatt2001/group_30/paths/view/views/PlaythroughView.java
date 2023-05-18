@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.Ref;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import java.net.URL;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
@@ -88,7 +89,6 @@ public class PlaythroughView extends View<VBox> {
             .addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     AlertDialog.showConfirmation("You lost!", "You lost!");
-                    controller.goTo(HomeView.class);
                 }
             });
     }
@@ -180,11 +180,20 @@ public class PlaythroughView extends View<VBox> {
 
     private void populateLinksBox(VBox linksBox, ObservableList<Link> links) {
         linksBox.getChildren().clear();
+        BooleanProperty gameOver = controller.getGameOver();
         for (Link link : links) {
             Button button = DefaultButton.medium(link.getText(), e -> controller.chooseLink(link));
             button.setWrapText(true);
             button.setPrefWidth(300);
             button.getStyleClass().add("link-button");
+            button
+                .disabledProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    button.setOpacity(newValue ? 0.5 : 1);
+                });
+
+            /* ad-hoc solution: may not be the most resource efficient, but works */
+            gameOver.addListener((observable, oldValue, newValue) -> button.setDisable(newValue));
             linksBox.getChildren().add(button);
         }
     }
