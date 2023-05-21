@@ -106,7 +106,7 @@ public class Story {
      * @param title The new title of the story, given as a {@code String}.
      */
     public void setTitle(String title) {
-        if (title.isBlank()) throw new IllegalArgumentException(
+        if (title == null || title.isBlank()) throw new IllegalArgumentException(
                 "Title cannot be blank, empty, or contain special characters."
         );
         this.title = title;
