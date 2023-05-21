@@ -25,7 +25,7 @@ import javafx.stage.FileChooser;
  *
  * @author Trym Hamer Gudvangen
  */
-public class NewGameView extends View<BorderPane> {
+public class LoadGameView extends View<BorderPane> {
 
     private final NewGameController newGameController;
 
@@ -37,7 +37,7 @@ public class NewGameView extends View<BorderPane> {
      * The constructor of the View class.
      * It creates a new instance of the Pane that the View wraps.
      */
-    public NewGameView() {
+    public LoadGameView() {
         super(BorderPane.class);
         newGameController = new NewGameController();
 
@@ -140,6 +140,8 @@ public class NewGameView extends View<BorderPane> {
                 }
             }
         });
+
+        newButton.setOnAction(newGameController.goTo(NewStoryView.class));
 
         return titlePane;
     }

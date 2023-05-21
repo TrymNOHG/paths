@@ -32,7 +32,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         stage.initStyle(StageStyle.UTILITY);
-        stage.setAlwaysOnTop(true);
+        stage.setAlwaysOnTop(false);
         stage.setTitle("Paths");
         /* initialize STAGE_MANAGER */
         STAGE_MANAGER = StageManager.init(stage);

@@ -159,7 +159,7 @@ public class CreatePlayerView extends View<BorderPane> {
                 ImageView characterImageView = new ImageView(characterImage);
                 INSTANCE.setCharacterImageView(characterImageView);
 
-                createPlayerController.goTo(NewGameView.class).handle(event);
+                createPlayerController.goTo(LoadGameView.class).handle(event);
             } catch (Exception e) {
                 AlertDialog.showWarning(e.getMessage());
             }

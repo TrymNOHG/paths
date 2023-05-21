@@ -2,7 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.controller;
 
 import edu.ntnu.idatt2001.group_30.paths.view.views.CreatePlayerView;
 import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
-import edu.ntnu.idatt2001.group_30.paths.view.views.NewGameView;
+import edu.ntnu.idatt2001.group_30.paths.view.views.LoadGameView;
 import edu.ntnu.idatt2001.group_30.paths.view.views.PlaythroughView;
 
 /**
@@ -16,7 +16,7 @@ public class HomeController extends Controller {
      * Creates a new HomeController.
      */
     public HomeController() {
-        super(HelpView.class, NewGameView.class, CreatePlayerView.class, PlaythroughView.class);
+        super(HelpView.class, LoadGameView.class, CreatePlayerView.class, PlaythroughView.class);
     }
 
     /**

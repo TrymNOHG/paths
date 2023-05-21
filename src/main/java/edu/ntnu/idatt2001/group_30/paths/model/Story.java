@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Story {
 
-    private final String title;
+    private String title;
     private final Map<Link, Passage> passages;
     private final Passage openingPassage;
 
@@ -25,13 +25,7 @@ public class Story {
      * @throws IllegalArgumentException     This exception is thrown if title or openingPassage is invalid
      */
     public Story(String title, Passage openingPassage) throws IllegalArgumentException {
-        //if (title.isBlank() || !title.matches("[a-zA-Z]")) {
-        //    throw new IllegalArgumentException("Title cannot be blank, empty, or contain special characters.");
-        //}
-        if (title.isBlank()) throw new IllegalArgumentException(
-            "Title cannot be blank, empty, or contain special characters."
-        );
-        this.title = title;
+        setTitle(title);
         if (openingPassage == null) throw new IllegalArgumentException("Opening passage cannot be null");
         this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
@@ -105,6 +99,17 @@ public class Story {
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * This method sets the title of the story.
+     * @param title The new title of the story, given as a {@code String}.
+     */
+    public void setTitle(String title) {
+        if (title.isBlank()) throw new IllegalArgumentException(
+                "Title cannot be blank, empty, or contain special characters."
+        );
+        this.title = title;
     }
 
     /**
