@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class PlaythroughTest {
 
     private Playthrough playthrough;
-    Passage openingPassage;
+    private Passage openingPassage;
 
     @BeforeEach
     void setUp() {
