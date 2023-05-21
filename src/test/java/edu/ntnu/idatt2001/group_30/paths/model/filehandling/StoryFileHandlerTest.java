@@ -12,8 +12,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.actions.GoldAction;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.HealthAction;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.InventoryAction;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.ScoreAction;
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -234,7 +232,7 @@ class StoryFileHandlerTest {
             Assertions.assertThrows(
                 NullPointerException.class,
                 () -> {
-                    storyFileHandler.createStoryFile(story, null);
+                    storyFileHandler.createStoryFile(story, (String) null);
                 }
             );
         }

@@ -45,11 +45,40 @@ public class StoryFileHandler {
      * @throws IOException  This exception is thrown if an I/O error occurs with the writer.
      */
     public void createStoryFile(Story story, String fileName) throws IOException {
-        Objects.requireNonNull(story, "Story cannot be null");
         Objects.requireNonNull(fileName, "File name cannot be null");
         File file = FileHandler.createFile(fileName);
+        createStoryFile(story, file);
+    }
+
+    //TODO: add test for story files...
+
+    /**
+     * This method takes a story and writes its contents to a .paths file. The story information is transcribed
+     * in the given format:
+     * <pre>
+     *  Story title
+     *
+     *  ::Opening Passage Title
+     *  Opening Passage Content
+     *  [Link Text](Link Reference)
+     *
+     *  ::Another Passage Title
+     *  Passage Content
+     *  [Link Text](Link Reference)
+     *  {@code <Action Type>}\Action Value/
+     *  [Link Text](Link Reference)
+     *
+     *  ...
+     * </pre>
+     * @param story         The story to be saved, given as a Story object.
+     * @param file          The file the story will be saved to, given as a File object.
+     * @throws IOException  This exception is thrown if an I/O error occurs with the writer.
+     */
+    public void createStoryFile(Story story, File file) throws IOException {
+        Objects.requireNonNull(story, "Story cannot be null");
+        Objects.requireNonNull(file, "File cannot be null");
         if (FileHandler.fileExists(file)) throw new IllegalArgumentException(
-            "You cannot overwrite a pre-existing story file"
+                "You cannot overwrite a pre-existing story file"
         );
         try (BufferedWriter storyBufferedWriter = new BufferedWriter(new FileWriter(file))) {
             storyBufferedWriter.write(story.toString());
