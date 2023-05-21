@@ -4,14 +4,13 @@ import edu.ntnu.idatt2001.group_30.paths.controller.HelpController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.geometry.Pos;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Unfinished Help page.
@@ -23,7 +22,6 @@ public class HelpView extends View<VBox> {
 
     public HelpView() {
         super(VBox.class);
-
         VBox parent = getParentPane();
         parent.setAlignment(Pos.TOP_CENTER);
         parent.setSpacing(20);
@@ -37,7 +35,8 @@ public class HelpView extends View<VBox> {
     private Node helpText() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.prefWidth(600);
-        String howToPlay = """
+        String howToPlay =
+            """
                 New game:
                 
                 First you must create your own player. You can customize your outfit and enter your name. If you press the Stats button you can enter in your starting stats. If you press the Goals button you can set the goals for the play-trough. Once you are happy with your player, click continue.
@@ -57,9 +56,8 @@ public class HelpView extends View<VBox> {
         List<Node> buttons = new ArrayList<>();
         add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
         add(
-                DefaultButton.medium("Go back to " + StageManager.getInstance().getPreviousViewName(), controller.goBack())
+            DefaultButton.medium("Go back to " + StageManager.getInstance().getPreviousViewName(), controller.goBack())
         );
         return buttons;
     }
-
 }
