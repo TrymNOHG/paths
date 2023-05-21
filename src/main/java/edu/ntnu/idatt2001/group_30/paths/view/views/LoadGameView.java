@@ -118,7 +118,7 @@ public class LoadGameView extends View<BorderPane> {
                     Button xButton = createIconButton("/images/remove.png", 16, 16);
 
                     HBox buttonIcons = new HBox(10, pencilButton, xButton);
-                    buttonIcons.setAlignment(Pos.CENTER_LEFT);
+                    buttonIcons.setAlignment(Pos.CENTER);
 
                     VBox storyContainer = new VBox(storyVBox, buttonIcons);
                     storyContainer.setAlignment(Pos.CENTER);

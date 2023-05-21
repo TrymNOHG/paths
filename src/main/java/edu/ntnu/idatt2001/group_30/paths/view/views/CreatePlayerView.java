@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -73,9 +72,9 @@ public class CreatePlayerView extends View<BorderPane> {
         VBox leftVBox = new VBox(statsButton, goalsButton);
         leftVBox.setSpacing(20);
         leftVBox.setPadding(new Insets(300, 20, 0, 20));
-        HBox leftHBox = new HBox(leftVBox);
-        leftHBox.setAlignment(Pos.CENTER_LEFT);
-        getParentPane().setLeft(leftHBox);
+        leftVBox.setAlignment(Pos.CENTER);
+        getParentPane().setLeft(leftVBox);
+        getParentPane().getLeft().setTranslateY(-200);
 
         statsButton.setOnAction(e -> new StatsPopUp());
 

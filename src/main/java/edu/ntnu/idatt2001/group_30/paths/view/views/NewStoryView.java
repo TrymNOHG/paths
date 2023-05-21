@@ -7,6 +7,8 @@ import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 
+import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
+import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.PassagePopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.PassageTable;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.TableDisplay;
@@ -22,10 +24,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
+//TODO: Add message that first passage will be opening passage
 
 public class NewStoryView extends View<BorderPane> {
 
@@ -50,12 +56,16 @@ public class NewStoryView extends View<BorderPane> {
 
         Text labelText = new Text("Story Title: ");
         TextField textField = new TextField(story == null ? "" : story.getTitle());
-        textField.setPromptText("Enter the name of the story");
+        textField.setPromptText("Enter story title");
+
         HBox titleBox = new HBox(labelText, textField);
-        titleBox.setAlignment(Pos.CENTER);
-        textField.setOnAction(event -> {
+
+        textField.setOnKeyTyped(event -> {
             title = textField.getText();
         });
+
+        titleBox.setAlignment(Pos.CENTER);
+
 
 
         PassageTable<Passage> passageTable = new PassageTable<>(new TableDisplay.Builder<Passage>()
@@ -82,7 +92,40 @@ public class NewStoryView extends View<BorderPane> {
 
         addPassageButton.setOnAction(event -> new PassagePopUp());
 
-        VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton);
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> {
+            try {
+
+                //TODO: add this logic to the controller instead of here
+                //TODO: if everything goes right, give a little feedback and
+                //      then take back to load with story selected
+                // Add passage with links
+                story = new Story(title, passages.isEmpty() ? null: passages.get(0));
+                passages.forEach(story::addPassage);
+                INSTANCE.setStory(story);
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setInitialDirectory(new File("./src/main/resources/story-files"));
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("Paths files", "*.paths")
+                );
+                File selectedFile = fileChooser.showSaveDialog(null);
+
+                if (selectedFile != null) {
+                    StoryFileHandler fileHandler = new StoryFileHandler();
+                    try {
+                        fileHandler.createStoryFile(story, selectedFile);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        AlertDialog.showWarning("An error occurred while saving the file.");
+                    }
+                }
+            } catch (Exception ex) {
+                AlertDialog.showWarning(ex.getMessage());
+            }
+        });
+
+        VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton, saveButton);
         display.setAlignment(Pos.CENTER);
         display.setSpacing(10);
         display.setPrefWidth(500);
