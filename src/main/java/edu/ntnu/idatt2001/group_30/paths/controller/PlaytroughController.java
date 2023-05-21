@@ -8,7 +8,6 @@ import edu.ntnu.idatt2001.group_30.paths.view.views.HelpView;
 import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +22,7 @@ import javafx.scene.image.ImageView;
  */
 public class PlaytroughController extends Controller {
 
-    private Game game;
+    private Playthrough playthrough;
 
     /* reactive state */
     private final StringProperty gameTitle = new SimpleStringProperty("Playing: " + INSTANCE.getStory().getTitle());
@@ -35,9 +34,7 @@ public class PlaytroughController extends Controller {
     private final StringProperty health = new SimpleStringProperty();
     private final StringProperty score = new SimpleStringProperty();
     private final StringProperty gold = new SimpleStringProperty();
-    private final BooleanProperty gameOver = new SimpleBooleanProperty(false);
-    private final BooleanProperty gameWon = new SimpleBooleanProperty(false);
-    private boolean gameAlreadyWon = false;
+    private final IntegerProperty playthroughState = new SimpleIntegerProperty(PlaythroughState.PLAYING.ordinal());
 
     /**
      * Creates a new instance of the controller.
@@ -45,38 +42,36 @@ public class PlaytroughController extends Controller {
      */
     public PlaytroughController() {
         super(HomeView.class, HelpView.class);
-        startNewGame();
+        startNewPlaythrough();
     }
 
     /**
-     * Starts a new game based on the data in the PathsSingleton.
-     * It also resets the reactive properties.
+     * Starts a new Playthrough based on the data in the PathsSingleton.
+     * It also resets the playthroughState to PLAYING.
      */
-    public void startNewGame() {
+    public void startNewPlaythrough() {
         assert INSTANCE.getPlayer() != null;
         assert INSTANCE.getStory() != null;
         assert INSTANCE.getGoals() != null;
 
-        /* cleanup previous game */
-        gameAlreadyWon = false;
-        gameOver.set(false);
-        gameWon.set(false);
+        /* clear old state */
+        playthroughState.setValue(PlaythroughState.PLAYING.ordinal());
 
         /* start new game */
-        game = new Game(new Player(INSTANCE.getPlayer()), INSTANCE.getStory(), INSTANCE.getGoals());
-        Passage openingPassage = game.begin();
-        updateReactiveProperties(openingPassage);
+        Game game = new Game(new Player(INSTANCE.getPlayer()), INSTANCE.getStory(), INSTANCE.getGoals());
+        playthrough = new Playthrough(game);
+        playthrough.beginPlaythrough();
+        updateReactiveProperties(playthrough.getCurrentPassage());
     }
 
     /**
-     * Makes a turn in the game.
-     * The player chooses a link, and the game is updated accordingly.
-     * @param link the link the player chooses.
+     * Makes a turn in the game based on the given link.
+     * @param link the link to follow.
      */
-    public void chooseLink(Link link) {
-        game.go(link);
-        link.getActions().forEach(action -> action.execute(game.getPlayer()));
-        updateReactiveProperties(getStory().getPassage(link));
+    public void makeTurn(Link link) {
+        PlaythroughState state = playthrough.makeTurn(link);
+        playthroughState.setValue(state.ordinal());
+        updateReactiveProperties(playthrough.getCurrentPassage());
     }
 
     /**
@@ -87,23 +82,8 @@ public class PlaytroughController extends Controller {
         updateCurrentPassage(passage);
         updatePlayerData();
         updateGoals();
-        updateGameState();
         updateInventory();
         updateGameTitle();
-    }
-
-    /**
-     * Computes the current state of the game.
-     * Updates the reactive properties based on the current state of the game.
-     */
-    public void updateGameState() {
-        if (gameAlreadyWon) return;
-
-        if (game.isGameWon()) {
-            gameWon.setValue(true);
-            gameAlreadyWon = true;
-        }
-        gameOver.setValue(game.isGameOver());
     }
 
     /**
@@ -131,7 +111,7 @@ public class PlaytroughController extends Controller {
      */
     private void updateGoals() {
         goals.clear();
-        game.getGoals().forEach(goal -> goals.put(goal, goal.isFulfilled(getPlayer())));
+        playthrough.getGame().goals().forEach(goal -> goals.put(goal, goal.isFulfilled(getPlayer())));
     }
 
     /**
@@ -146,13 +126,19 @@ public class PlaytroughController extends Controller {
      * Updates the game title based on the game state.
      */
     private void updateGameTitle() {
-        System.out.println("value: " + gameWon.getValue() + " " + gameOver.getValue() + " " + gameAlreadyWon);
-        if (gameOver.getValue()) {
-            gameTitle.setValue("You died and lost the game!");
-        } else if (gameWon.getValue()) {
-            gameTitle.setValue("You won! (You can still play on)");
-        } else {
+        PlaythroughState state = PlaythroughState
+            .fromNumber(playthroughState.getValue())
+            .orElse(PlaythroughState.PLAYING);
+        if (state == PlaythroughState.PLAYING) {
             gameTitle.setValue("Playing: " + INSTANCE.getStory().getTitle());
+        } else if (state == PlaythroughState.DEAD) {
+            gameTitle.setValue("You died and lost the game!");
+        } else if (state == PlaythroughState.STUCK) {
+            gameTitle.setValue("You are stuck and lost the game!");
+        } else if (state == PlaythroughState.WON) {
+            gameTitle.setValue("You won the game!");
+        } else {
+            gameTitle.setValue("You won the game, but continued playing!");
         }
     }
 
@@ -197,19 +183,11 @@ public class PlaytroughController extends Controller {
     }
 
     /**
-     * Helper method that returns the current story.
-     * @return the current story.
-     */
-    private Story getStory() {
-        return game.getStory();
-    }
-
-    /**
      * Helper method that returns the current player.
      * @return the current player.
      */
     private Player getPlayer() {
-        return game.getPlayer();
+        return playthrough.getGame().player();
     }
 
     /**
@@ -217,7 +195,7 @@ public class PlaytroughController extends Controller {
      * @return the name of the player.
      */
     public String getPlayerName() {
-        return game.getPlayer().getName();
+        return playthrough.getGame().player().getName();
     }
 
     /**
@@ -245,22 +223,6 @@ public class PlaytroughController extends Controller {
     }
 
     /**
-     * Returns the game over state as an observable BooleanProperty.
-     * @return the game over state.
-     */
-    public BooleanProperty getGameOver() {
-        return gameOver;
-    }
-
-    /**
-     * Returns the game won state as an observable BooleanProperty.
-     * @return the game won state.
-     */
-    public BooleanProperty getGameWon() {
-        return gameWon;
-    }
-
-    /**
      * Returns the title of the game as an observable StringProperty.
      * The title of the game will be the title of the story while playing. If not playing, it will show the status of the game.
      * @return the title of the game.
@@ -275,5 +237,32 @@ public class PlaytroughController extends Controller {
      */
     public ImageView getCharacterImageView() {
         return INSTANCE.getCharacterImageView();
+    }
+
+    /**
+     * Gets the playthrough state as an observable IntegerProperty.
+     * @return the image of the character.
+     */
+    public IntegerProperty getPlaythroughState() {
+        return playthroughState;
+    }
+
+    /**
+     * Sets the playthrough state to WON_BUT_KEEP_PLAYING.
+     */
+    public void setWonButKeepPlaying() {
+        playthrough.setWonButKeepPlaying();
+        playthroughState.setValue(PlaythroughState.WON_BUT_KEEP_PLAYING.ordinal());
+    }
+
+    /**
+     * A game can only be continued if it is in the PLAYING or WON_BUT_KEEP_PLAYING state.
+     * @return whether the game can be kept playing.
+     */
+    public boolean canKeepPlaying() {
+        return (
+            playthroughState.get() == PlaythroughState.PLAYING.ordinal() ||
+            playthroughState.get() == PlaythroughState.WON_BUT_KEEP_PLAYING.ordinal()
+        );
     }
 }

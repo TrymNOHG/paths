@@ -4,18 +4,23 @@ A story of War an Eilor
 It was a dark and stormy night. You were walking through the woods when you came upon a large, old house.
 [Try to open the door](Enter the house)
 [Look inside the window](Window peek)
-[Look sussy inside the window](Window peek)
+[Look sussy inside the window](Sussy window peek)
 
 ::Enter the house
 The door is locked. You try to open it, but it won't budge. You pick up an apple.
 [Try to force the door open with your strength](Go in)
 <ScoreAction>\150/
+<HealthAction>\150/
 <InventoryAction>\Apple/
 
 ::Window peek
 You see a mysterious tall blonde and powerful young man in the house. He is wearing a black cloak and holding a wand.
 [Try to open the door](Enter the house)
 <ScoreAction>\50/
+<HealthAction>\150/
+
+::Sussy window peek
+You looked sussily trough the window. Eilor saw you, gave a death stare, and you died.
 
 ::Go in
 You take a deep breath and enter the house through the unlocked window. As you make your way through the dark corridors, you hear the sound of footsteps approaching. Suddenly, the tall blonde man appears before you, wand at the ready. Who are you? he demands. You explain that you were just passing through and sought shelter from the storm. He eyes you suspiciously but eventually nods his head in understanding. I am Eilor, he says, and this is my home. I apologize for my hostility, but I have been on edge lately. You see, our land is on the brink of war. Eilor explains to you that their land has been under siege from an invading army for months, and they have been fighting tirelessly to defend their home. He asks if you would be willing to help them in their struggle.
