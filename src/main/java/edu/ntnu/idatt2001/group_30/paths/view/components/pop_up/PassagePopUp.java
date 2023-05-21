@@ -11,6 +11,8 @@ public class PassagePopUp {
     private TextArea contentArea;
     private Button saveButton;
 
+
+
     public PassagePopUp() {
         titleField = new TextField();
         titleField.setPromptText("Enter the title of the passage");

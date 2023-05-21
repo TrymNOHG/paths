@@ -4,7 +4,6 @@ import edu.ntnu.idatt2001.group_30.paths.controller.NewStoryController;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
-import static edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultInputField.inputWithLabelAndPrompt;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 
@@ -88,7 +87,11 @@ public class NewStoryView extends View<BorderPane> {
         display.setSpacing(10);
         display.setPrefWidth(500);
 
+        Button backButton = new Button("Back");
+        backButton.setOnAction(newStoryController.goBack());
+
         getParentPane().setCenter(display);
+        getParentPane().setBottom(backButton);
 
 
     }

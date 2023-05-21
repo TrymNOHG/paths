@@ -56,14 +56,12 @@ public class LoadGameView extends View<BorderPane> {
 
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
+        getParentPane().setBottom(backButton);
 
         startButton = DefaultButton.medium("Start game", newGameController.goTo(PlaythroughView.class));
         startButton.setVisible(false);
 
-        HBox buttonBox = new HBox(10, backButton, startButton);
-        buttonBox.setAlignment(Pos.CENTER);
-
-        VBox containerWithButtons = new VBox(mainContainer, buttonBox);
+        VBox containerWithButtons = new VBox(mainContainer, startButton);
         containerWithButtons.setSpacing(20);
         containerWithButtons.setAlignment(Pos.CENTER);
 

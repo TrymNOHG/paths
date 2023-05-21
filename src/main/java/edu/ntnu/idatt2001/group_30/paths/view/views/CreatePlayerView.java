@@ -112,13 +112,15 @@ public class CreatePlayerView extends View<BorderPane> {
         nameField.setMinWidth(200);
 
         continueButton = new Button("Continue");
-        returnButton = new Button("Return");
-        HBox viewButtons = new HBox(returnButton, continueButton);
-        returnButton.setAlignment(Pos.CENTER_LEFT);
-        continueButton.setAlignment(Pos.CENTER_RIGHT);
-        viewButtons.setSpacing(200);
+        returnButton = new Button("Back");
 
-        VBox bottomBox = new VBox(nameField, viewButtons);
+        getParentPane().setBottom(returnButton);
+        getParentPane().getBottom().setTranslateY(-50);
+        getParentPane().getBottom().setTranslateX(10);
+
+
+
+        VBox bottomBox = new VBox(nameField, continueButton);
         bottomBox.setSpacing(20);
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
