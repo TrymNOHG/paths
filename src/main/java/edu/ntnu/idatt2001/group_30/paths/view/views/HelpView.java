@@ -13,7 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- * Unfinished Help page.
+ * The Help page for the application.
+ * This page contains information on how to play the game.
+ * It also contains buttons for going back to the home page.
  * @author Nicolai H. Brand.
  */
 public class HelpView extends View<VBox> {
@@ -32,6 +34,10 @@ public class HelpView extends View<VBox> {
         addAll(getButtons());
     }
 
+    /**
+     * Creates a scroll pane containing the help text.
+     * @return A scroll pane containing the help text.
+     */
     private Node helpText() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.prefWidth(600);
@@ -52,6 +58,12 @@ public class HelpView extends View<VBox> {
         return scrollPane;
     }
 
+    /**
+     * Creates the buttons for the help page.
+     * The buttons are for going back to the home page and going back to the previous page.
+     * The previous page is the page the user was on before going to the help page.
+     * @return A list of buttons for the help page.
+     */
     private List<Node> getButtons() {
         List<Node> buttons = new ArrayList<>();
         add(DefaultButton.medium("Home", controller.goTo(HomeView.class)));
