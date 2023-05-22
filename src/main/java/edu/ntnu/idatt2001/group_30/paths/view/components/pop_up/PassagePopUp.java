@@ -2,9 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.Action;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.LinkTable;
-import edu.ntnu.idatt2001.group_30.paths.view.components.table.PassageTable;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.TableDisplay;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.stream.Collectors;
-
 /**
  *  This class contains a pop-up for creating a new passage.
  *
@@ -22,19 +18,45 @@ import java.util.stream.Collectors;
  */
 public class PassagePopUp {
 
-    private final TextField titleField;
-    private final TextArea contentArea;
-    private final Button saveButton;
-    private final Button removeLinkButton;
-    private final LinkTable<Link> linkTable;
+    private TextField titleField;
+    private TextArea contentArea;
+    private Button saveButton;
+    private Button removeLinkButton;
+    private Button addLinkButton;
+    private VBox content;
+    private LinkTable<Link> linkTable;
     private final ObservableList<Passage> passages;
     private final ObservableList<Link> links;
     private Passage passage;
+    private PopUp<VBox, ?> popUp;
 
     public PassagePopUp(ObservableList<Passage> passages) {
         this.passages = passages;
         this.links = FXCollections.observableArrayList();
+        initialize();
+        createPopUp();
+    }
 
+    /**
+     * This constructor allows a pre-existing passage to be edited.
+     * @param passages  Other passages in the story, given as an ObservableList of passages.
+     * @param passage   Passage to edit, given as a Passage object.
+     */
+    public PassagePopUp(ObservableList<Passage> passages, Passage passage) {
+        this.passages = passages;
+        this.passage = passage;
+        this.links = FXCollections.observableArrayList(passage.getLinks());
+        initialize();
+        loadPassage(passage);
+        createPopUp();
+    }
+
+    private void initialize() {
+        setupUiComponents();
+        setupBehavior();
+    }
+
+    private void setupUiComponents() {
         titleField = new TextField();
         titleField.setPromptText("Enter the title of the passage");
 
@@ -53,17 +75,13 @@ public class PassagePopUp {
         removeLinkButton = new Button("Remove Link");
         removeLinkButton.setDisable(true);
 
-        removeLinkButton.setOnAction(e -> links.remove(linkTable.getSelectionModel().getSelectedItem()));
-        linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                removeLinkButton.setDisable(newSelection == null));
+        addLinkButton = new Button("Add Link");
+        if(passages.isEmpty()) addLinkButton.setDisable(true);
 
-        Button addLinkButton = new Button("Add Link");
         HBox linkTableButtonHBox = new HBox(addLinkButton, removeLinkButton);
         linkTableButtonHBox.setAlignment(Pos.CENTER);
 
-        addLinkButton.setOnAction(e -> this.links.add(new LinkPopUp(passages, links).getLink()));
-
-        VBox content = new VBox(
+        content = new VBox(
                 new Label("Passage Title:"),
                 titleField,
                 new Label("Passage Content:"),
@@ -76,14 +94,22 @@ public class PassagePopUp {
 
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
+    }
 
-        PopUp<VBox, ?> popUp = PopUp
-                .<VBox>create()
-                .withTitle("Create a Passage")
-                .withoutCloseButton()
-                .withContent(content)
-                .withDialogSize(400, 500);
-        ;
+    private void setupBehavior() {
+        removeLinkButton.setOnAction(e -> links.remove(linkTable.getSelectionModel().getSelectedItem()));
+        linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
+                removeLinkButton.setDisable(newSelection == null));
+
+
+
+        addLinkButton.setOnAction(e -> {
+            Link newLink = new LinkPopUp(this.passages, links).getLink();
+            if(newLink != null) {
+                this.links.add(newLink);
+            }
+        });
+
 
         saveButton.setOnAction(e -> {
             if (titleField.getText().isBlank() || contentArea.getText().isBlank()) {
@@ -91,19 +117,34 @@ public class PassagePopUp {
             } else {
                 this.passage = new Passage(titleField.getText(), contentArea.getText());
 
+                this.links.forEach(link -> this.passage.addLink(link));
                 //TODO: save the new passage
                 //TODO: add links from the table to the new passage
 
                 popUp.close();
             }
         });
+    }
+
+    private void createPopUp() {
+        popUp = PopUp
+                .<VBox>create()
+                .withTitle("Create a Passage")
+                .withoutCloseButton()
+                .withContent(content)
+                .withDialogSize(400, 500);
 
         popUp.showAndWait();
     }
 
+    private void loadPassage(Passage passage) {
+        titleField.setText(passage.getTitle());
+        contentArea.setText(passage.getContent());
+    }
+
     /**
      * This method retrieves the passages created from the pop-up.
-     * @return  Passags created, given as a List of Passage objects.
+     * @return  Passages created, given as a List of Passage objects.
      */
     public Passage getPassage() {
         return passage;

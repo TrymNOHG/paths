@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 
+import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.PassagePopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.PassageTable;
@@ -35,6 +36,7 @@ public class NewStoryView extends View<BorderPane> {
     private Story story;
     private final ObservableList<Passage> passages;
     private final Button removePassageButton;
+    private final Button editPassageButton;
 
 
     public NewStoryView() {
@@ -51,7 +53,7 @@ public class NewStoryView extends View<BorderPane> {
 
         passages = story == null ? FXCollections.observableArrayList() :
                 FXCollections.observableArrayList(story.getPassages());
-        Text titleText = new Text("Create a new/edit a Story");
+        Text titleText = DefaultText.big("Create a new/edit a Story");
 
         Text labelText = new Text("Story Title: ");
         TextField textField = new TextField(title);
@@ -59,6 +61,7 @@ public class NewStoryView extends View<BorderPane> {
 
 
         HBox titleBox = new HBox(labelText, textField);
+        titleBox.setSpacing(20);
 
         textField.setOnKeyTyped(event -> {
             title = textField.getText();
@@ -85,8 +88,24 @@ public class NewStoryView extends View<BorderPane> {
         removePassageButton = new Button("Remove Passage");
         removePassageButton.setDisable(true);
         removePassageButton.setOnAction(e -> passages.remove(passageTable.getSelectionModel().getSelectedItem()));
-        passageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                removePassageButton.setDisable(newSelection == null));
+
+        editPassageButton = new Button("Edit Passage");
+        editPassageButton.setDisable(true);
+        editPassageButton.setOnAction(e -> {
+            Passage selectedPassage = passageTable.getSelectionModel().getSelectedItem();
+            if (selectedPassage != null) {
+                Passage updatedPassage = new PassagePopUp(passages, selectedPassage).getPassage();
+                if(updatedPassage != null) {
+                    passages.remove(selectedPassage);
+                    passages.add(updatedPassage);
+                }
+            }
+        });
+
+        passageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            removePassageButton.setDisable(newSelection == null);
+            editPassageButton.setDisable(newSelection == null);
+        });
 
 
         Button addPassageButton = new Button();
@@ -100,17 +119,20 @@ public class NewStoryView extends View<BorderPane> {
             System.err.println("Something is wrong with the trash image resource link");
         }
 
+        VBox editTableButtons = new VBox(addPassageButton, removePassageButton, editPassageButton);
+        editTableButtons.setAlignment(Pos.CENTER);
+        editTableButtons.setSpacing(20);
+
         addPassageButton.setOnAction(event -> {
             if(passages.isEmpty()) {
                 AlertDialog.showInformation("Every story needs an opening passage.", "The opening passage" +
                         " will by default be the first passage added.");
             }
-            PassagePopUp passagePopUp = new PassagePopUp(INSTANCE.getStory() == null ?
-                    FXCollections.observableArrayList() : FXCollections.observableArrayList(INSTANCE.getStory().getPassages()));
+            PassagePopUp passagePopUp = new PassagePopUp(passages);
             if(passagePopUp.getPassage() != null) this.passages.addAll(passagePopUp.getPassage());
         });
 
-        Button saveButton = new Button("Save");
+        Button saveButton = new Button("Save Story");
         saveButton.setOnAction(event -> {
             try {
                 newStoryController.addStory(title, passages);
@@ -121,7 +143,7 @@ public class NewStoryView extends View<BorderPane> {
             }
         });
 
-        VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton, removePassageButton, saveButton);
+        VBox display = new VBox(titleText, titleBox, passageTable, saveButton);
         display.setAlignment(Pos.CENTER);
         display.setSpacing(10);
         display.setPrefWidth(500);
@@ -131,6 +153,8 @@ public class NewStoryView extends View<BorderPane> {
 
         getParentPane().setCenter(display);
         getParentPane().setBottom(backButton);
+        getParentPane().setRight(editTableButtons);
+        getParentPane().getRight().setTranslateX(-50);
     }
 
 }
