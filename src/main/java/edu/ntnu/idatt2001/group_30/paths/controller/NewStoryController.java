@@ -7,6 +7,7 @@ import edu.ntnu.idatt2001.group_30.paths.view.views.NewStoryView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,6 +38,10 @@ public class NewStoryController extends Controller{
         if (selectedFile != null) {
             StoryFileWriter storyFileWriter = new StoryFileWriter();
             storyFileWriter.create(story, selectedFile);
+        } else {
+            throw new FileNotFoundException("File was not saved to file system");
         }
+
+        INSTANCE.setStoryFile(selectedFile);
     }
 }

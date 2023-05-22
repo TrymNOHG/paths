@@ -28,19 +28,18 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-//TODO: Add message that first passage will be opening passage
-
 public class NewStoryView extends View<BorderPane> {
 
     private final NewStoryController newStoryController;
     private String title = "";
-
     private Story story;
-
     private final ObservableList<Passage> passages;
+    private final Button removePassageButton;
+
 
     public NewStoryView() {
         super(BorderPane.class);
+
         newStoryController = new NewStoryController();
 
         if (INSTANCE.getStory() != null) {
@@ -72,13 +71,23 @@ public class NewStoryView extends View<BorderPane> {
         PassageTable<Passage> passageTable = new PassageTable<>(new TableDisplay.Builder<Passage>()
                 .addColumn("Name of Passage", "title")
                 .addColumn("Passage Content", "content")
-                .addColumnWithComplexValue("Links", passage -> passage.getLinks().stream()
-                        .map(Link::getText)
-                        .collect(Collectors.joining(", "))));
+                .addColumnWithComplexValue("Links", passage -> passage == null ?
+                        null :
+                        passage.getLinks().stream()
+                            .map(Link::getText)
+                            .collect(Collectors.joining(", "))
+                ));
 
         passageTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         passageTable.setItems(passages);
         passageTable.setMaxWidth(1000);
+
+        removePassageButton = new Button("Remove Passage");
+        removePassageButton.setDisable(true);
+        removePassageButton.setOnAction(e -> passages.remove(passageTable.getSelectionModel().getSelectedItem()));
+        passageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
+                removePassageButton.setDisable(newSelection == null));
+
 
         Button addPassageButton = new Button();
         URL imageUrl = getClass().getResource("/images/plus.png");
@@ -91,24 +100,28 @@ public class NewStoryView extends View<BorderPane> {
             System.err.println("Something is wrong with the trash image resource link");
         }
 
-        addPassageButton.setOnAction(event -> new PassagePopUp());
+        addPassageButton.setOnAction(event -> {
+            if(passages.isEmpty()) {
+                AlertDialog.showInformation("Every story needs an opening passage.", "The opening passage" +
+                        " will by default be the first passage added.");
+            }
+            PassagePopUp passagePopUp = new PassagePopUp(INSTANCE.getStory() == null ?
+                    FXCollections.observableArrayList() : FXCollections.observableArrayList(INSTANCE.getStory().getPassages()));
+            if(passagePopUp.getPassage() != null) this.passages.addAll(passagePopUp.getPassage());
+        });
 
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> {
             try {
-
-                //TODO: if everything goes right, give a little feedback and
-                //      then take back to load with story selected
-                // Add passage with links
                 newStoryController.addStory(title, passages);
-
-            } catch (Exception ex) {
+                StageManager.getInstance().setCurrentView(new LoadGameView());
+            }
+            catch (Exception ex) {
                 AlertDialog.showWarning(ex.getMessage());
             }
-            StageManager.getInstance().setCurrentView(new LoadGameView());
         });
 
-        VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton, saveButton);
+        VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton, removePassageButton, saveButton);
         display.setAlignment(Pos.CENTER);
         display.setSpacing(10);
         display.setPrefWidth(500);
@@ -118,10 +131,6 @@ public class NewStoryView extends View<BorderPane> {
 
         getParentPane().setCenter(display);
         getParentPane().setBottom(backButton);
-
-
     }
-
-
 
 }

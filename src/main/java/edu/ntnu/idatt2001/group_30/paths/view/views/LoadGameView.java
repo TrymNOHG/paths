@@ -48,14 +48,22 @@ public class LoadGameView extends View<BorderPane> {
 
         VBox mainContainer = createMainContainerVBox(titlePane);
 
+        if(INSTANCE.getStory() != null) {
+            try {
+                addStoryPane();
+            } catch (IOException e) {
+                AlertDialog.showError(e.getMessage());
+            }
+        }
+
         setupParentPane(mainContainer);
     }
 
     private VBox createMainContainerVBox(BorderPane titlePane) {
         VBox mainContainer = new VBox();
         mainContainer.getChildren().addAll(titlePane);
-        mainContainer.setAlignment(Pos.CENTER);
-        mainContainer.setSpacing(40);
+        mainContainer.setAlignment(Pos.TOP_CENTER);
+        mainContainer.setSpacing(100);
 
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> StageManager.getInstance().goBack());
@@ -90,6 +98,7 @@ public class LoadGameView extends View<BorderPane> {
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold");
         titlePane.setTop(title);
         BorderPane.setAlignment(title, Pos.TOP_CENTER);
+        titlePane.getTop().setTranslateY(-70);
 
         loadButton = new Button("Load");
         newButton = new Button("New");
@@ -156,9 +165,7 @@ public class LoadGameView extends View<BorderPane> {
         VBox storyContainer = new VBox(storyVBox, buttonIcons);
         storyContainer.setAlignment(Pos.CENTER);
 
-        pencilButton.setOnAction(event -> {
-            StageManager.getInstance().setCurrentView(new NewStoryView());
-        });
+        pencilButton.setOnAction(newGameController.goTo(NewStoryView.class));
 
         xButton.setOnAction(event -> {
             titlePane.getChildren().remove(storyContainer);

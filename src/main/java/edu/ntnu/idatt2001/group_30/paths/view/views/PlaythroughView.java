@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.group_30.paths.view.views;
 
-import edu.ntnu.idatt2001.group_30.paths.controller.PlaytroughController;
+import edu.ntnu.idatt2001.group_30.paths.controller.PlaythroughController;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.PlaythroughState;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.Goal;
@@ -35,7 +35,7 @@ import javafx.scene.text.Text;
  */
 public class PlaythroughView extends View<VBox> {
 
-    private final PlaytroughController controller;
+    private final PlaythroughController controller;
 
     /**
      * Creates a new instance of the view.
@@ -44,7 +44,7 @@ public class PlaythroughView extends View<VBox> {
      */
     public PlaythroughView() {
         super(VBox.class);
-        controller = new PlaytroughController();
+        controller = new PlaythroughController();
 
         /*
          * The view is divided into three parts:
@@ -54,7 +54,7 @@ public class PlaythroughView extends View<VBox> {
          * |                                    |  player & game  |
          * |                                    |       info      |
          * |                                    | --------------- |
-         * |          play-trough window        |      goals      |
+         * |          play-through window       |      goals      |
          * |                                    | --------------- |
          * |                                    |    inventory    |
          * |                                    |                 |
@@ -317,9 +317,9 @@ public class PlaythroughView extends View<VBox> {
         content.setSpacing(20);
         content.setPadding(new Insets(0, 0, 0, 20));
 
-        ObservableMap<Goal, Boolean> goals = controller.getGoals();
+        ObservableMap<Goal<?>, Boolean> goals = controller.getGoals();
         goals.addListener(
-            (MapChangeListener<Goal, Boolean>) change -> {
+            (MapChangeListener<Goal<?>, Boolean>) change -> {
                 showGoals(goals, content);
             }
         );
@@ -388,7 +388,7 @@ public class PlaythroughView extends View<VBox> {
      * @param goals The goals to show.
      * @param content The pane to show the goals in.
      */
-    private void showGoals(ObservableMap<Goal, Boolean> goals, Pane content) {
+    private void showGoals(ObservableMap<Goal<?>, Boolean> goals, Pane content) {
         content.getChildren().clear();
         goals.forEach((goal, completed) -> {
             HBox goalBox = new HBox();

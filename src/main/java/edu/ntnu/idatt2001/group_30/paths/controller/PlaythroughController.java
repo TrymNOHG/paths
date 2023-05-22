@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
  *
  * @author Nicolai H. Brand.
  */
-public class PlaytroughController extends Controller {
+public class PlaythroughController extends Controller {
 
     private Playthrough playthrough;
 
@@ -30,7 +30,7 @@ public class PlaytroughController extends Controller {
     private final StringProperty passageContent = new SimpleStringProperty();
     private final ObservableList<Link> links = FXCollections.observableList(new ArrayList<>());
     private final ObservableList<String> inventory = FXCollections.observableList(new ArrayList<>());
-    private final ObservableMap<Goal, Boolean> goals = FXCollections.observableMap(new HashMap<>());
+    private final ObservableMap<Goal<?>, Boolean> goals = FXCollections.observableMap(new HashMap<>());
     private final StringProperty health = new SimpleStringProperty();
     private final StringProperty score = new SimpleStringProperty();
     private final StringProperty gold = new SimpleStringProperty();
@@ -40,7 +40,7 @@ public class PlaytroughController extends Controller {
      * Creates a new instance of the controller.
      * It initializes the controller and starts a new game.
      */
-    public PlaytroughController() {
+    public PlaythroughController() {
         super(HomeView.class, HelpView.class);
         startNewPlaythrough();
     }
@@ -178,7 +178,7 @@ public class PlaytroughController extends Controller {
      * Returns the goals of the game as an observable map.
      * @return the goals of the game.
      */
-    public ObservableMap<Goal, Boolean> getGoals() {
+    public ObservableMap<Goal<?>, Boolean> getGoals() {
         return goals;
     }
 
