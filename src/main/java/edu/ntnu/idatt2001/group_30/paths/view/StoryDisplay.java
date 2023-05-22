@@ -2,7 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.view;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
+import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileReader;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pane.PaneSpacing;
 import java.io.File;
 import java.io.IOException;
@@ -137,7 +137,7 @@ public class StoryDisplay extends VBox {
          */
         private void setStoryInformation() throws IOException, InstantiationException {
             this.location = String.valueOf(FileHandler.createFile(this.storyFileName).toPath());
-            this.story = new StoryFileHandler().readStoryFromFile(this.storyFileName);
+            this.story = new StoryFileReader().parse(this.storyFileName);
         }
 
         /**

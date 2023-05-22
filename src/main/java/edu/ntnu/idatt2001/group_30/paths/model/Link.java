@@ -75,21 +75,4 @@ public class Link {
     public int hashCode() {
         return Objects.hash(reference);
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[").append(text).append("](").append(reference).append(")\n");
-
-        for (Action<?> action : actions) {
-            sb
-                .append("<")
-                .append(action.getClass().getSimpleName())
-                .append(">\\")
-                .append(action.getActionValue())
-                .append("/\n");
-        }
-
-        return sb.toString();
-    }
 }
