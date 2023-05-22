@@ -123,20 +123,6 @@ public class Story {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.title).append("\n\n");
-        sb.append(this.openingPassage.toString()).append("\n");
-
-        this.passages.values()
-            .forEach(passage -> {
-                if (!passage.equals(openingPassage)) sb.append(passage.toString()).append("\n");
-            });
-
-        return sb.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Story story)) return false;
