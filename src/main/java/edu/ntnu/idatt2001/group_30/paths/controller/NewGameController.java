@@ -18,6 +18,7 @@ public class NewGameController extends Controller {
         StoryFileHandler storyFileHandler = new StoryFileHandler();
         try {
             INSTANCE.setStory(storyFileHandler.readStoryFromFile(storyFile));
+            INSTANCE.setStoryFile(storyFile);
         } catch (IOException | InstantiationException ex) {
             throw new RuntimeException(ex);
         }

@@ -4,7 +4,7 @@ import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewGameController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
-import edu.ntnu.idatt2001.group_30.paths.view.StoryDisplay;
+import edu.ntnu.idatt2001.group_30.paths.view.components.StoryDisplay;
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultButton;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import java.io.File;
@@ -32,6 +32,9 @@ public class LoadGameView extends View<BorderPane> {
     private BorderPane titlePane;
     private VBox buttonVBox;
     private Button startButton;
+    private Button loadButton;
+    private Button newButton;
+    private HBox buttonBox;
 
     /**
      * The constructor of the View class.
@@ -88,10 +91,10 @@ public class LoadGameView extends View<BorderPane> {
         titlePane.setTop(title);
         BorderPane.setAlignment(title, Pos.TOP_CENTER);
 
-        Button loadButton = new Button("Load");
-        Button newButton = new Button("New");
+        loadButton = new Button("Load");
+        newButton = new Button("New");
 
-        HBox buttonBox = new HBox(10, loadButton, newButton);
+        buttonBox = new HBox(10, loadButton, newButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonVBox = new VBox(buttonBox);
         buttonVBox.setAlignment(Pos.CENTER);
@@ -108,29 +111,7 @@ public class LoadGameView extends View<BorderPane> {
             if (selectedFile != null) {
                 try {
                     newGameController.setStory(selectedFile);
-                    VBox storyVBox = new StoryDisplay.Builder(INSTANCE.getStory())
-                        .addStoryName()
-                        .addFileInfo(selectedFile)
-                        .build();
-                    storyVBox.setAlignment(Pos.CENTER);
-
-                    Button pencilButton = createIconButton("/images/pencil.png", 16, 16);
-                    Button xButton = createIconButton("/images/remove.png", 16, 16);
-
-                    HBox buttonIcons = new HBox(10, pencilButton, xButton);
-                    buttonIcons.setAlignment(Pos.CENTER);
-
-                    VBox storyContainer = new VBox(storyVBox, buttonIcons);
-                    storyContainer.setAlignment(Pos.CENTER);
-
-                    xButton.setOnAction(event -> {
-                        titlePane.getChildren().remove(storyContainer);
-                        titlePane.setCenter(buttonBox);
-                        startButton.setVisible(false);
-                    });
-
-                    titlePane.setCenter(storyContainer);
-                    startButton.setVisible(true);
+                    addStoryPane();
                 } catch (RuntimeException runtimeException) {
                     AlertDialog.showError(runtimeException.getMessage());
                 } catch (IOException ex) {
@@ -141,6 +122,7 @@ public class LoadGameView extends View<BorderPane> {
 
         newButton.setOnAction(newGameController.goTo(NewStoryView.class));
 
+        this.titlePane = titlePane;
         return titlePane;
     }
 
@@ -156,5 +138,37 @@ public class LoadGameView extends View<BorderPane> {
             System.err.println("Unable to load image: " + imagePath);
         }
         return button;
+    }
+
+    private void addStoryPane() throws IOException {
+        VBox storyVBox = new StoryDisplay.Builder(INSTANCE.getStory())
+                .addStoryName()
+                .addFileInfo(INSTANCE.getStoryFile())
+                .build();
+        storyVBox.setAlignment(Pos.CENTER);
+
+        Button pencilButton = createIconButton("/images/pencil.png", 16, 16);
+        Button xButton = createIconButton("/images/remove.png", 16, 16);
+
+        HBox buttonIcons = new HBox(10, pencilButton, xButton);
+        buttonIcons.setAlignment(Pos.CENTER);
+
+        VBox storyContainer = new VBox(storyVBox, buttonIcons);
+        storyContainer.setAlignment(Pos.CENTER);
+
+        pencilButton.setOnAction(event -> {
+            StageManager.getInstance().setCurrentView(new NewStoryView());
+        });
+
+        xButton.setOnAction(event -> {
+            titlePane.getChildren().remove(storyContainer);
+            titlePane.setCenter(buttonBox);
+            startButton.setVisible(false);
+
+            INSTANCE.setStory(null);
+        });
+
+        titlePane.setCenter(storyContainer);
+        startButton.setVisible(true);
     }
 }

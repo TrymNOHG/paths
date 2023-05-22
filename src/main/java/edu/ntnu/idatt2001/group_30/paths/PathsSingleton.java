@@ -3,6 +3,8 @@ package edu.ntnu.idatt2001.group_30.paths;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
+
+import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ public enum PathsSingleton {
     INSTANCE;
 
     private Story story;
+    private File storyFile;
     private Player player = new Player("Default", 100, 100, 100);
     private boolean passageMoving = false;
     private HealthGoal healthGoal;
@@ -44,18 +47,52 @@ public enum PathsSingleton {
         this.story = story;
     }
 
+    /**
+     * This method retrieves the file to the story.
+     * @return  The file of the story, given as a File object.
+     */
+    public File getStoryFile() {
+        return storyFile;
+    }
+
+    /**
+     * This method changes the file of the story.
+     * @param storyFile New file, given as a File object.
+     */
+    public void setStoryFile(File storyFile) {
+        this.storyFile = storyFile;
+    }
+
+    /**
+     * This method retrieves the player.
+     * @return  Current player of game, given as a Player object.
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * This method sets the player to a new player.
+     * @param player    New player, given as a Player object.
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    /**
+     * This method allows a goal to be changed, given the goal type.
+     * @param newGoal   New goal, given as a Goal implemented Object
+     */
     public void changeGoal(Goal<?> newGoal) {
         setGoal(GoalType.getGoalType(newGoal.getClass().getSimpleName()), newGoal);
     }
 
+    /**
+     * This method sets a given goal to a new goal by the goal type.
+     * @param goalType  Type of goal, given as a GoalType enum.
+     * @param goal      New goal, given as a Goal object.
+     * @param <T>       The type of Goal.
+     */
     public <T> void setGoal(GoalType goalType, Goal<?> goal) {
         switch (goalType) {
             case HEALTH_GOAL -> healthGoal = (HealthGoal) goal;
@@ -66,22 +103,44 @@ public enum PathsSingleton {
         }
     }
 
+    /**
+     * This method retrieves the health goal.
+     * @return  Health goal, given as a HealthGoal object.
+     */
     public HealthGoal getHealthGoal() {
         return healthGoal;
     }
 
+    /**
+     * This method retrieves the score goal.
+     * @return  Score goal, given as a ScoreGoal object.
+     */
     public ScoreGoal getScoreGoal() {
         return scoreGoal;
     }
 
+    /**
+     * This method retrieves the inventory goal.
+     * @return  Inventory goal, given as a InventoryGoal object.
+     */
     public InventoryGoal getInventoryGoal() {
         return inventoryGoal;
     }
 
+    /**
+     * This method retrieves the gold goal.
+     * @return  Gold goal, given as a GoldGoal object.
+     */
     public GoldGoal getGoldGoal() {
         return goldGoal;
     }
 
+    /**
+     * This method gets a goal variable given the GoalType.
+     * @param goalType  Type of goal, given as a GoalType enum.
+     * @return          The goal variable.
+     * @param <T>       Type of goal.
+     */
     public <T> Goal<?> getGoal(GoalType goalType) {
         return switch (goalType) {
             case HEALTH_GOAL -> healthGoal;
@@ -91,10 +150,18 @@ public enum PathsSingleton {
         };
     }
 
+    /**
+     * This method retrieves the character load out image.
+     * @return  Image of the character created, given as an ImageView object.
+     */
     public ImageView getCharacterImageView() {
         return characterImageView;
     }
 
+    /**
+     * This method sets the character load out.
+     * @param characterImageView    New character image, given as an ImageView object.
+     */
     public void setCharacterImageView(ImageView characterImageView) {
         this.characterImageView = characterImageView;
     }

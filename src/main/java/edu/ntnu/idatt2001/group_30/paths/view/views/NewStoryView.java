@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.view.views;
 
 import edu.ntnu.idatt2001.group_30.paths.controller.NewStoryController;
+import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 public class NewStoryView extends View<BorderPane> {
 
     private final NewStoryController newStoryController;
-    private String title;
+    private String title = "";
 
     private Story story;
 
@@ -50,13 +51,17 @@ public class NewStoryView extends View<BorderPane> {
             story = INSTANCE.getStory();
         }
 
-        passages = story == null ? FXCollections.observableArrayList() : (ObservableList<Passage>) story.getPassages();
+        if(story != null) title = story.getTitle();
 
+
+        passages = story == null ? FXCollections.observableArrayList() :
+                FXCollections.observableArrayList(story.getPassages());
         Text titleText = new Text("Create a new/edit a Story");
 
         Text labelText = new Text("Story Title: ");
-        TextField textField = new TextField(story == null ? "" : story.getTitle());
+        TextField textField = new TextField(title);
         textField.setPromptText("Enter story title");
+
 
         HBox titleBox = new HBox(labelText, textField);
 
@@ -96,33 +101,15 @@ public class NewStoryView extends View<BorderPane> {
         saveButton.setOnAction(event -> {
             try {
 
-                //TODO: add this logic to the controller instead of here
                 //TODO: if everything goes right, give a little feedback and
                 //      then take back to load with story selected
                 // Add passage with links
-                story = new Story(title, passages.isEmpty() ? null: passages.get(0));
-                passages.forEach(story::addPassage);
-                INSTANCE.setStory(story);
+                newStoryController.addStory(title, passages);
 
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setInitialDirectory(new File("./src/main/resources/story-files"));
-                fileChooser.getExtensionFilters().add(
-                        new FileChooser.ExtensionFilter("Paths files", "*.paths")
-                );
-                File selectedFile = fileChooser.showSaveDialog(null);
-
-                if (selectedFile != null) {
-                    StoryFileHandler fileHandler = new StoryFileHandler();
-                    try {
-                        fileHandler.createStoryFile(story, selectedFile);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                        AlertDialog.showWarning("An error occurred while saving the file.");
-                    }
-                }
             } catch (Exception ex) {
                 AlertDialog.showWarning(ex.getMessage());
             }
+            StageManager.getInstance().setCurrentView(new LoadGameView());
         });
 
         VBox display = new VBox(titleText, titleBox, passageTable, addPassageButton, saveButton);
