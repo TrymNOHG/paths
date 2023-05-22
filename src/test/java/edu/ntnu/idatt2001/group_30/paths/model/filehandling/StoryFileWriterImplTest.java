@@ -2,17 +2,12 @@ package edu.ntnu.idatt2001.group_30.paths.model.filehandling;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptFileException;
-import edu.ntnu.idatt2001.group_30.paths.exceptions.CorruptLinkException;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.Action;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.GoldAction;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.HealthAction;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.InventoryAction;
-import edu.ntnu.idatt2001.group_30.paths.model.actions.ScoreAction;
+import edu.ntnu.idatt2001.group_30.paths.model.actions.*;
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;
@@ -23,15 +18,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class StoryFileHandlerTest {
+public class StoryFileWriterImplTest {
+
+    final StoryFileWriter storyFileWriter = new StoryFileWriter();
+    final StoryFileReader storyFileReader = new StoryFileReader();
 
     @BeforeAll
     static void setFileHandlerPath() {
         Path defaultPath = FileSystems.getDefault().getPath("src", "test", "resources", "storytestfiles");
         FileHandler.changeDefaultPath(defaultPath);
     }
-
-    StoryFileHandler storyFileHandler = new StoryFileHandler();
 
     public File getValidFile(String fileName) {
         return FileHandler.createFile(fileName);
@@ -58,16 +54,20 @@ class StoryFileHandlerTest {
             Story story = validStory();
 
             try {
-                storyFileHandler.createStoryFile(story, fileName);
+                storyFileWriter.create(story, fileName);
             } catch (Exception e) {
-                if (!e.getMessage().equals("You cannot overwrite a pre-existing story file")) {
+                if (
+                    !(
+                        e.getMessage().equals("You cannot overwrite a pre-existing story file") &&
+                        e instanceof FileAlreadyExistsException
+                    )
+                ) {
                     System.out.println(e.getMessage());
                     fail("An exception was thrown when it shouldn't have.");
                 }
             }
 
             File expectedFileCreated = getValidFile(fileName);
-
             Assertions.assertTrue(expectedFileCreated.isFile());
             expectedFileCreated.delete();
         }
@@ -78,13 +78,12 @@ class StoryFileHandlerTest {
             Story story = validStory();
 
             try {
-                storyFileHandler.createStoryFile(story, fileName);
+                storyFileWriter.create(story, fileName);
             } catch (Exception e) {
                 fail("An exception was thrown when it shouldn't have. " + e.getMessage());
             }
 
             File expectedFileCreated = getValidFile(fileName);
-
             Assertions.assertTrue(expectedFileCreated.canRead());
             expectedFileCreated.delete();
         }
@@ -96,7 +95,7 @@ class StoryFileHandlerTest {
             boolean fileDoesNotExistAtStart = !getValidFile(fileName).exists();
 
             try {
-                storyFileHandler.createStoryFile(story, fileName);
+                storyFileWriter.create(story, fileName);
             } catch (Exception e) {
                 fail("An exception was thrown when it shouldn't have.");
             }
@@ -118,8 +117,8 @@ class StoryFileHandlerTest {
             File preexistingFile = getValidFile(fileName);
             if (getValidFile(fileName).isFile()) {
                 Assertions.assertThrows(
-                    IllegalArgumentException.class,
-                    () -> storyFileHandler.createStoryFile(story, fileName)
+                    FileAlreadyExistsException.class,
+                    () -> storyFileWriter.create(story, fileName)
                 );
             } else fail("The file check for doesn't exist, so this test is invalid");
         }
@@ -134,8 +133,8 @@ class StoryFileHandlerTest {
             Story story = validStory();
             String expectedTitle = story.getTitle();
 
-            storyFileHandler.createStoryFile(story, fileName);
-            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            storyFileWriter.create(story, fileName);
+            Story storyReadFromFile = storyFileReader.parse(fileName);
             String actualTitle = storyReadFromFile.getTitle();
 
             Assertions.assertEquals(expectedTitle, actualTitle);
@@ -150,9 +149,11 @@ class StoryFileHandlerTest {
             Story story = validStory();
             Passage expectedOpeningPassage = story.getOpeningPassage();
 
-            storyFileHandler.createStoryFile(story, fileName);
-            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            storyFileWriter.create(story, fileName);
+            Story storyReadFromFile = storyFileReader.parse(fileName);
             Passage actualOpeningPassage = storyReadFromFile.getOpeningPassage();
+            System.out.println(actualOpeningPassage.getTitle() + actualOpeningPassage.getContent());
+            System.out.println(expectedOpeningPassage.getTitle() + expectedOpeningPassage.getContent());
 
             Assertions.assertEquals(expectedOpeningPassage, actualOpeningPassage);
 
@@ -166,8 +167,8 @@ class StoryFileHandlerTest {
             Story story = validStory();
             List<Link> expectedOpeningPassageLinks = story.getOpeningPassage().getLinks();
 
-            storyFileHandler.createStoryFile(story, fileName);
-            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            storyFileWriter.create(story, fileName);
+            Story storyReadFromFile = storyFileReader.parse(fileName);
             List<Link> actualOpeningPassageLinks = storyReadFromFile.getOpeningPassage().getLinks();
 
             Assertions.assertEquals(expectedOpeningPassageLinks, actualOpeningPassageLinks);
@@ -182,8 +183,8 @@ class StoryFileHandlerTest {
             Story story = validStory();
             List<Action<?>> expectedOpeningPassageActions = story.getOpeningPassage().getLinks().get(0).getActions();
 
-            storyFileHandler.createStoryFile(story, fileName);
-            Story storyReadFromFile = storyFileHandler.readStoryFromFile(fileName);
+            storyFileWriter.create(story, fileName);
+            Story storyReadFromFile = storyFileReader.parse(fileName);
             List<Action<?>> actualOpeningPassageActions = storyReadFromFile
                 .getOpeningPassage()
                 .getLinks()
@@ -198,19 +199,6 @@ class StoryFileHandlerTest {
     }
 
     @Nested
-    public class A_StoryFile_properly_reads_a_story_if_it {
-
-        @Test
-        void constructs_a_Story_correctly_when_read() throws IOException, InstantiationException {
-            Story expectedStory = validStory();
-
-            Story actualStory = storyFileHandler.readStoryFromFile("The Hobbit");
-
-            assertEquals(expectedStory, actualStory);
-        }
-    }
-
-    @Nested
     public class A_StoryFile_with_invalid_information_such_as {
 
         @Test
@@ -220,7 +208,7 @@ class StoryFileHandlerTest {
             Assertions.assertThrows(
                 NullPointerException.class,
                 () -> {
-                    storyFileHandler.createStoryFile(story, "Null story test");
+                    storyFileWriter.create(story, "Null story test");
                 }
             );
         }
@@ -232,91 +220,7 @@ class StoryFileHandlerTest {
             Assertions.assertThrows(
                 NullPointerException.class,
                 () -> {
-                    storyFileHandler.createStoryFile(story, (String) null);
-                }
-            );
-        }
-
-        @Test
-        void a_null_file_name_when_reading_file_will_throw_NullPointerException() {
-            Assertions.assertThrows(
-                NullPointerException.class,
-                () -> {
-                    Story story = storyFileHandler.readStoryFromFile((String) null);
-                }
-            );
-        }
-
-        //TODO: change this actually test the link information
-        @Test
-        void corrupt_link_information_throws_CorruptLinkException_when_read() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                CorruptLinkException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Link File");
-                    assertNotEquals(expectedStory, actualStory);
-                }
-            );
-        }
-
-        @Test
-        void file_with_improper_format_throws_CorruptFileException() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                CorruptFileException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("Corrupt .paths Format");
-                }
-            );
-        }
-
-        @Test
-        void not_existing_throws_IllegalArgumentException() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("File that does not exist");
-                }
-            );
-        }
-
-        @Test
-        void action_class_throws_InstantiationException() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                InstantiationException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Action Class");
-                }
-            );
-        }
-
-        @Test
-        void corrupt_action_format_throws_CorruptLinkException() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                CorruptLinkException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Action");
-                }
-            );
-        }
-
-        @Test
-        void valid_action_class_but_invalid_value_throws_IllegalArgumentException() {
-            Story expectedStory = validStory();
-
-            Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    Story actualStory = storyFileHandler.readStoryFromFile("Corrupt Action Value");
+                    storyFileWriter.create(story, null);
                 }
             );
         }

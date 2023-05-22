@@ -8,82 +8,26 @@ import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.Action;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.ActionFactory;
 import edu.ntnu.idatt2001.group_30.paths.model.actions.ActionType;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * This class maintains the storage and retrieval of a Story file. This is done through a Buffered
- * writer and reader.
+ * The StoryFileReader class is responsible for reading a story file and parsing it to create a story object.
+ * It is also responsible for validating the file.
+ *
+ * @author Trym Hamer Gudvangen, Nicolai H. Brand.
  */
-public class StoryFileHandler {
+public class StoryFileReader {
 
     private final Pattern LINK_PATTERN = Pattern.compile("\\[.*]\\(.*\\)");
     private final Pattern ACTION_PATTERN = Pattern.compile("<.*>\\\\.*/");
-
-    /**
-     * This method takes a story and writes its contents to a .paths file. The story information is transcribed
-     * in the given format:
-     * <pre>
-     *  Story title
-     *
-     *  ::Opening Passage Title
-     *  Opening Passage Content
-     *  [Link Text](Link Reference)
-     *
-     *  ::Another Passage Title
-     *  Passage Content
-     *  [Link Text](Link Reference)
-     *  {@code <Action Type>}\Action Value/
-     *  [Link Text](Link Reference)
-     *
-     *  ...
-     * </pre>
-     * @param story         The story to be saved, given as a Story object.
-     * @param fileName      The name of the file the story will be saved to, given as a String.
-     * @throws IOException  This exception is thrown if an I/O error occurs with the writer.
-     */
-    public void createStoryFile(Story story, String fileName) throws IOException {
-        Objects.requireNonNull(fileName, "File name cannot be null");
-        File file = FileHandler.createFile(fileName);
-        createStoryFile(story, file);
-    }
-
-    //TODO: add test for story files...
-
-    /**
-     * This method takes a story and writes its contents to a .paths file. The story information is transcribed
-     * in the given format:
-     * <pre>
-     *  Story title
-     *
-     *  ::Opening Passage Title
-     *  Opening Passage Content
-     *  [Link Text](Link Reference)
-     *
-     *  ::Another Passage Title
-     *  Passage Content
-     *  [Link Text](Link Reference)
-     *  {@code <Action Type>}\Action Value/
-     *  [Link Text](Link Reference)
-     *
-     *  ...
-     * </pre>
-     * @param story         The story to be saved, given as a Story object.
-     * @param file          The file the story will be saved to, given as a File object.
-     * @throws IOException  This exception is thrown if an I/O error occurs with the writer.
-     */
-    public void createStoryFile(Story story, File file) throws IOException {
-        Objects.requireNonNull(story, "Story cannot be null");
-        Objects.requireNonNull(file, "File cannot be null");
-        if (FileHandler.fileExists(file)) throw new IllegalArgumentException(
-                "You cannot overwrite a pre-existing story file"
-        );
-        try (BufferedWriter storyBufferedWriter = new BufferedWriter(new FileWriter(file))) {
-            storyBufferedWriter.write(story.toString());
-        }
-    }
 
     /**
      * This method takes a story file and parses it to create a story object.
@@ -91,13 +35,11 @@ public class StoryFileHandler {
      * @return              The story from the file, given as a Story object.
      * @throws IOException  This exception is thrown if an I/O error occurs with the reader.
      */
-    public Story readStoryFromFile(String fileName) throws IOException, InstantiationException {
+    public Story parse(String fileName) throws IOException, InstantiationException {
         Objects.requireNonNull(fileName, "File name cannot be null");
         File file = new File(FileHandler.getFileSourcePath(fileName));
-        return readStoryFromFile(file);
+        return parse(file);
     }
-
-    //TODO: test new readStory method... basically same as earlier
 
     /**
      * This method takes a story file and parses it to create a story object.
@@ -105,7 +47,7 @@ public class StoryFileHandler {
      * @return              The story from the file, given as a Story object.
      * @throws IOException  This exception is thrown if an I/O error occurs with the reader.
      */
-    public Story readStoryFromFile(File file) throws IOException, InstantiationException {
+    public Story parse(File file) throws IOException, InstantiationException {
         Objects.requireNonNull(file, "File does not exist");
         if (!FileHandler.fileExists(file)) throw new IllegalArgumentException("There is no story file with that name!");
         Story story;
