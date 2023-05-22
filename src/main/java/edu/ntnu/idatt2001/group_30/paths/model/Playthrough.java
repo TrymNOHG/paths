@@ -70,7 +70,7 @@ public class Playthrough {
             return;
         }
 
-        if (!currentPassage.hasLinks()) {
+        if (currentPassage != null && !currentPassage.hasLinks()) {
             gameState = PlaythroughState.STUCK;
         }
     }
