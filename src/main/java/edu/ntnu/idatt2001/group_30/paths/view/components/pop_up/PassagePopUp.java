@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Trym Hamer Gudvangen
  */
-public class PassagePopUp {
+public class PassagePopUp extends AbstractPopUp{
 
     private TextField titleField;
     private TextArea contentArea;
@@ -51,12 +51,8 @@ public class PassagePopUp {
         createPopUp();
     }
 
-    private void initialize() {
-        setupUiComponents();
-        setupBehavior();
-    }
-
-    private void setupUiComponents() {
+    @Override
+    protected void setupUiComponents() {
         titleField = new TextField();
         titleField.setPromptText("Enter the title of the passage");
 
@@ -96,7 +92,8 @@ public class PassagePopUp {
         content.setSpacing(20);
     }
 
-    private void setupBehavior() {
+    @Override
+    protected void setupBehavior() {
         removeLinkButton.setOnAction(e -> links.remove(linkTable.getSelectionModel().getSelectedItem()));
         linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
                 removeLinkButton.setDisable(newSelection == null));
@@ -126,7 +123,8 @@ public class PassagePopUp {
         });
     }
 
-    private void createPopUp() {
+    @Override
+    protected void createPopUp() {
         popUp = PopUp
                 .<VBox>create()
                 .withTitle("Create a Passage")

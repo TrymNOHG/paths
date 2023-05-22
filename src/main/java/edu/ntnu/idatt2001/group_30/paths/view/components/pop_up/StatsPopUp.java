@@ -9,13 +9,29 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class StatsPopUp {
+public class StatsPopUp extends AbstractPopUp{
 
     private TextField healthField;
     private TextField goldField;
     private Button saveButton;
+    private VBox content;
+    private PopUp<VBox, ?> popUp;
 
     public StatsPopUp() {
+        initialize();
+        createPopUp();
+    }
+
+    public int getHealth() {
+        return Integer.parseInt(healthField.getText());
+    }
+
+    public int getGold() {
+        return Integer.parseInt(goldField.getText());
+    }
+
+    @Override
+    protected void setupUiComponents() {
         healthField = new TextField();
         healthField.setTextFormatter(TextValidation.createIntegerTextFormatter(INSTANCE.getPlayer().getHealth()));
 
@@ -27,17 +43,13 @@ public class StatsPopUp {
 
         saveButton = new Button("Save");
 
-        VBox content = new VBox(new Label("Health:"), healthField, new Label("Gold:"), goldField, saveButton);
+        content = new VBox(new Label("Health:"), healthField, new Label("Gold:"), goldField, saveButton);
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
+    }
 
-        PopUp<VBox, ?> popUp = PopUp
-            .<VBox>create()
-            .withTitle("Add stats to your player")
-            .withoutCloseButton()
-            .withContent(content)
-            .withDialogSize(400, 300);
-
+    @Override
+    protected void setupBehavior() {
         saveButton.setOnAction(e -> {
             if (healthField.getText().isBlank() || goldField.getText().isBlank()) {
                 AlertDialog.showWarning("The different fields cannot be blank.");
@@ -47,14 +59,17 @@ public class StatsPopUp {
                 popUp.close();
             }
         });
+    }
+
+    @Override
+    protected void createPopUp() {
+        popUp = PopUp
+                .<VBox>create()
+                .withTitle("Add stats to your player")
+                .withoutCloseButton()
+                .withContent(content)
+                .withDialogSize(400, 300);
+
         popUp.showAndWait();
-    }
-
-    public int getHealth() {
-        return Integer.parseInt(healthField.getText());
-    }
-
-    public int getGold() {
-        return Integer.parseInt(goldField.getText());
     }
 }

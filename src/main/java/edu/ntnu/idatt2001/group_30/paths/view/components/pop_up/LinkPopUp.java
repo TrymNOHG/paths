@@ -11,40 +11,45 @@ import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 
-public class LinkPopUp {
+public class LinkPopUp extends AbstractPopUp{
 
     private TextField textField;
     private Button saveButton;
-    private ObservableList<Passage> passages;
-    private ObservableList<Link> links;
+    private Button addActionButton;
+    private ComboBox<String> reference;
+    private ComboBox<Action<?>> actionComboBox;
+    private VBox content;
+    private final ObservableList<Passage> passages;
+    private final ObservableList<Link> links;
     private HashMap<String, Passage> passageHashMap;
     private Link link;
+    private PopUp<VBox, ?> popUp;
 
     public LinkPopUp(ObservableList<Passage> passages, ObservableList<Link> links) {
         this.passages = passages;
         this.links = links;
         this.passageHashMap = new HashMap<>();
+        passages.forEach(passage -> passageHashMap.put(passage.getTitle(), passage));
 
+        initialize();
+        createPopUp();
+    }
+
+
+    @Override
+    protected void setupUiComponents() {
         textField = new TextField();
         textField.setPromptText("Enter the text of the link");
 
-
-        passages.forEach(passage -> passageHashMap.put(passage.getTitle(), passage));
-        ComboBox<String> reference = new ComboBox<>(FXCollections.observableArrayList(passageHashMap.keySet()));
+        reference = new ComboBox<>(FXCollections.observableArrayList(passageHashMap.keySet()));
         reference.setPromptText("Select reference passage of the link");
 
         saveButton = new Button("Save");
 
-        ComboBox<Action<?>> actionComboBox = new ComboBox<>(null);
-        Button addActionButton = new Button("Add Action");
-        addActionButton.setOnAction(e -> {
-            if (actionComboBox.getValue() != null) {
-                //TODO: add the action to the link
-                actionComboBox.setValue(null);
-            }
-        });
+        actionComboBox = new ComboBox<>(null);
+        addActionButton = new Button("Add Action");
 
-        VBox content = new VBox(
+        content = new VBox(
                 new Label("Link Text:"),
                 textField,
                 new Label("Link Reference:"),
@@ -58,12 +63,17 @@ public class LinkPopUp {
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
 
-        PopUp<VBox, ?> popUp = PopUp
-                .<VBox>create()
-                .withTitle("Create a Link")
-                .withoutCloseButton()
-                .withContent(content)
-                .withDialogSize(400, 500);
+
+    }
+
+    @Override
+    protected void setupBehavior() {
+        addActionButton.setOnAction(e -> {
+            if (actionComboBox.getValue() != null) {
+                //TODO: add the action to the link
+                actionComboBox.setValue(null);
+            }
+        });
 
         saveButton.setOnAction(e -> {
             if (textField.getText().isBlank() || reference.getValue() == null) {
@@ -73,6 +83,16 @@ public class LinkPopUp {
                 popUp.close();
             }
         });
+    }
+
+    @Override
+    protected void createPopUp() {
+        popUp = PopUp
+                .<VBox>create()
+                .withTitle("Create a Link")
+                .withoutCloseButton()
+                .withContent(content)
+                .withDialogSize(400, 500);
 
         popUp.showAndWait();
     }
