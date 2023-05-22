@@ -7,7 +7,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
-
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.PassagePopUp;
@@ -27,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class NewStoryView extends View<BorderPane> {
@@ -63,9 +63,7 @@ public class NewStoryView extends View<BorderPane> {
         HBox titleBox = new HBox(labelText, textField);
         titleBox.setSpacing(20);
 
-        textField.setOnKeyTyped(event -> {
-            title = textField.getText();
-        });
+        textField.setOnKeyTyped(event -> title = textField.getText());
 
         titleBox.setAlignment(Pos.CENTER);
 
@@ -87,7 +85,11 @@ public class NewStoryView extends View<BorderPane> {
 
         removePassageButton = new Button("Remove Passage");
         removePassageButton.setDisable(true);
-        removePassageButton.setOnAction(e -> passages.remove(passageTable.getSelectionModel().getSelectedItem()));
+        removePassageButton.setOnAction(e -> {
+            passages.forEach(passage -> passage.getLinks().removeIf(link ->
+                    Objects.equals(link.getReference(), passageTable.getSelectionModel().getSelectedItem().getTitle())));
+            passages.remove(passageTable.getSelectionModel().getSelectedItem());
+        });
 
         editPassageButton = new Button("Edit Passage");
         editPassageButton.setDisable(true);
@@ -95,7 +97,15 @@ public class NewStoryView extends View<BorderPane> {
             Passage selectedPassage = passageTable.getSelectionModel().getSelectedItem();
             if (selectedPassage != null) {
                 Passage updatedPassage = new PassagePopUp(passages, selectedPassage).getPassage();
-                if(updatedPassage != null) {
+                if(updatedPassage != null && !selectedPassage.equals(updatedPassage)) {
+                    passages.forEach(passage -> {
+                        System.out.println(passage.getTitle());
+                        System.out.println(passage.getLinks());
+                        passage.getLinks().replaceAll(link ->
+                                link.getReference().equals(selectedPassage.getTitle()) ?
+                                new Link(link.getText(), updatedPassage.getTitle()) : link
+                        );
+                    });
                     passages.remove(selectedPassage);
                     passages.add(updatedPassage);
                 }
