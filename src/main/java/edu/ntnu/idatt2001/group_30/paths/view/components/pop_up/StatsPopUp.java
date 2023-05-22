@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class StatsPopUp extends AbstractPopUp{
+public class StatsPopUp extends AbstractPopUp {
 
     private TextField healthField;
     private TextField goldField;
@@ -63,7 +63,8 @@ public class StatsPopUp extends AbstractPopUp{
 
     @Override
     protected void createPopUp() {
-        popUp = PopUp
+        popUp =
+            PopUp
                 .<VBox>create()
                 .withTitle("Add stats to your player")
                 .withoutCloseButton()

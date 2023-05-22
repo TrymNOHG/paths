@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.group_30.paths.model.actions.ActionType;
 import edu.ntnu.idatt2001.group_30.paths.model.utils.TextValidation;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.ActionTable;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.TableDisplay;
+import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -15,9 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.HashMap;
-
-public class LinkPopUp extends AbstractPopUp{
+public class LinkPopUp extends AbstractPopUp {
 
     private TextField textField;
     private TextField actionTextField;
@@ -56,7 +55,6 @@ public class LinkPopUp extends AbstractPopUp{
         createPopUp();
     }
 
-
     @Override
     protected void setupUiComponents() {
         textField = new TextField();
@@ -74,25 +72,27 @@ public class LinkPopUp extends AbstractPopUp{
 
         actionTextField = new TextField();
 
-
         removeActionButton = new Button("Remove Action");
         removeActionButton.setDisable(true);
-
 
         addActionButton = new Button("Add Action");
 
         HBox actionHbox = new HBox(actionComboBox, actionTextField, addActionButton);
         actionHbox.setAlignment(Pos.CENTER);
 
-        actionTable = new ActionTable<>(new TableDisplay.Builder<Action<?>>()
-                .addColumnWithComplexValue("Type", action -> action.getClass().getSimpleName())
-                .addColumnWithComplexValue("Value", action -> action.getActionValue().toString()));
+        actionTable =
+            new ActionTable<>(
+                new TableDisplay.Builder<Action<?>>()
+                    .addColumnWithComplexValue("Type", action -> action.getClass().getSimpleName())
+                    .addColumnWithComplexValue("Value", action -> action.getActionValue().toString())
+            );
 
         actionTable.setItems(actions);
 
         actionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        content = new VBox(
+        content =
+            new VBox(
                 new Label("Link Text:"),
                 textField,
                 new Label("Link Reference:"),
@@ -102,23 +102,22 @@ public class LinkPopUp extends AbstractPopUp{
                 actionTable,
                 removeActionButton,
                 saveButton
-        );
+            );
 
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
-
-
     }
 
     @Override
     protected void setupBehavior() {
-
         removeActionButton.setOnAction(event -> actions.remove(actionTable.getSelectionModel().getSelectedItem()));
 
-        actionTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            removeActionButton.setDisable(newSelection == null);
-        });
-
+        actionTable
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((obs, oldSelection, newSelection) -> {
+                removeActionButton.setDisable(newSelection == null);
+            });
 
         addActionButton.setOnAction(e -> {
             if (actionComboBox.getValue() != null) {
@@ -137,28 +136,33 @@ public class LinkPopUp extends AbstractPopUp{
             }
         });
 
-        actionComboBox.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(ActionType actionType, boolean empty) {
-                super.updateItem(actionType, empty);
-                if (empty || actionType == null) {
-                    setText(null);
-                } else {
-                    setText(actionType.getDisplayName());
-                    switch(actionType) {
-                        case SCORE_ACTION, GOLD_ACTION, HEALTH_ACTION -> actionTextField.setTextFormatter(TextValidation.createIntegerTextFormatter());
-                        case INVENTORY_ACTION -> actionTextField.setTextFormatter(null);
+        actionComboBox.setCellFactory(listView ->
+            new ListCell<>() {
+                @Override
+                protected void updateItem(ActionType actionType, boolean empty) {
+                    super.updateItem(actionType, empty);
+                    if (empty || actionType == null) {
+                        setText(null);
+                    } else {
+                        setText(actionType.getDisplayName());
+                        switch (actionType) {
+                            case SCORE_ACTION, GOLD_ACTION, HEALTH_ACTION -> actionTextField.setTextFormatter(
+                                TextValidation.createIntegerTextFormatter()
+                            );
+                            case INVENTORY_ACTION -> actionTextField.setTextFormatter(null);
+                        }
                     }
                 }
             }
-        });
+        );
 
         actionComboBox.setButtonCell(actionComboBox.getCellFactory().call(null));
     }
 
     @Override
     protected void createPopUp() {
-        popUp = PopUp
+        popUp =
+            PopUp
                 .<VBox>create()
                 .withTitle("Create a Link")
                 .withoutCloseButton()

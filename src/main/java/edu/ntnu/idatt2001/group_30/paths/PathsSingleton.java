@@ -3,7 +3,6 @@ package edu.ntnu.idatt2001.group_30.paths;
 import edu.ntnu.idatt2001.group_30.paths.model.Player;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.goals.*;
-
 import java.io.File;
 import java.util.List;
 import java.util.Objects;

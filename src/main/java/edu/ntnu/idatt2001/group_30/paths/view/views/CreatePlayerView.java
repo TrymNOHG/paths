@@ -117,8 +117,6 @@ public class CreatePlayerView extends View<BorderPane> {
         getParentPane().getBottom().setTranslateY(-50);
         getParentPane().getBottom().setTranslateX(10);
 
-
-
         VBox bottomBox = new VBox(nameField, continueButton);
         bottomBox.setSpacing(20);
         bottomBox.setAlignment(Pos.CENTER);

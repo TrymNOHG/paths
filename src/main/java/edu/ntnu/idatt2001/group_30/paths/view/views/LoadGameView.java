@@ -48,7 +48,7 @@ public class LoadGameView extends View<BorderPane> {
 
         VBox mainContainer = createMainContainerVBox(titlePane);
 
-        if(INSTANCE.getStory() != null) {
+        if (INSTANCE.getStory() != null) {
             try {
                 addStoryPane();
             } catch (IOException e) {
@@ -151,9 +151,9 @@ public class LoadGameView extends View<BorderPane> {
 
     private void addStoryPane() throws IOException {
         VBox storyVBox = new StoryDisplay.Builder(INSTANCE.getStory())
-                .addStoryName()
-                .addFileInfo(INSTANCE.getStoryFile())
-                .build();
+            .addStoryName()
+            .addFileInfo(INSTANCE.getStoryFile())
+            .build();
         storyVBox.setAlignment(Pos.CENTER);
 
         Button pencilButton = createIconButton("/images/pencil.png", 16, 16);

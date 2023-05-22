@@ -1,17 +1,20 @@
 package edu.ntnu.idatt2001.group_30.paths.view.views;
 
+import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
+
 import edu.ntnu.idatt2001.group_30.paths.controller.NewStoryController;
 import edu.ntnu.idatt2001.group_30.paths.controller.StageManager;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
-import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
-
 import edu.ntnu.idatt2001.group_30.paths.view.components.common.DefaultText;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.PassagePopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.PassageTable;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.TableDisplay;
+import java.net.URL;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -25,10 +28,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.net.URL;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 public class NewStoryView extends View<BorderPane> {
 
     private final NewStoryController newStoryController;
@@ -38,27 +37,25 @@ public class NewStoryView extends View<BorderPane> {
     private final Button removePassageButton;
     private final Button editPassageButton;
 
-
     public NewStoryView() {
         super(BorderPane.class);
-
         newStoryController = new NewStoryController();
 
         if (INSTANCE.getStory() != null) {
             story = INSTANCE.getStory();
         }
 
-        if(story != null) title = story.getTitle();
+        if (story != null) title = story.getTitle();
 
-
-        passages = story == null ? FXCollections.observableArrayList() :
-                FXCollections.observableArrayList(story.getPassages());
+        passages =
+            story == null
+                ? FXCollections.observableArrayList()
+                : FXCollections.observableArrayList(story.getPassages());
         Text titleText = DefaultText.big("Create a new/edit a Story");
 
         Text labelText = new Text("Story Title: ");
         TextField textField = new TextField(title);
         textField.setPromptText("Enter story title");
-
 
         HBox titleBox = new HBox(labelText, textField);
         titleBox.setSpacing(20);
@@ -67,17 +64,18 @@ public class NewStoryView extends View<BorderPane> {
 
         titleBox.setAlignment(Pos.CENTER);
 
-
-
-        PassageTable<Passage> passageTable = new PassageTable<>(new TableDisplay.Builder<Passage>()
+        PassageTable<Passage> passageTable = new PassageTable<>(
+            new TableDisplay.Builder<Passage>()
                 .addColumn("Name of Passage", "title")
                 .addColumn("Passage Content", "content")
-                .addColumnWithComplexValue("Links", passage -> passage == null ?
-                        null :
-                        passage.getLinks().stream()
-                            .map(Link::getText)
-                            .collect(Collectors.joining(", "))
-                ));
+                .addColumnWithComplexValue(
+                    "Links",
+                    passage ->
+                        passage == null
+                            ? null
+                            : passage.getLinks().stream().map(Link::getText).collect(Collectors.joining(", "))
+                )
+        );
 
         passageTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         passageTable.setItems(passages);
@@ -86,8 +84,16 @@ public class NewStoryView extends View<BorderPane> {
         removePassageButton = new Button("Remove Passage");
         removePassageButton.setDisable(true);
         removePassageButton.setOnAction(e -> {
-            passages.forEach(passage -> passage.getLinks().removeIf(link ->
-                    Objects.equals(link.getReference(), passageTable.getSelectionModel().getSelectedItem().getTitle())));
+            passages.forEach(passage ->
+                passage
+                    .getLinks()
+                    .removeIf(link ->
+                        Objects.equals(
+                            link.getReference(),
+                            passageTable.getSelectionModel().getSelectedItem().getTitle()
+                        )
+                    )
+            );
             passages.remove(passageTable.getSelectionModel().getSelectedItem());
         });
 
@@ -97,22 +103,29 @@ public class NewStoryView extends View<BorderPane> {
             Passage selectedPassage = passageTable.getSelectionModel().getSelectedItem();
             if (selectedPassage != null) {
                 Passage updatedPassage = new PassagePopUp(passages, selectedPassage).getPassage();
-                if(updatedPassage != null && !selectedPassage.equals(updatedPassage)) {
-                    passages.forEach(passage -> passage.getLinks().replaceAll(link ->
-                            link.getReference().equals(selectedPassage.getTitle()) ?
-                            new Link(link.getText(), updatedPassage.getTitle()) : link
-                    ));
+                if (updatedPassage != null && !selectedPassage.equals(updatedPassage)) {
+                    passages.forEach(passage ->
+                        passage
+                            .getLinks()
+                            .replaceAll(link ->
+                                link.getReference().equals(selectedPassage.getTitle())
+                                    ? new Link(link.getText(), updatedPassage.getTitle())
+                                    : link
+                            )
+                    );
                     passages.remove(selectedPassage);
                     passages.add(updatedPassage);
                 }
             }
         });
 
-        passageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            removePassageButton.setDisable(newSelection == null);
-            editPassageButton.setDisable(newSelection == null);
-        });
-
+        passageTable
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((obs, oldSelection, newSelection) -> {
+                removePassageButton.setDisable(newSelection == null);
+                editPassageButton.setDisable(newSelection == null);
+            });
 
         Button addPassageButton = new Button();
         URL imageUrl = getClass().getResource("/images/plus.png");
@@ -130,12 +143,14 @@ public class NewStoryView extends View<BorderPane> {
         editTableButtons.setSpacing(20);
 
         addPassageButton.setOnAction(event -> {
-            if(passages.isEmpty()) {
-                AlertDialog.showInformation("Every story needs an opening passage.", "The opening passage" +
-                        " will by default be the first passage added.");
+            if (passages.isEmpty()) {
+                AlertDialog.showInformation(
+                    "Every story needs an opening passage.",
+                    "The opening passage" + " will by default be the first passage added."
+                );
             }
             PassagePopUp passagePopUp = new PassagePopUp(passages);
-            if(passagePopUp.getPassage() != null) this.passages.addAll(passagePopUp.getPassage());
+            if (passagePopUp.getPassage() != null) this.passages.addAll(passagePopUp.getPassage());
         });
 
         Button saveButton = new Button("Save Story");
@@ -143,8 +158,7 @@ public class NewStoryView extends View<BorderPane> {
             try {
                 newStoryController.addStory(title, passages);
                 StageManager.getInstance().setCurrentView(new LoadGameView());
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 AlertDialog.showWarning(ex.getMessage());
             }
         });
@@ -162,5 +176,4 @@ public class NewStoryView extends View<BorderPane> {
         getParentPane().setRight(editTableButtons);
         getParentPane().getRight().setTranslateX(-50);
     }
-
 }

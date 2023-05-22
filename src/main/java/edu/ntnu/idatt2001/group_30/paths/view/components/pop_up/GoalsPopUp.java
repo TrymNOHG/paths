@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class GoalsPopUp extends AbstractPopUp{
+public class GoalsPopUp extends AbstractPopUp {
 
     private TextField healthField;
     private TextField goldField;
@@ -40,25 +40,25 @@ public class GoalsPopUp extends AbstractPopUp{
     protected void setupUiComponents() {
         healthField = new TextField();
         healthField.setTextFormatter(
-                TextValidation.createIntegerTextFormatter(
-                        INSTANCE.getHealthGoal() == null ? 100 : INSTANCE.getHealthGoal().getGoalValue()
-                )
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getHealthGoal() == null ? 100 : INSTANCE.getHealthGoal().getGoalValue()
+            )
         );
         healthField.setPromptText("Add health goal");
 
         goldField = new TextField();
         goldField.setTextFormatter(
-                TextValidation.createIntegerTextFormatter(
-                        INSTANCE.getGoldGoal() == null ? 100 : INSTANCE.getGoldGoal().getGoalValue()
-                )
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getGoldGoal() == null ? 100 : INSTANCE.getGoldGoal().getGoalValue()
+            )
         );
         goldField.setPromptText("Add gold goal");
 
         scoreField = new TextField();
         scoreField.setTextFormatter(
-                TextValidation.createIntegerTextFormatter(
-                        INSTANCE.getScoreGoal() == null ? 100 : INSTANCE.getScoreGoal().getGoalValue()
-                )
+            TextValidation.createIntegerTextFormatter(
+                INSTANCE.getScoreGoal() == null ? 100 : INSTANCE.getScoreGoal().getGoalValue()
+            )
         );
         scoreField.setPromptText("Add score goal");
 
@@ -100,7 +100,8 @@ public class GoalsPopUp extends AbstractPopUp{
             System.err.println("Something is wrong with the trash image resource link");
         }
 
-        content = new VBox(
+        content =
+            new VBox(
                 new Label("Health:"),
                 healthField,
                 new Label("Gold:"),
@@ -112,7 +113,7 @@ public class GoalsPopUp extends AbstractPopUp{
                 inventoryTable,
                 deleteButton,
                 saveButton
-        );
+            );
 
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
@@ -149,18 +150,17 @@ public class GoalsPopUp extends AbstractPopUp{
                 popUp.close();
             }
         });
-
     }
 
     @Override
     protected void createPopUp() {
-        popUp = PopUp
+        popUp =
+            PopUp
                 .<ScrollPane>create()
                 .withTitle("Add goals to your player")
                 .withoutCloseButton()
                 .withContent(scrollPane)
                 .withDialogSize(400, 750);
-
 
         popUp.showAndWait();
     }

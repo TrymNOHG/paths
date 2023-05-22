@@ -1,12 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
+import java.util.function.Function;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-import java.util.function.Function;
 
 /**
  * This class concerns itself with building a table view filled with the desired information in columns. It does so
@@ -59,7 +58,9 @@ public class TableDisplay<T> extends TableView<T> {
          */
         public Builder<T> addColumnWithComplexValue(String infoHeader, Function<T, String> complexValueFunction) {
             TableColumn<T, String> column = new TableColumn<>(infoHeader);
-            column.setCellValueFactory(cellData -> new SimpleStringProperty(complexValueFunction.apply(cellData.getValue())));
+            column.setCellValueFactory(cellData ->
+                new SimpleStringProperty(complexValueFunction.apply(cellData.getValue()))
+            );
             column.setStyle("-fx-alignment: CENTER");
             this.tableColumns.add(column);
             return this;

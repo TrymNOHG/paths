@@ -6,7 +6,7 @@ package edu.ntnu.idatt2001.group_30.paths.view.components.table;
  *
  * @author Trym Hamer Gudvangen
  */
-public class ActionTable<Action> extends TableDisplay<Action>{
+public class ActionTable<Action> extends TableDisplay<Action> {
 
     /**
      * This is a constructor which is used to construct a table for different actions.

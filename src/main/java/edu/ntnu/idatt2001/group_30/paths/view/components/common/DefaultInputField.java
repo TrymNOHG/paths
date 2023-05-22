@@ -23,5 +23,4 @@ public class DefaultInputField {
         textField.setPromptText(prompt);
         return new HBox(labelText, textField);
     }
-
 }

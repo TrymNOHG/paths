@@ -9,9 +9,7 @@ public abstract class AbstractPopUp {
 
     protected abstract void setupUiComponents();
 
-
     protected abstract void setupBehavior();
 
     protected abstract void createPopUp();
-
 }

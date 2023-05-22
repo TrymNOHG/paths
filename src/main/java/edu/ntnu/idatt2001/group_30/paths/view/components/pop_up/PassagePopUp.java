@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.pop_up;
 
-import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Link;
+import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.LinkTable;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.TableDisplay;
 import javafx.collections.FXCollections;
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Trym Hamer Gudvangen
  */
-public class PassagePopUp extends AbstractPopUp{
+public class PassagePopUp extends AbstractPopUp {
 
     private TextField titleField;
     private TextArea contentArea;
@@ -63,9 +63,10 @@ public class PassagePopUp extends AbstractPopUp{
 
         saveButton = new Button("Save");
 
-        linkTable = new LinkTable<>(new TableDisplay.Builder<Link>()
-                .addColumn("Link Title", "text")
-                .addColumn("Reference", "reference"));
+        linkTable =
+            new LinkTable<>(
+                new TableDisplay.Builder<Link>().addColumn("Link Title", "text").addColumn("Reference", "reference")
+            );
 
         linkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         linkTable.setItems(links);
@@ -77,12 +78,13 @@ public class PassagePopUp extends AbstractPopUp{
         removeLinkButton.setDisable(true);
 
         addLinkButton = new Button("Add Link");
-        if(passages.isEmpty()) addLinkButton.setDisable(true);
+        if (passages.isEmpty()) addLinkButton.setDisable(true);
 
         HBox linkTableButtonHBox = new HBox(editLinkButton, addLinkButton, removeLinkButton);
         linkTableButtonHBox.setAlignment(Pos.CENTER);
 
-        content = new VBox(
+        content =
+            new VBox(
                 new Label("Passage Title:"),
                 titleField,
                 new Label("Passage Content:"),
@@ -91,7 +93,7 @@ public class PassagePopUp extends AbstractPopUp{
                 linkTable,
                 linkTableButtonHBox,
                 saveButton
-        );
+            );
 
         content.setAlignment(Pos.CENTER);
         content.setSpacing(20);
@@ -101,33 +103,35 @@ public class PassagePopUp extends AbstractPopUp{
     protected void setupBehavior() {
         editLinkButton.setOnAction(e -> {
             Link newLink = new LinkPopUp(this.passages, linkTable.getSelectionModel().getSelectedItem()).getLink();
-            if(newLink != null) {
+            if (newLink != null) {
                 this.links.remove(linkTable.getSelectionModel().getSelectedItem());
                 this.links.add(newLink);
             }
         });
 
         removeLinkButton.setOnAction(e -> links.remove(linkTable.getSelectionModel().getSelectedItem()));
-        linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            removeLinkButton.setDisable(newSelection == null);
-            editLinkButton.setDisable(newSelection == null);
-        });
-
-
+        linkTable
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((obs, oldSelection, newSelection) -> {
+                removeLinkButton.setDisable(newSelection == null);
+                editLinkButton.setDisable(newSelection == null);
+            });
 
         addLinkButton.setOnAction(e -> {
             Link newLink = new LinkPopUp(this.passages).getLink();
-            if(newLink != null) {
+            if (newLink != null) {
                 this.links.add(newLink);
             }
         });
 
-
         saveButton.setOnAction(e -> {
             if (titleField.getText().isBlank() || contentArea.getText().isBlank()) {
                 AlertDialog.showWarning("The title or content cannot be blank.");
-            } else if (this.passages.stream().anyMatch(passage1 -> passage1.getTitle().equals(titleField.getText())
-                    && passage != passage1)) {
+            } else if (
+                this.passages.stream()
+                    .anyMatch(passage1 -> passage1.getTitle().equals(titleField.getText()) && passage != passage1)
+            ) {
                 AlertDialog.showWarning("A passage with the title " + titleField.getText() + " already exists.");
             } else {
                 this.passage = new Passage(titleField.getText(), contentArea.getText());
@@ -140,7 +144,8 @@ public class PassagePopUp extends AbstractPopUp{
 
     @Override
     protected void createPopUp() {
-        popUp = PopUp
+        popUp =
+            PopUp
                 .<VBox>create()
                 .withTitle("Create a Passage")
                 .withoutCloseButton()

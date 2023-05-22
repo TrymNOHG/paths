@@ -107,7 +107,7 @@ public class Story {
      */
     public void setTitle(String title) {
         if (title == null || title.isBlank()) throw new IllegalArgumentException(
-                "Title cannot be blank, empty, or contain special characters."
+            "Title cannot be blank, empty, or contain special characters."
         );
         this.title = title;
     }

@@ -14,5 +14,4 @@ public class PassageTable<Passage> extends TableDisplay<Passage> {
     public PassageTable(Builder<Passage> tableBuilder) {
         super(tableBuilder);
     }
-
 }

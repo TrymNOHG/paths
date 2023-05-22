@@ -79,13 +79,12 @@ public class StoryFileWriter {
         Objects.requireNonNull(file, "File cannot be null");
 
         if (FileHandler.fileExists(file)) throw new FileAlreadyExistsException(
-                "You cannot overwrite a pre-existing story file"
+            "You cannot overwrite a pre-existing story file"
         );
 
         /* propagate any errors while writing */
         writeStory(story, file);
     }
-
 
     //TODO: add test for story files...
 
