@@ -159,7 +159,7 @@ public class GoalsPopUp extends AbstractPopUp{
                 .withTitle("Add goals to your player")
                 .withoutCloseButton()
                 .withContent(scrollPane)
-                .withDialogSize(400, 500);
+                .withDialogSize(400, 750);
 
 
         popUp.showAndWait();

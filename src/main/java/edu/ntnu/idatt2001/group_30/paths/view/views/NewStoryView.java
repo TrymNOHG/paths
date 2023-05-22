@@ -98,14 +98,10 @@ public class NewStoryView extends View<BorderPane> {
             if (selectedPassage != null) {
                 Passage updatedPassage = new PassagePopUp(passages, selectedPassage).getPassage();
                 if(updatedPassage != null && !selectedPassage.equals(updatedPassage)) {
-                    passages.forEach(passage -> {
-                        System.out.println(passage.getTitle());
-                        System.out.println(passage.getLinks());
-                        passage.getLinks().replaceAll(link ->
-                                link.getReference().equals(selectedPassage.getTitle()) ?
-                                new Link(link.getText(), updatedPassage.getTitle()) : link
-                        );
-                    });
+                    passages.forEach(passage -> passage.getLinks().replaceAll(link ->
+                            link.getReference().equals(selectedPassage.getTitle()) ?
+                            new Link(link.getText(), updatedPassage.getTitle()) : link
+                    ));
                     passages.remove(selectedPassage);
                     passages.add(updatedPassage);
                 }

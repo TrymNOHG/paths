@@ -1,5 +1,11 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
+/**
+ * This class contains the specific table display implementation for the Goal classes.
+ * @param <Goal> Type of table, which is Goal.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class GoalTable<Goal> extends TableDisplay<Goal> {
 
     /**

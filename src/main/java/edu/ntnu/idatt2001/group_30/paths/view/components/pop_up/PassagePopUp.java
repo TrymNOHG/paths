@@ -23,6 +23,7 @@ public class PassagePopUp extends AbstractPopUp{
     private Button saveButton;
     private Button removeLinkButton;
     private Button addLinkButton;
+    private Button editLinkButton;
     private VBox content;
     private LinkTable<Link> linkTable;
     private final ObservableList<Passage> passages;
@@ -58,6 +59,7 @@ public class PassagePopUp extends AbstractPopUp{
 
         contentArea = new TextArea();
         contentArea.setPromptText("Enter the content of the passage");
+        contentArea.setMinHeight(150);
 
         saveButton = new Button("Save");
 
@@ -68,13 +70,16 @@ public class PassagePopUp extends AbstractPopUp{
         linkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         linkTable.setItems(links);
 
+        editLinkButton = new Button("Edit Link");
+        editLinkButton.setDisable(true);
+
         removeLinkButton = new Button("Remove Link");
         removeLinkButton.setDisable(true);
 
         addLinkButton = new Button("Add Link");
         if(passages.isEmpty()) addLinkButton.setDisable(true);
 
-        HBox linkTableButtonHBox = new HBox(addLinkButton, removeLinkButton);
+        HBox linkTableButtonHBox = new HBox(editLinkButton, addLinkButton, removeLinkButton);
         linkTableButtonHBox.setAlignment(Pos.CENTER);
 
         content = new VBox(
@@ -94,14 +99,24 @@ public class PassagePopUp extends AbstractPopUp{
 
     @Override
     protected void setupBehavior() {
+        editLinkButton.setOnAction(e -> {
+            Link newLink = new LinkPopUp(this.passages, linkTable.getSelectionModel().getSelectedItem()).getLink();
+            if(newLink != null) {
+                this.links.remove(linkTable.getSelectionModel().getSelectedItem());
+                this.links.add(newLink);
+            }
+        });
+
         removeLinkButton.setOnAction(e -> links.remove(linkTable.getSelectionModel().getSelectedItem()));
-        linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                removeLinkButton.setDisable(newSelection == null));
+        linkTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            removeLinkButton.setDisable(newSelection == null);
+            editLinkButton.setDisable(newSelection == null);
+        });
 
 
 
         addLinkButton.setOnAction(e -> {
-            Link newLink = new LinkPopUp(this.passages, links).getLink();
+            Link newLink = new LinkPopUp(this.passages).getLink();
             if(newLink != null) {
                 this.links.add(newLink);
             }
@@ -111,13 +126,13 @@ public class PassagePopUp extends AbstractPopUp{
         saveButton.setOnAction(e -> {
             if (titleField.getText().isBlank() || contentArea.getText().isBlank()) {
                 AlertDialog.showWarning("The title or content cannot be blank.");
+            } else if (this.passages.stream().anyMatch(passage1 -> passage1.getTitle().equals(titleField.getText())
+                    && passage != passage1)) {
+                AlertDialog.showWarning("A passage with the title " + titleField.getText() + " already exists.");
             } else {
                 this.passage = new Passage(titleField.getText(), contentArea.getText());
 
                 this.links.forEach(link -> this.passage.addLink(link));
-                //TODO: save the new passage
-                //TODO: add links from the table to the new passage
-
                 popUp.close();
             }
         });
@@ -130,7 +145,7 @@ public class PassagePopUp extends AbstractPopUp{
                 .withTitle("Create a Passage")
                 .withoutCloseButton()
                 .withContent(content)
-                .withDialogSize(400, 500);
+                .withDialogSize(400, 750);
 
         popUp.showAndWait();
     }
