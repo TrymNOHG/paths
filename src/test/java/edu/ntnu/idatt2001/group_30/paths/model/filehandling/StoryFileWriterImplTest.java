@@ -220,7 +220,7 @@ public class StoryFileWriterImplTest {
             Assertions.assertThrows(
                 NullPointerException.class,
                 () -> {
-                    storyFileWriter.create(story, null);
+                    storyFileWriter.create(story, (String) null);
                 }
             );
         }

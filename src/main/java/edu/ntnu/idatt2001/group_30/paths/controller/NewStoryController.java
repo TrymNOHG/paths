@@ -2,8 +2,7 @@ package edu.ntnu.idatt2001.group_30.paths.controller;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Passage;
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
-import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
+import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileWriter;
 import edu.ntnu.idatt2001.group_30.paths.view.views.NewStoryView;
 import javafx.stage.FileChooser;
 
@@ -36,8 +35,8 @@ public class NewStoryController extends Controller{
         File selectedFile = fileChooser.showSaveDialog(null);
 
         if (selectedFile != null) {
-            StoryFileHandler fileHandler = new StoryFileHandler();
-            fileHandler.createStoryFile(story, selectedFile);
+            StoryFileWriter storyFileWriter = new StoryFileWriter();
+            storyFileWriter.create(story, selectedFile);
         }
     }
 }

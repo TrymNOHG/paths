@@ -8,7 +8,6 @@ import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import static edu.ntnu.idatt2001.group_30.paths.PathsSingleton.INSTANCE;
 
 
-import edu.ntnu.idatt2001.group_30.paths.model.filehandling.StoryFileHandler;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.AlertDialog;
 import edu.ntnu.idatt2001.group_30.paths.view.components.pop_up.PassagePopUp;
 import edu.ntnu.idatt2001.group_30.paths.view.components.table.PassageTable;
@@ -25,10 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.stream.Collectors;
 

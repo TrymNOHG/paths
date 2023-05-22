@@ -20,7 +20,24 @@ import java.util.*;
 public class StoryFileWriter {
 
     /**
-     * Creates a new story file with the given name and writes the story to it.
+     * This method takes a story and writes its contents to a .paths file. The story information is transcribed
+     * in the given format:
+     * <pre>
+     *  Story title
+     *
+     *  ::Opening Passage Title
+     *  Opening Passage Content
+     *  [Link Text](Link Reference)
+     *
+     *  ::Another Passage Title
+     *  Passage Content
+     *  [Link Text](Link Reference)
+     *  {@code <Action Type>}\Action Value/
+     *  [Link Text](Link Reference)
+     *
+     *  ...
+     *  </pre>
+     *
      * @param story    The story to be written to the file.
      * @param fileName The name of the file to be created.
      * @throws IOException if an I/O error occurs with the writer, or if the file already exists.
@@ -30,13 +47,47 @@ public class StoryFileWriter {
         Objects.requireNonNull(fileName, "File name cannot be null");
 
         File file = FileHandler.createFile(fileName);
+
+        create(story, file);
+    }
+
+    /**
+     * This method takes a story and writes its contents to a .paths file. The story information is transcribed
+     * in the given format:
+     * <pre>
+     *  Story title
+     *
+     *  ::Opening Passage Title
+     *  Opening Passage Content
+     *  [Link Text](Link Reference)
+     *
+     *  ::Another Passage Title
+     *  Passage Content
+     *  [Link Text](Link Reference)
+     *  {@code <Action Type>}\Action Value/
+     *  [Link Text](Link Reference)
+     *
+     *  ...
+     *  </pre>
+     *
+     * @param story         The story to be written to the file.
+     * @param file          The file the story is going to be written to.
+     * @throws IOException  if an I/O error occurs with the writer, or if the file already exists.
+     */
+    public void create(Story story, File file) throws IOException {
+        Objects.requireNonNull(story, "Story cannot be null");
+        Objects.requireNonNull(file, "File cannot be null");
+
         if (FileHandler.fileExists(file)) throw new FileAlreadyExistsException(
-            "You cannot overwrite a pre-existing story file"
+                "You cannot overwrite a pre-existing story file"
         );
 
         /* propagate any errors while writing */
         writeStory(story, file);
     }
+
+
+    //TODO: add test for story files...
 
     /**
      * Writes the story to the given file.
