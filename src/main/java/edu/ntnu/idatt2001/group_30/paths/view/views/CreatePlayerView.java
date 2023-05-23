@@ -24,12 +24,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * The view for creating a player. This view therefore contains the character layout implementation and pop-ups
+ * for goals and stats.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class CreatePlayerView extends View<BorderPane> {
 
     private final CreatePlayerController createPlayerController;
     private TextField nameField;
     private Button continueButton, returnButton;
 
+    /**
+     * Creates the view for creating a player.
+     */
     public CreatePlayerView() {
         super(BorderPane.class);
         createPlayerController = new CreatePlayerController();
@@ -166,6 +175,12 @@ public class CreatePlayerView extends View<BorderPane> {
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
     }
 
+    /**
+     * Copies the image onto the writable image.
+     * @param image     the image to copy
+     * @param writer    the pixel writer
+     * @param yOffset   the y offset
+     */
     private void copyImageOnto(Image image, PixelWriter writer, int yOffset) {
         PixelReader reader = image.getPixelReader();
         for (int y = 0; y < image.getHeight(); y++) {

@@ -18,7 +18,7 @@ class PlaythroughTest {
         openingPassage = new Passage("Opening passage", "This is the opening passage");
         Player player = new Player("Player", 10, 20, 30);
         Story story = new Story("My story", openingPassage);
-        List<Goal> goals = List.of(new GoldGoal(50));
+        List<Goal<?>> goals = List.of(new GoldGoal(50));
         Game game = new Game(player, story, goals);
 
         playthrough = new Playthrough(game);

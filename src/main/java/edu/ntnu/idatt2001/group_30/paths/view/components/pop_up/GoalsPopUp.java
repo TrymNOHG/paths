@@ -16,6 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class contains a pop-up for creating and editing goals.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class GoalsPopUp extends AbstractPopUp {
 
     private TextField healthField;
@@ -31,11 +36,17 @@ public class GoalsPopUp extends AbstractPopUp {
     private ScrollPane scrollPane;
     private PopUp<ScrollPane, ?> popUp;
 
+    /**
+     * This constructor creates a new GoalsPopUp.
+     */
     public GoalsPopUp() {
         initialize();
         createPopUp();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setupUiComponents() {
         healthField = new TextField();
@@ -122,6 +133,9 @@ public class GoalsPopUp extends AbstractPopUp {
         scrollPane.setFitToWidth(true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setupBehavior() {
         addButton.setOnAction(e -> {
@@ -152,6 +166,9 @@ public class GoalsPopUp extends AbstractPopUp {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void createPopUp() {
         popUp =

@@ -28,6 +28,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+/**
+ * This class contains the view for creating/writing a new story. It, therefore, contains the title and passages.
+ * The passages can be changed and the corresponding object variables such as links and actions can also be changed.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class NewStoryView extends View<BorderPane> {
 
     private final NewStoryController newStoryController;
@@ -37,6 +43,9 @@ public class NewStoryView extends View<BorderPane> {
     private final Button removePassageButton;
     private final Button editPassageButton;
 
+    /**
+     * The constructor to create the NewStoryView.
+     */
     public NewStoryView() {
         super(BorderPane.class);
         newStoryController = new NewStoryController();

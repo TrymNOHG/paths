@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Nicolai H. Brand, Trym Hamer Gudvangen
  */
-public record Game(Player player, Story story, List<Goal> goals) {
+public record Game(Player player, Story story, List<Goal<?>> goals) {
     /**
      * This method constructs a Game object with the given parameters.
      *

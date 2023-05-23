@@ -31,6 +31,10 @@ public class PassagePopUp extends AbstractPopUp {
     private Passage passage;
     private PopUp<VBox, ?> popUp;
 
+    /**
+     * This constructor allows a new passage to be created.
+     * @param passages Other passages in the story, given as an ObservableList of passages.
+     */
     public PassagePopUp(ObservableList<Passage> passages) {
         this.passages = passages;
         this.links = FXCollections.observableArrayList();
@@ -52,6 +56,9 @@ public class PassagePopUp extends AbstractPopUp {
         createPopUp();
     }
 
+    /**
+     * This method sets up the UI components for the pop-up.
+     */
     @Override
     protected void setupUiComponents() {
         titleField = new TextField();
@@ -99,6 +106,9 @@ public class PassagePopUp extends AbstractPopUp {
         content.setSpacing(20);
     }
 
+    /**
+     * This method sets up the behavior for the pop-up.
+     */
     @Override
     protected void setupBehavior() {
         editLinkButton.setOnAction(e -> {
@@ -142,6 +152,9 @@ public class PassagePopUp extends AbstractPopUp {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void createPopUp() {
         popUp =
@@ -155,6 +168,10 @@ public class PassagePopUp extends AbstractPopUp {
         popUp.showAndWait();
     }
 
+    /**
+     * This method loads a passage into the pop-up.
+     * @param passage   Passage to load, given as a Passage object.
+     */
     private void loadPassage(Passage passage) {
         titleField.setText(passage.getTitle());
         contentArea.setText(passage.getContent());

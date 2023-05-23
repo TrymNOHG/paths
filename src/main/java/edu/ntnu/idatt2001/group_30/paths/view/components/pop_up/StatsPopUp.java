@@ -9,6 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class contains a pop-up for adding stats to the player.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class StatsPopUp extends AbstractPopUp {
 
     private TextField healthField;
@@ -17,19 +22,33 @@ public class StatsPopUp extends AbstractPopUp {
     private VBox content;
     private PopUp<VBox, ?> popUp;
 
+    /**
+     * This constructor creates a new StatsPopUp.
+     */
     public StatsPopUp() {
         initialize();
         createPopUp();
     }
 
+    /**
+     * This method retrieves the health value from the pop-up.
+     * @return  The health value, as an int.
+     */
     public int getHealth() {
         return Integer.parseInt(healthField.getText());
     }
 
+    /**
+     * This method retrieves the gold value from the pop-up.
+     * @return  The gold value, as an int.
+     */
     public int getGold() {
         return Integer.parseInt(goldField.getText());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setupUiComponents() {
         healthField = new TextField();
@@ -48,6 +67,9 @@ public class StatsPopUp extends AbstractPopUp {
         content.setSpacing(20);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setupBehavior() {
         saveButton.setOnAction(e -> {
@@ -61,6 +83,9 @@ public class StatsPopUp extends AbstractPopUp {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void createPopUp() {
         popUp =

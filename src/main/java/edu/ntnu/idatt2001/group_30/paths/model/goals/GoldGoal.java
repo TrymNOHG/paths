@@ -18,7 +18,6 @@ public class GoldGoal implements Goal<Integer> {
      */
     public GoldGoal(int minimumGold) {
         this.minimumGold = minimumGold;
-        //TODO: Add exception?
     }
 
     /**

@@ -12,12 +12,26 @@ import java.io.IOException;
 import java.util.List;
 import javafx.stage.FileChooser;
 
+/**
+ * This class is used to control the NewStoryView.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class NewStoryController extends Controller {
 
+    /**
+     * Creates a new NewStoryController.
+     */
     public NewStoryController() {
         super(NewStoryView.class);
     }
 
+    /**
+     * Adds a story to the PathsSingleton.
+     * @param title        The title of the story, as a String.
+     * @param passages     The passages of the story, as a List of Passages.
+     * @throws IOException If the story could not be saved to file system.
+     */
     public void addStory(String title, List<Passage> passages) throws IOException {
         Story story = new Story(title, passages.isEmpty() ? null : passages.get(0));
         passages.forEach(story::addPassage);
@@ -26,6 +40,11 @@ public class NewStoryController extends Controller {
         saveStory(story);
     }
 
+    /**
+     * This method saves the story to the file system.
+     * @param story         The story to save, as a Story.
+     * @throws IOException  If the story could not be saved to file system.
+     */
     public void saveStory(Story story) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("./src/main/resources/story-files"));

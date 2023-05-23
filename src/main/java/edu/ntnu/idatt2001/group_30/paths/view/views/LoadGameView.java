@@ -59,6 +59,11 @@ public class LoadGameView extends View<BorderPane> {
         setupParentPane(mainContainer);
     }
 
+    /**
+     * Adds the story pane to the view.
+     * @param titlePane The title pane of the view.
+     * @return          The main container of the view.
+     */
     private VBox createMainContainerVBox(BorderPane titlePane) {
         VBox mainContainer = new VBox();
         mainContainer.getChildren().addAll(titlePane);
@@ -79,6 +84,10 @@ public class LoadGameView extends View<BorderPane> {
         return containerWithButtons;
     }
 
+    /**
+     * Sets up the parent pane of the view.
+     * @param mainContainer The main container of the view.
+     */
     private void setupParentPane(VBox mainContainer) {
         getParentPane().setCenter(mainContainer);
         getParentPane().setStyle("-fx-background-color: #f5f5f5");
@@ -89,6 +98,10 @@ public class LoadGameView extends View<BorderPane> {
         getParentPane().setPadding(new Insets(20));
     }
 
+    /**
+     * Adds the story pane to the view.
+     * @return  The story pane.
+     */
     private BorderPane createTitlePane() {
         BorderPane titlePane = new BorderPane();
         titlePane.setPadding(new Insets(20));
@@ -135,6 +148,13 @@ public class LoadGameView extends View<BorderPane> {
         return titlePane;
     }
 
+    /**
+     * Creates an icon button.
+     * @param imagePath The path to the image.
+     * @param width     The width of the image.
+     * @param height    The height of the image.
+     * @return          The button.
+     */
     private Button createIconButton(String imagePath, int width, int height) {
         Button button = new Button();
         URL imageUrl = getClass().getResource(imagePath);
@@ -149,6 +169,10 @@ public class LoadGameView extends View<BorderPane> {
         return button;
     }
 
+    /**
+     * Adds the story pane to the view.
+     * @throws IOException  If the story pane cannot be added.
+     */
     private void addStoryPane() throws IOException {
         VBox storyVBox = new StoryDisplay.Builder(INSTANCE.getStory())
             .addStoryName()

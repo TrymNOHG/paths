@@ -169,8 +169,8 @@ public enum PathsSingleton {
      * Returns a list of all the non-null goals.
      * @return A list of all the non-null goals, given as a List of Goal objects.
      */
-    public List<Goal> getGoals() {
-        List<Goal> goals = Stream
+    public List<Goal<?>> getGoals() {
+        List<Goal<?>> goals = Stream
             .of(healthGoal, scoreGoal, goldGoal)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());

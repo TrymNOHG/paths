@@ -18,7 +18,6 @@ public class HealthAction implements Action<Integer> {
      */
     public HealthAction(int health) {
         this.health = health;
-        //TODO: Add exception?
     }
 
     /**

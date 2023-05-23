@@ -16,6 +16,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class is a pop-up for creating a new link or editing an existing one.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class LinkPopUp extends AbstractPopUp {
 
     private TextField textField;
@@ -33,6 +38,10 @@ public class LinkPopUp extends AbstractPopUp {
     private Link link;
     private PopUp<VBox, ?> popUp;
 
+    /**
+     * This constructor allows a new link to be created.
+     * @param passages Other passages in the story, given as an ObservableList of passages.
+     */
     public LinkPopUp(ObservableList<Passage> passages) {
         this.actions = FXCollections.observableArrayList();
         this.passages = passages;
@@ -43,6 +52,11 @@ public class LinkPopUp extends AbstractPopUp {
         createPopUp();
     }
 
+    /**
+     * This constructor allows a pre-existing link to be edited.
+     * @param passages Other passages in the story, given as an ObservableList of passages.
+     * @param link     The link to be edited, given as a Link object.
+     */
     public LinkPopUp(ObservableList<Passage> passages, Link link) {
         this.link = link;
         this.actions = FXCollections.observableArrayList(link.getActions());
@@ -55,6 +69,9 @@ public class LinkPopUp extends AbstractPopUp {
         createPopUp();
     }
 
+    /**
+     * This method loads the link to be edited into the pop-up.
+     */
     @Override
     protected void setupUiComponents() {
         textField = new TextField();
@@ -108,6 +125,9 @@ public class LinkPopUp extends AbstractPopUp {
         content.setSpacing(20);
     }
 
+    /**
+     * This method sets up the behavior of the Ui components.
+     */
     @Override
     protected void setupBehavior() {
         removeActionButton.setOnAction(event -> actions.remove(actionTable.getSelectionModel().getSelectedItem()));
@@ -159,6 +179,9 @@ public class LinkPopUp extends AbstractPopUp {
         actionComboBox.setButtonCell(actionComboBox.getCellFactory().call(null));
     }
 
+    /**
+     * This method creates the pop-up.
+     */
     @Override
     protected void createPopUp() {
         popUp =
@@ -172,6 +195,9 @@ public class LinkPopUp extends AbstractPopUp {
         popUp.showAndWait();
     }
 
+    /**
+     * This method loads the link to be edited into the pop-up.
+     */
     private void loadLink() {
         textField.setText(this.link.getText());
         reference.setValue(this.link.getReference());
