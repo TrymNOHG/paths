@@ -63,5 +63,13 @@ class InventoryGoalTest {
 
             assertThrows(NullPointerException.class, () -> inventoryGoal.isFulfilled(player));
         }
+
+        @Test
+        public void can_concatenate_two_InventoryGoals() {
+            InventoryGoal inventoryGoal1 = new InventoryGoal(getMandatoryInventory());
+            InventoryGoal inventoryGoal2 = new InventoryGoal(getMandatoryInventory());
+            inventoryGoal1.concatGoals(inventoryGoal2);
+            assertEquals(4, inventoryGoal1.getGoalValue().size());
+        }
     }
 }
