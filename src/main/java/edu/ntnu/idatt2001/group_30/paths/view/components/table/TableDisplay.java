@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
+import java.util.function.Function;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -44,6 +46,23 @@ public class TableDisplay<T> extends TableView<T> {
          */
         public Builder<T> addColumn(String infoHeader, String variableName) {
             this.tableColumns.add(new TableDisplayColumn<T>(infoHeader, variableName).getColumn());
+            return this;
+        }
+
+        /**
+         * This method attaches a desired column {@link TableDisplayColumn#TableDisplayColumn(String, String)} to the
+         * tableview that is complex.
+         * @param infoHeader            The name of the column, represented using a String.
+         * @param complexValueFunction  The attribute the information will be extracted from, represented as a String.
+         * @return                      The builder itself is returned, represented as a Builder object.
+         */
+        public Builder<T> addColumnWithComplexValue(String infoHeader, Function<T, String> complexValueFunction) {
+            TableColumn<T, String> column = new TableColumn<>(infoHeader);
+            column.setCellValueFactory(cellData ->
+                new SimpleStringProperty(complexValueFunction.apply(cellData.getValue()))
+            );
+            column.setStyle("-fx-alignment: CENTER");
+            this.tableColumns.add(column);
             return this;
         }
 

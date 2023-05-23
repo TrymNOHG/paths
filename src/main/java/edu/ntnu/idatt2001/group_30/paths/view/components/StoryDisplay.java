@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.group_30.paths.view;
+package edu.ntnu.idatt2001.group_30.paths.view.components;
 
 import edu.ntnu.idatt2001.group_30.paths.model.Story;
 import edu.ntnu.idatt2001.group_30.paths.model.filehandling.FileHandler;

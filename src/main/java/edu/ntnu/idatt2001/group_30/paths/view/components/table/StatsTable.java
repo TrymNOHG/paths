@@ -1,5 +1,9 @@
 package edu.ntnu.idatt2001.group_30.paths.view.components.table;
 
+/**
+ * This class concerns itself with the aspects intrinsic to a stats table.
+ * @param <Player>  The type of the table, represented using a Player object.
+ */
 public class StatsTable<Player> extends TableDisplay<Player> {
 
     /**

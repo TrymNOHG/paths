@@ -22,6 +22,9 @@ public class HelpView extends View<VBox> {
 
     private final HelpController controller = new HelpController();
 
+    /**
+     * Creates the help page.
+     */
     public HelpView() {
         super(VBox.class);
         VBox parent = getParentPane();

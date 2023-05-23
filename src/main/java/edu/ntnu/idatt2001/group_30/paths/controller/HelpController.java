@@ -9,6 +9,9 @@ import edu.ntnu.idatt2001.group_30.paths.view.views.HomeView;
  */
 public class HelpController extends Controller {
 
+    /**
+     * Creates a new HelpController.
+     */
     public HelpController() {
         super(HomeView.class);
     }

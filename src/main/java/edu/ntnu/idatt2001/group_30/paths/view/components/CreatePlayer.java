@@ -18,6 +18,9 @@ public class CreatePlayer extends GridPane {
     private final TextField goldField;
     private final ComboBox<String> goalBox;
 
+    /**
+     * Constructor for the CreatePlayer component.
+     */
     public CreatePlayer() {
         setHgap(10);
         setVgap(5);
@@ -38,18 +41,34 @@ public class CreatePlayer extends GridPane {
         add(goalBox, 1, 3);
     }
 
+    /**
+     * Method for getting the name of the player.
+     * @return  The name of the player, as a String.
+     */
     public String getName() {
         return nameField.getText();
     }
 
+    /**
+     * Method for getting the health of the player.
+     * @return  The health of the player, as an int.
+     */
     public int getHealth() {
         return Integer.parseInt(healthField.getText());
     }
 
+    /**
+     * Method for getting the gold of the player.
+     * @return  The gold of the player, as an int.
+     */
     public int getGold() {
         return Integer.parseInt(goldField.getText());
     }
 
+    /**
+     * Method for getting the goal of the player.
+     * @return  The goal of the player, as a String.
+     */
     public String getGoal() {
         return goalBox.getValue();
     }

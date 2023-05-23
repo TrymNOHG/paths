@@ -19,18 +19,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * The view for creating a player. This view therefore contains the character layout implementation and pop-ups
+ * for goals and stats.
+ *
+ * @author Trym Hamer Gudvangen
+ */
 public class CreatePlayerView extends View<BorderPane> {
 
     private final CreatePlayerController createPlayerController;
     private TextField nameField;
     private Button continueButton, returnButton;
 
+    /**
+     * Creates the view for creating a player.
+     */
     public CreatePlayerView() {
         super(BorderPane.class);
         createPlayerController = new CreatePlayerController();
@@ -73,9 +81,9 @@ public class CreatePlayerView extends View<BorderPane> {
         VBox leftVBox = new VBox(statsButton, goalsButton);
         leftVBox.setSpacing(20);
         leftVBox.setPadding(new Insets(300, 20, 0, 20));
-        HBox leftHBox = new HBox(leftVBox);
-        leftHBox.setAlignment(Pos.CENTER_LEFT);
-        getParentPane().setLeft(leftHBox);
+        leftVBox.setAlignment(Pos.CENTER);
+        getParentPane().setLeft(leftVBox);
+        getParentPane().getLeft().setTranslateY(-200);
 
         statsButton.setOnAction(e -> new StatsPopUp());
 
@@ -112,13 +120,13 @@ public class CreatePlayerView extends View<BorderPane> {
         nameField.setMinWidth(200);
 
         continueButton = new Button("Continue");
-        returnButton = new Button("Return");
-        HBox viewButtons = new HBox(returnButton, continueButton);
-        returnButton.setAlignment(Pos.CENTER_LEFT);
-        continueButton.setAlignment(Pos.CENTER_RIGHT);
-        viewButtons.setSpacing(200);
+        returnButton = new Button("Back");
 
-        VBox bottomBox = new VBox(nameField, viewButtons);
+        getParentPane().setBottom(returnButton);
+        getParentPane().getBottom().setTranslateY(-50);
+        getParentPane().getBottom().setTranslateX(10);
+
+        VBox bottomBox = new VBox(nameField, continueButton);
         bottomBox.setSpacing(20);
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setPadding(new Insets(0, 0, 0, 0));
@@ -159,7 +167,7 @@ public class CreatePlayerView extends View<BorderPane> {
                 ImageView characterImageView = new ImageView(characterImage);
                 INSTANCE.setCharacterImageView(characterImageView);
 
-                createPlayerController.goTo(NewGameView.class).handle(event);
+                createPlayerController.goTo(LoadGameView.class).handle(event);
             } catch (Exception e) {
                 AlertDialog.showWarning(e.getMessage());
             }
@@ -167,6 +175,12 @@ public class CreatePlayerView extends View<BorderPane> {
         returnButton.setOnAction(e -> StageManager.getInstance().goBack());
     }
 
+    /**
+     * Copies the image onto the writable image.
+     * @param image     the image to copy
+     * @param writer    the pixel writer
+     * @param yOffset   the y offset
+     */
     private void copyImageOnto(Image image, PixelWriter writer, int yOffset) {
         PixelReader reader = image.getPixelReader();
         for (int y = 0; y < image.getHeight(); y++) {

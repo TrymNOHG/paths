@@ -21,6 +21,10 @@ public class Controller {
     protected final StageManager STAGE_MANAGER = StageManager.getInstance();
     protected final Map<Class<? extends View<?>>, Runnable> availableViews = new HashMap<>();
 
+    /**
+     * Creates a new Controller with the given view classes.
+     * @param viewClasses The view classes that this controller is responsible for.
+     */
     @SafeVarargs
     public Controller(Class<? extends View<?>>... viewClasses) {
         for (Class<? extends View<?>> viewClass : viewClasses) {
@@ -53,10 +57,17 @@ public class Controller {
         return actionEvent -> STAGE_MANAGER.goBackTo(viewClass);
     }
 
+    /**
+     * This method is used to get the root stage of the application.
+     * @return The root stage of the application, which is the stage that is used to display the views.
+     */
     public Stage getRootStage() {
         return STAGE_MANAGER.getStage();
     }
 
+    /**
+     * This method is used to go to the home view.
+     */
     public void goToHome() {
         STAGE_MANAGER.setCurrentView(ViewFactory.createView(HomeView.class));
     }

@@ -16,14 +16,39 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class GoalsPopUp {
+/**
+ * This class contains a pop-up for creating and editing goals.
+ *
+ * @author Trym Hamer Gudvangen
+ */
+public class GoalsPopUp extends AbstractPopUp {
 
     private TextField healthField;
     private TextField goldField;
     private TextField scoreField;
     private Button saveButton;
+    private Button addButton;
+    private Button deleteButton;
+    private TextField inventoryField;
+    private ObservableList<String> items;
+    private TableView<String> inventoryTable;
+    private VBox content;
+    private ScrollPane scrollPane;
+    private PopUp<ScrollPane, ?> popUp;
 
+    /**
+     * This constructor creates a new GoalsPopUp.
+     */
     public GoalsPopUp() {
+        initialize();
+        createPopUp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupUiComponents() {
         healthField = new TextField();
         healthField.setTextFormatter(
             TextValidation.createIntegerTextFormatter(
@@ -50,10 +75,10 @@ public class GoalsPopUp {
 
         saveButton = new Button("Save");
 
-        TextField inventoryField = new TextField();
+        inventoryField = new TextField();
         inventoryField.setPromptText("Add inventory item");
 
-        Button addButton = new Button();
+        addButton = new Button();
         URL imageUrl = getClass().getResource("/images/plus.png");
         if (imageUrl != null) {
             ImageView addIcon = new ImageView(new Image(imageUrl.toString()));
@@ -64,18 +89,18 @@ public class GoalsPopUp {
             System.err.println("Something is wrong with the trash image resource link");
         }
 
-        ObservableList<String> items = FXCollections.observableArrayList();
+        items = FXCollections.observableArrayList();
         if (INSTANCE.getInventoryGoal() != null) {
             items.addAll(INSTANCE.getInventoryGoal().getGoalValue());
         }
-        TableView<String> inventoryTable = new TableView<>(items);
+        inventoryTable = new TableView<>(items);
         TableColumn<String, String> itemColumn = new TableColumn<>("Items");
         itemColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
         inventoryTable.getColumns().add(itemColumn);
         itemColumn.prefWidthProperty().bind(inventoryTable.widthProperty());
         inventoryTable.setMaxHeight(200);
 
-        Button deleteButton = new Button();
+        deleteButton = new Button();
         imageUrl = getClass().getResource("/images/trash.png");
         if (imageUrl != null) {
             ImageView trashIcon = new ImageView(new Image(imageUrl.toString()));
@@ -86,6 +111,33 @@ public class GoalsPopUp {
             System.err.println("Something is wrong with the trash image resource link");
         }
 
+        content =
+            new VBox(
+                new Label("Health:"),
+                healthField,
+                new Label("Gold:"),
+                goldField,
+                new Label("Score:"),
+                scoreField,
+                new Label("Inventory"),
+                new HBox(inventoryField, addButton),
+                inventoryTable,
+                deleteButton,
+                saveButton
+            );
+
+        content.setAlignment(Pos.CENTER);
+        content.setSpacing(20);
+
+        scrollPane = new ScrollPane(content);
+        scrollPane.setFitToWidth(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupBehavior() {
         addButton.setOnAction(e -> {
             if (!inventoryField.getText().isBlank()) {
                 items.add(inventoryField.getText());
@@ -100,33 +152,6 @@ public class GoalsPopUp {
             }
         });
 
-        VBox content = new VBox(
-            new Label("Health:"),
-            healthField,
-            new Label("Gold:"),
-            goldField,
-            new Label("Score:"),
-            scoreField,
-            new Label("Inventory"),
-            new HBox(inventoryField, addButton),
-            inventoryTable,
-            deleteButton,
-            saveButton
-        );
-
-        content.setAlignment(Pos.CENTER);
-        content.setSpacing(20);
-
-        ScrollPane scrollPane = new ScrollPane(content);
-        scrollPane.setFitToWidth(true);
-
-        PopUp<ScrollPane, ?> popUp = PopUp
-            .<ScrollPane>create()
-            .withTitle("Add goals to your player")
-            .withoutCloseButton()
-            .withContent(scrollPane)
-            .withDialogSize(400, 500);
-
         saveButton.setOnAction(e -> {
             if (healthField.getText().isBlank() || goldField.getText().isBlank()) {
                 AlertDialog.showWarning("The different fields cannot be blank.");
@@ -139,6 +164,21 @@ public class GoalsPopUp {
                 popUp.close();
             }
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void createPopUp() {
+        popUp =
+            PopUp
+                .<ScrollPane>create()
+                .withTitle("Add goals to your player")
+                .withoutCloseButton()
+                .withContent(scrollPane)
+                .withDialogSize(400, 750);
+
         popUp.showAndWait();
     }
 }

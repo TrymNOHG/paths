@@ -22,7 +22,7 @@ public class GameTest {
         Passage attackPassage;
 
         Story story;
-        List<Goal> goals;
+        List<Goal<?>> goals;
 
         @BeforeEach
         void setup() {

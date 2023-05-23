@@ -7,7 +7,6 @@ import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
-import javafx.scene.shape.SVGPath;
 
 /**
  * A View is a wrapper for a JavaFX Pane.
@@ -40,7 +39,6 @@ public class View<T extends Pane> {
         } catch (
             InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e
         ) {
-            //TODO: better error handling
             e.printStackTrace();
         }
     }
