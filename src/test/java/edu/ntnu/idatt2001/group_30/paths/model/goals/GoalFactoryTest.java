@@ -49,4 +49,14 @@ class GoalFactoryTest {
             Arguments.of(GoalType.SCORE_GOAL, "", ScoreGoal.class)
         );
     }
+
+    @Test
+    void getGoal_withValidInventoryGoalValue_returnsInventoryGoalObject() {
+        GoalType goalType = GoalType.INVENTORY_GOAL;
+        Object goalValue = "item";
+
+        Goal<?> goal = GoalFactory.getGoal(goalType, goalValue);
+
+        assertEquals(InventoryGoal.class, goal.getClass());
+    }
 }

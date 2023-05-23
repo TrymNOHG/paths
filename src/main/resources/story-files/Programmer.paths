@@ -1,0 +1,40 @@
+A Programmer's Adventure at NTNU
+
+::Morning Routine
+As the sun shines through the blinds, the programmer wakes up in his apartment, nestled in the heart of Trondheim. He looks at his NTNU mug, ready to be filled with coffee, the fuel of programmers.
+[Continue to Breakfast](Breakfast)
+
+::Breakfast
+Breakfast consists of coffee and skolebrød, a traditional Norwegian pastry. He sits at his desk, his workstation waiting for his magic touch. Looking out the window, he enjoys the calmness of Trondheim before his day begins.
+[Head to the University](The Journey Begins)
+<HealthAction>\-5/
+[Suddenly, the power goes out](The Journey Begins)
+
+::The Journey Begins
+Leaving his apartment, he heads towards NTNU’s Gløshaugen campus. It’s a brisk and sunny walk, just enough to refresh his mind before the codes begin to fly.
+[Arrive at University](First Class of the Day)
+<ScoreAction>\12/
+[Snow starts falling](First Class of the Day)
+
+::First Class of the Day
+His first class of the day is "Advanced Algorithms". The lecture is complex, but he manages to follow along and even answers a couple of questions, impressing his peers and professors.
+[Continue to the Library](Library Visit)
+
+::Library Visit
+With a few hours until his next class, he heads to the university library. Surrounded by books, his heart is filled with a sense of tranquillity. This is where he prepares for his next project.
+[Start Working on Project](Project Time)
+<GoldAction>\50/
+[Find a book on a new programming concept](Project Time)
+<InventoryAction>\Book/
+
+::Project Time
+He's working on a project that involves machine learning algorithms. It's challenging but he loves every bit of it. This project is his chance to show his potential.
+[Continue Working on the Project](Project Continuation)
+
+::Project Continuation
+Hours fly by as he's immersed in his project. He encounters a tricky bug but after some debugging, he squashes it triumphantly.
+[End of Day](The Day Ends)
+
+::The Day Ends
+The programmer's day at NTNU comes to an end. Filled with adventures, knowledge, and triumphs, it's a day that he will always remember. As he steps out of the university, he looks forward to what the next day will bring.
+[Another day](Morning Routine)
